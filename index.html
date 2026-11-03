@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nerditas · Index nerditatis humanae</title>
+<meta name="theme-color" content="#121A2E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nerditas">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+  @font-face{font-family:'IM Fell English';src:url(fonts/imfell-regular.ttf) format('truetype');font-style:normal;font-display:swap}
+  @font-face{font-family:'IM Fell English';src:url(fonts/imfell-italic.ttf) format('truetype');font-style:italic;font-display:swap}
+  @font-face{font-family:'IM Fell English SC';src:url(fonts/imfell-sc.ttf) format('truetype');font-style:normal;font-display:swap}
+  @font-face{font-family:'JetBrains Mono';src:url(fonts/jetbrainsmono.ttf) format('truetype');font-style:normal;font-weight:100 800;font-display:swap}
+  :root{
+    --ink:#121A2E; --ink2:#1E2741; --line:#2E3854; --line2:#4A5576;
+    --parch:#EDE6D6; --parch2:#C9C2B2; --mute:#9AA3B8; --bar:#7E89A6;
+    --rub:#E2553F; --green:#7FD1A8;
+    --serif:'IM Fell English', Georgia, serif;
+    --sc:'IM Fell English SC', Georgia, serif;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--ink);color:var(--parch);font-family:var(--serif)}
+  body{min-height:100vh;display:flex;justify-content:center}
+  main{width:100%;max-width:440px;min-height:100vh;padding:calc(44px + env(safe-area-inset-top)) 28px calc(32px + env(safe-area-inset-bottom));display:flex;flex-direction:column}
+  .screen{display:none;flex:1;flex-direction:column}
+  .screen.on{display:flex}
+  .meta{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute)}
+  .rule{height:1px;background:var(--line);margin:20px 0}
+  .tag{border:1px solid var(--line2);padding:4px 8px}
+  p{margin:0}
+  .btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:60px;border:none;cursor:pointer;
+       font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.08em;text-decoration:none}
+  .btn.primary{background:var(--rub);color:var(--ink);justify-content:space-between;padding:0 22px}
+  .btn.solid{background:var(--rub);color:var(--ink)}
+  .btn.outline{background:transparent;color:var(--parch);border:1.5px solid var(--parch)}
+  .btn.link{background:transparent;color:var(--mute);min-height:48px;font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;letter-spacing:0;text-decoration:underline;text-underline-offset:4px}
+  .btn:focus-visible,.lang button:focus-visible{outline:2px solid var(--parch);outline-offset:3px}
+  .btn.opt{background:transparent;color:var(--parch);border:1.5px solid var(--line2);justify-content:flex-start;text-align:left;
+           font-family:var(--serif);font-weight:400;font-size:18px;letter-spacing:0;padding:12px 16px;min-height:56px}
+  .btn.opt b{font-family:var(--mono);font-size:13px;color:var(--mute);min-width:18px}
+  .btn.opt:hover,.btn.outline:hover{border-color:var(--parch)}
+  /* idioma */
+  .lang{display:flex;gap:6px}
+  .lang button{min-height:36px;min-width:44px;padding:0 10px;background:transparent;border:1px solid var(--line2);color:var(--mute);font-family:var(--mono);font-size:12px;letter-spacing:.08em;cursor:pointer}
+  .lang button[aria-pressed="true"]{border-color:var(--rub);color:var(--parch)}
+  /* portada */
+  .logo{display:flex;align-items:flex-start;gap:4px;margin-top:8px}
+  .cap{width:92px;height:104px;border:2px solid var(--rub);display:flex;align-items:center;justify-content:center;font-family:var(--sc);font-size:96px;line-height:1;color:var(--rub);padding-top:6px}
+  .logo .rest{font-family:var(--sc);font-size:62px;line-height:1;padding-top:34px}
+  .sub{font-size:24px;line-height:1.3;font-style:italic}
+  .padel{font-size:18px;line-height:1.45;padding-left:14px;border-left:2px solid var(--rub)}
+  .intro{font-size:17px;line-height:1.5;color:var(--parch2)}
+  .foot{font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--mute)}
+  .stack{display:flex;flex-direction:column}
+  /* teoría */
+  .th-title{font-family:var(--sc);font-size:40px;line-height:1;margin-top:6px}
+  .th-lead{font-size:18px;line-height:1.45;color:var(--parch2);margin-top:12px}
+  .venn{width:100%;height:auto;margin:14px 0 4px}
+  .sets{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .set{display:grid;grid-template-columns:14px 1fr;gap:10px;align-items:start}
+  .set i{width:12px;height:12px;border-radius:50%;margin-top:5px;display:block}
+  .set b{font-family:var(--mono);font-size:12px;letter-spacing:.06em;display:block}
+  .set span{font-size:16px;line-height:1.4;color:var(--parch2)}
+  .th-h{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute);margin:20px 0 6px;text-transform:uppercase}
+  .th-p{font-size:16px;line-height:1.45}
+  /* pregunta */
+  .prog{height:4px;background:var(--line);margin-top:22px}
+  .prog > div{height:4px;background:var(--rub);transition:width .25s}
+  .art{font-family:var(--mono);font-size:12px;color:var(--mute);margin-top:44px}
+  .qtext{font-size:30px;line-height:1.25;margin-top:16px}
+  .videtur{font-size:17px;line-height:1.5;font-style:italic;color:var(--parch2);margin-top:20px}
+  .answers{margin-top:auto;padding-top:28px;display:flex;flex-direction:column;gap:12px}
+  /* resultado */
+  .eres{font-family:var(--mono);font-size:12px;color:var(--mute);margin-top:30px;padding-right:116px}
+  .perfil{font-family:var(--sc);font-size:44px;line-height:1.02;margin-top:6px;padding-right:116px}
+  .especie{font-size:30px;line-height:1.1;font-style:italic;color:var(--rub);padding-right:116px}
+  .rasgos{font-family:var(--mono);font-size:12px;color:var(--parch2);margin-top:8px}
+  .alter{font-size:17px;line-height:1.4;margin-top:10px}
+  .alter b{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--mute);font-weight:400;display:block;margin-bottom:2px}
+  .nivel{display:flex;align-items:center;gap:16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin-top:20px}
+  .nivel .n{font-family:var(--mono);font-weight:600;font-size:46px;line-height:1}
+  .nivel p{font-size:16px;line-height:1.35;font-style:italic;color:var(--parch2)}
+  .dork{font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:8px}
+  .desc{font-size:17px;line-height:1.45;margin-top:16px}
+  .section-h{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute);margin:26px 0 10px}
+  .eje{margin-bottom:10px}
+  .eje .lab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;margin-bottom:4px}
+  .track{position:relative;height:8px;background:var(--line)}
+  .track .fill{height:8px;background:var(--parch)}
+  .track .mid{position:absolute;left:50%;top:-3px;width:1px;height:14px;background:var(--mute)}
+  .dom{display:grid;grid-template-columns:104px 1fr 34px;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;margin-bottom:6px}
+  .dom .t{height:6px;background:var(--ink2)} .dom .t div{height:6px;background:var(--bar)}
+  .dom.top .t div{background:var(--rub)}
+  .dom .v{text-align:right;color:var(--parch2)}
+  .stamp{position:absolute;top:22px;right:0;width:112px;height:112px;border-radius:50%;border:2.5px solid var(--rub);display:flex;flex-direction:column;align-items:center;justify-content:center;
+         transform:rotate(-14deg);color:var(--rub);font-family:var(--mono);font-weight:600;font-size:10.5px;letter-spacing:.1em;line-height:1.5;text-align:center}
+  .stamp small{font-size:9px;font-weight:400;letter-spacing:.06em}
+  .rel{position:relative}
+  details{margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
+  summary{cursor:pointer;font-family:var(--mono);font-size:12px;color:var(--parch2);min-height:32px}
+  .ver{font-size:15px;line-height:1.4;margin-top:12px}
+  .ver span{font-family:var(--mono);font-size:11px}
+  .ok{color:var(--green)} .ko{color:var(--rub)}
+  .endbtns{display:flex;flex-direction:column;gap:10px;margin-top:28px}
+  /* visor de la imagen */
+  .modal{position:fixed;inset:0;background:rgba(10,14,26,.94);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;z-index:10}
+  .modal.on{display:flex}
+  .modal img{max-width:100%;max-height:72vh;border:1px solid var(--line2)}
+  .modal p{font-family:var(--mono);font-size:12px;color:var(--parch2);text-align:center;max-width:360px}
+  .modal .btn{max-width:360px}
+</style>
+</head>
+<body>
+<main>
+
+  <!-- PORTADA -->
+  <section class="screen on" id="s-portada">
+    <div class="meta"><span>INDEX NERDITATIS</span><span>v2.0</span></div>
+    <div class="rule"></div>
+    <div class="lang" role="group" id="lang" aria-label="Idioma"></div>
+    <div class="stack" style="gap:24px;margin-top:22px">
+      <div class="logo" aria-label="Nerditas"><div class="cap" aria-hidden="true">N</div><div class="rest" aria-hidden="true">erditas</div></div>
+      <p class="sub" data-t="sub"></p>
+      <p class="padel" data-t="padel"></p>
+      <p class="intro" data-t="intro"></p>
+    </div>
+    <div class="stack" style="gap:18px;margin-top:auto;padding-top:32px">
+      <button class="btn primary" id="b-start" type="button"><span data-t="start"></span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#121A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="foot" data-t="foot"></p>
+    </div>
+  </section>
+
+  <!-- TEORÍA -->
+  <section class="screen" id="s-teoria">
+    <div class="meta"><span>PROLEGOMENA</span><span>v2.0</span></div>
+    <div class="th-title" data-t="thTitle"></div>
+    <p class="th-lead" data-t="thLead"></p>
+    <svg class="venn" viewBox="0 0 340 330" role="img" id="venn">
+      <circle cx="122" cy="118" r="98" fill="#EDE6D6" fill-opacity=".10" stroke="#EDE6D6" stroke-width="1.5"/>
+      <circle cx="218" cy="118" r="98" fill="#E2553F" fill-opacity=".12" stroke="#E2553F" stroke-width="1.5"/>
+      <circle cx="170" cy="200" r="98" fill="#7FD1A8" fill-opacity=".10" stroke="#7FD1A8" stroke-width="1.5"/>
+      <g font-family="JetBrains Mono, monospace" font-size="10.5" fill="#EDE6D6" text-anchor="middle">
+        <text x="74" y="96" id="z-HLL"></text>
+        <text x="266" y="96" id="z-LHL"></text>
+        <text x="170" y="276" id="z-LLH"></text>
+        <text x="170" y="84" id="z-HHL" font-weight="600" fill="#E2553F" font-size="12"></text>
+        <text x="112" y="196" id="z-HLH"></text>
+        <text x="228" y="196" id="z-LHH"></text>
+        <text x="170" y="150" id="z-HHH" font-weight="600" font-size="12"></text>
+        <text x="300" y="322" id="z-LLL" fill="#9AA3B8"></text>
+      </g>
+    </svg>
+    <div class="sets">
+      <div class="set"><i style="background:#EDE6D6"></i><div><b data-t="setE"></b><span data-t="setEd"></span></div></div>
+      <div class="set"><i style="background:#E2553F"></i><div><b data-t="setO"></b><span data-t="setOd"></span></div></div>
+      <div class="set"><i style="background:#7FD1A8"></i><div><b data-t="setA"></b><span data-t="setAd"></span></div></div>
+    </div>
+    <div class="th-h" data-t="thRaces"></div><p class="th-p" data-t="thRacesTxt"></p>
+    <div class="th-h" data-t="thSub"></div><p class="th-p" data-t="thSubTxt"></p>
+    <div class="th-h" data-t="thLevel"></div><p class="th-p" data-t="thLevelTxt"></p>
+    <div style="margin-top:auto;padding-top:28px">
+      <button class="btn primary" id="b-go" type="button"><span data-t="thGo"></span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#121A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </section>
+
+  <!-- PREGUNTA -->
+  <section class="screen" id="s-pregunta">
+    <div class="meta"><span id="q-num"></span><span class="tag" id="q-tag"></span></div>
+    <div class="prog"><div id="q-prog" style="width:0%"></div></div>
+    <div class="art" id="q-art"></div>
+    <p class="qtext" id="q-text" aria-live="polite"></p>
+    <p class="videtur" id="q-videtur"></p>
+    <div class="answers" id="q-answers"></div>
+  </section>
+
+  <!-- RESULTADO -->
+  <section class="screen" id="s-resultado">
+    <div class="meta"><span data-t="res"></span><span>60 / 60</span></div>
+    <div class="rel">
+      <div class="eres" id="r-eres"></div>
+      <div class="perfil" id="r-perfil"></div>
+      <div class="especie" id="r-especie"></div>
+      <div class="rasgos" id="r-rasgos"></div>
+      <div class="stamp" id="r-stamp" aria-hidden="true"></div>
+    </div>
+    <p class="alter" id="r-alter"></p>
+    <div class="nivel"><div class="n" id="r-nivel"></div><p id="r-frase"></p></div>
+    <div class="dork" id="r-dork"></div>
+    <p class="desc" id="r-desc"></p>
+    <p class="desc" id="r-validez" style="font-style:italic;color:var(--parch2)"></p>
+
+    <div class="section-h" data-t="axesH"></div>
+    <div id="r-ejes"></div>
+    <p class="rasgos" id="r-indices" style="margin-top:6px"></p>
+
+    <div class="section-h" data-t="domH"></div>
+    <div id="r-doms"></div>
+
+    <details>
+      <summary data-t="verH"></summary>
+      <div id="r-ver"></div>
+    </details>
+
+    <div class="endbtns">
+      <button class="btn solid" id="b-share" type="button" data-t="share"></button>
+      <button class="btn outline" id="b-save" type="button" data-t="save"></button>
+      <button class="btn link" id="b-again" type="button" data-t="again"></button>
+    </div>
+  </section>
+
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <img id="m-img" alt="">
+  <p data-t="saveHint"></p>
+  <a class="btn solid" id="m-dl" download="nerditas.png" data-t="save"></a>
+  <button class="btn link" id="m-close" type="button" data-t="close"></button>
+</div>
+
+<script>
+/* Nerditas 2.0 — banco de preguntas trilingüe.
+   Q(id, dominio, ejes, es, it, en)
+   Ejes: I erudición · O obsesión por saberes nerd · G adaptación social (+) · g adaptación social inversa (sí = menos adaptado)
+         P pedantería (índice) · E estética nerd (índice) · C coleccionismo (decide entre Leonard y Howard)
+   En español las preguntas van sin «¿» inicial: es una de las bromas del test. */
+const BANK = [];
+function Q(id, d, ax, es, it, en){ BANK.push({id, d, ax, tipo:"si_no", t:{es, it, en}}); }
+
+/* ---------- Filosofía ---------- */
+Q("FIL-01","FIL","I","Puedes explicar el argumento ontológico de san Anselmo en menos de un minuto?","Sai spiegare l’argomento ontologico di sant’Anselmo in meno di un minuto?","Can you explain St Anselm’s ontological argument in under a minute?");
+Q("FIL-02","FIL","I","Sabes qué silogismos son Barbara y Celarent?","Sai quali sillogismi sono Barbara e Celarent?","Do you know which syllogisms Barbara and Celarent are?");
+Q("FIL-03","FIL","IO","Has leído entera la Crítica de la razón pura, y no sólo el prólogo?","Hai letto tutta la Critica della ragion pura, e non solo la prefazione?","Have you read the whole Critique of Pure Reason, not just the preface?");
+Q("FIL-04","FIL","I","Sabes quién es Gettier y por qué complicó la definición de conocimiento?","Sai chi è Gettier e perché ha complicato la definizione di conoscenza?","Do you know who Gettier is and why he complicated the definition of knowledge?");
+Q("FIL-05","FIL","O","Tienes un filósofo favorito y otro al que consideras enemigo personal?","Hai un filosofo preferito e un altro che consideri tuo nemico personale?","Do you have a favourite philosopher and another you consider a personal enemy?");
+Q("FIL-06","FIL","P","Has corregido a alguien que usaba «dialéctica», «paradigma» u «ontológico» a la ligera?","Hai corretto qualcuno che usava «dialettica», «paradigma» o «ontologico» alla leggera?","Have you corrected someone for using «dialectic», «paradigm» or «ontological» loosely?");
+Q("FIL-07","FIL","O","Has pensado en el barco de Teseo mientras reparabas algo tuyo?","Hai pensato alla nave di Teseo mentre riparavi qualcosa di tuo?","Have you thought about the Ship of Theseus while repairing something of yours?");
+Q("FIL-08","FIL","I","Has usado «a priori», «mutatis mutandis» y «ad hoc» en la misma frase, con sentido?","Hai usato «a priori», «mutatis mutandis» e «ad hoc» nella stessa frase, con senso?","Have you used «a priori», «mutatis mutandis» and «ad hoc» in one sentence, meaningfully?");
+Q("FIL-09","FIL","O","Has discutido en una cena si el problema mente-cuerpo está resuelto?","Hai discusso a cena se il problema mente-corpo sia risolto?","Have you argued at dinner about whether the mind-body problem is solved?");
+Q("FIL-10","FIL","I","Sabes distinguir acto y potencia, sustancia y accidente, sin mirar apuntes?","Sai distinguere atto e potenza, sostanza e accidente, senza guardare gli appunti?","Can you tell act from potency, substance from accident, without your notes?");
+
+/* ---------- Teología ---------- */
+Q("TEO-01","TEO","I","Sabes qué es el Filioque y por qué pesó en la ruptura entre Roma y Constantinopla?","Sai cos’è il Filioque e perché ha pesato nella rottura tra Roma e Costantinopoli?","Do you know what the Filioque is and why it mattered in the split between Rome and Constantinople?");
+Q("TEO-02","TEO","I","Puedes nombrar en orden los siete primeros concilios ecuménicos?","Sai elencare in ordine i primi sette concili ecumenici?","Can you name the first seven ecumenical councils in order?");
+Q("TEO-03","TEO","I","Distingues transustanciación, consustanciación e impanación?","Distingui transustanziazione, consustanziazione e impanazione?","Can you tell transubstantiation, consubstantiation and impanation apart?");
+Q("TEO-04","TEO","I","Has leído en latín un artículo completo de la Suma Teológica, con objeciones, sed contra y respuestas?","Hai letto in latino un articolo completo della Summa Theologiae, con obiezioni, sed contra e risposte?","Have you read a full article of the Summa Theologiae in Latin, with objections, sed contra and replies?");
+Q("TEO-05","TEO","O","Tienes postura en la controversia De auxiliis (molinistas contra bañecianos)?","Hai una posizione nella controversia De auxiliis (molinisti contro bañeziani)?","Do you take a side in the De auxiliis controversy (Molinists vs Bañezians)?");
+Q("TEO-06","TEO","IO","Citas el Denzinger por número sin abrirlo?","Citi il Denzinger per numero senza aprirlo?","Do you cite Denzinger by number without opening it?");
+Q("TEO-07","TEO","P","Has usado «communicatio idiomatum» en una conversación no académica?","Hai usato «communicatio idiomatum» in una conversazione non accademica?","Have you used «communicatio idiomatum» in a non-academic conversation?");
+Q("TEO-08","TEO","I","Sabes qué son las notas teológicas (de fide, sententia certa…)?","Sai cosa sono le note teologiche (de fide, sententia certa…)?","Do you know what theological notes are (de fide, sententia certa…)?");
+Q("TEO-09","TEO","O","Te has preguntado en qué lengua se comunican los ángeles?","Ti sei chiesto in che lingua comunicano gli angeli?","Have you wondered what language angels communicate in?");
+Q("TEO-10","TEO","I","Puedes situar a De Lubac, Congar y Garrigou-Lagrange en el mismo mapa?","Sai collocare De Lubac, Congar e Garrigou-Lagrange sulla stessa mappa?","Can you place De Lubac, Congar and Garrigou-Lagrange on the same map?");
+
+/* ---------- Patrística ---------- */
+Q("PAT-01","PAT","I","Sabes quiénes son los cuatro Padres que sostienen la Cátedra de San Pedro en la basílica vaticana?","Sai chi sono i quattro Padri che sostengono la Cattedra di San Pietro nella basilica vaticana?","Do you know who the four Fathers holding up the Chair of St Peter in St Peter’s Basilica are?");
+Q("PAT-02","PAT","IO","Sabes qué son la PG y la PL de Migne, y has consultado algún volumen?","Sai cosa sono la PG e la PL di Migne, e ne hai consultato qualche volume?","Do you know what Migne’s PG and PL are, and have you consulted a volume?");
+Q("PAT-03","PAT","I","Sabes qué defendía Nestorio y qué decidió Éfeso?","Sai cosa sosteneva Nestorio e cosa decise Efeso?","Do you know what Nestorius held and what Ephesus decided?");
+Q("PAT-04","PAT","P","Has corregido a un guía en unas catacumbas?","Hai corretto una guida nelle catacombe?","Have you corrected a guide in the catacombs?");
+Q("PAT-05","PAT","O","Has intentado calcular la fecha de Pascua a mano?","Hai provato a calcolare a mano la data di Pasqua?","Have you tried to calculate the date of Easter by hand?");
+Q("PAT-06","PAT","O","Tienes un Padre de la Iglesia «de cabecera»?","Hai un Padre della Chiesa «di riferimento»?","Do you have a «go-to» Church Father?");
+Q("PAT-07","PAT","I","Sabes quién fue Orígenes y por qué sigue siendo polémico?","Sai chi era Origene e perché è ancora controverso?","Do you know who Origen was and why he is still controversial?");
+Q("PAT-08","PAT","I","Conoces algún papa medieval por su apodo o su escándalo?","Conosci qualche papa medievale per il suo soprannome o il suo scandalo?","Do you know a medieval pope by his nickname or his scandal?");
+
+/* ---------- Biblia y lenguas antiguas ---------- */
+Q("LEN-01","LEN","IO","Lees el alfabeto griego y tienes opinión sobre la pronunciación erasmiana?","Leggi l’alfabeto greco e hai un’opinione sulla pronuncia erasmiana?","Can you read Greek script, and do you have views on Erasmian pronunciation?");
+Q("LEN-02","LEN","I","Lees el alfabeto hebreo?","Leggi l’alfabeto ebraico?","Can you read the Hebrew alphabet?");
+Q("LEN-03","LEN","I","Sabes por qué la Septuaginta se llama así?","Sai perché la Settanta si chiama così?","Do you know why the Septuagint is called that?");
+Q("LEN-04","LEN","IO","Has leído un evangelio entero en griego?","Hai letto un vangelo intero in greco?","Have you read a whole Gospel in Greek?");
+Q("LEN-05","LEN","I","Distingues el aoristo del perfecto?","Distingui l’aoristo dal perfetto?","Can you tell the aorist from the perfect?");
+Q("LEN-06","LEN","O","Has declinado rosa, rosae para dormirte?","Hai declinato rosa, rosae per addormentarti?","Have you declined rosa, rosae to fall asleep?");
+Q("LEN-07","LEN","P","Metes citas latinas en correos de trabajo?","Metti citazioni latine nelle e-mail di lavoro?","Do you put Latin quotations in work emails?");
+Q("LEN-08","LEN","I","Sabes qué es la Vetus Latina?","Sai cos’è la Vetus Latina?","Do you know what the Vetus Latina is?");
+Q("LEN-09","LEN","I","Sabes qué significan las siglas Q y JEDP?","Sai cosa significano le sigle Q e JEDP?","Do you know what Q and JEDP stand for?");
+Q("LEN-10","LEN","O","Llamas a tus diccionarios por el apellido («el Bauer», «el Gaffiot», «el Liddell-Scott»)?","Chiami i tuoi dizionari per cognome («il Bauer», «il Gaffiot», «il Rocci»)?","Do you call your dictionaries by surname («the Bauer», «the Liddell-Scott», «the Lewis & Short»)?");
+
+/* ---------- Literatura ---------- */
+Q("LIT-01","LIT","I","Has leído el Quijote entero?","Hai letto tutto il Don Chisciotte?","Have you read the whole of Don Quixote?");
+Q("LIT-02","LIT","I","Has leído la Divina Comedia en italiano?","Hai letto tutta la Divina Commedia, e non solo l’Inferno?","Have you read the Divine Comedy beyond the Inferno?");
+Q("LIT-03","LIT","O","Tienes más libros que sitio donde ponerlos?","Hai più libri che spazio per metterli?","Do you have more books than space to put them?");
+Q("LIT-04","LIT","O","Ordenas tu biblioteca con un sistema propio?","Ordini la tua biblioteca con un sistema tutto tuo?","Do you shelve your library with a system of your own?");
+Q("LIT-05","LIT","O","Lees las notas a pie de página antes que el texto?","Leggi le note a piè di pagina prima del testo?","Do you read the footnotes before the text?");
+Q("LIT-06","LIT","O","Te duele físicamente ver doblar la esquina de una página?","Ti fa male fisicamente vedere piegare l’angolo di una pagina?","Does it physically hurt to see someone dog-ear a page?");
+Q("LIT-07","LIT","I","Sabes qué es un incunable?","Sai cos’è un incunabolo?","Do you know what an incunabulum is?");
+Q("LIT-08","LIT","I","Sabes qué es un hápax?","Sai cos’è un hapax?","Do you know what a hapax is?");
+Q("LIT-09","LIT","I","Has leído «La biblioteca de Babel» de Borges?","Hai letto «La biblioteca di Babele» di Borges?","Have you read Borges’s «The Library of Babel»?");
+Q("LIT-10","LIT","I","Has leído El nombre de la rosa y sabes qué libro perdido de Aristóteles esconde?","Hai letto Il nome della rosa e sai quale libro perduto di Aristotele nasconde?","Have you read The Name of the Rose and do you know which lost book of Aristotle it hides?");
+Q("LIT-11","LIT","O","Apuntas a quién prestas cada libro?","Annoti a chi presti ogni libro?","Do you keep a record of who borrowed each book?");
+
+/* ---------- Historia, arte y música ---------- */
+Q("HIS-01","HIS","I","Distingues un capitel corintio de uno compuesto?","Distingui un capitello corinzio da uno composito?","Can you tell a Corinthian capital from a Composite one?");
+Q("HIS-02","HIS","I","Sabes en qué año cayó Constantinopla?","Sai in che anno cadde Costantinopoli?","Do you know what year Constantinople fell?");
+Q("HIS-03","HIS","I","Distingues el canto gregoriano del ambrosiano?","Distingui il canto gregoriano dall’ambrosiano?","Can you tell Gregorian chant from Ambrosian chant?");
+Q("HIS-04","HIS","O","Has organizado un viaje en torno a un manuscrito, un fresco o una basílica?","Hai organizzato un viaggio attorno a un manoscritto, un affresco o una basilica?","Have you planned a trip around a manuscript, a fresco or a basilica?");
+Q("HIS-05","HIS","I","Lees fechas en números romanos de una lápida sin contar con los dedos?","Leggi le date in numeri romani su una lapide senza contare sulle dita?","Can you read Roman-numeral dates on a tombstone without counting on your fingers?");
+Q("HIS-06","HIS","O","Tienes opinión sobre cuál es la mejor edición crítica de un autor?","Hai un’opinione su quale sia la migliore edizione critica di un autore?","Do you have an opinion on an author’s best critical edition?");
+Q("HIS-07","HIS","OP","Has visto una película histórica sólo para contar sus errores?","Hai visto un film storico solo per contarne gli errori?","Have you watched a historical film just to count its mistakes?");
+Q("HIS-08","HIS","O","Tocas un instrumento musical, aunque sea mal?","Suoni uno strumento musicale, anche se male?","Do you play a musical instrument, even badly?");
+Q("HIS-09","HIS","I","Distingues una fuga de un canon?","Distingui una fuga da un canone?","Can you tell a fugue from a canon?");
+Q("HIS-10","HIS","I","Has ido a un concierto sólo por un compositor que nadie más conocía?","Sei andato a un concerto solo per un compositore che nessun altro conosceva?","Have you gone to a concert just for a composer nobody else knew?");
+
+/* ---------- Ciencia ---------- */
+Q("CIEN-01","CIEN","I","Distingues la paradoja de Fermi de la apuesta de Pascal?","Distingui il paradosso di Fermi dalla scommessa di Pascal?","Can you tell Fermi’s paradox from Pascal’s wager?");
+Q("CIEN-02","CIEN","I","Conoces el teorema de Gödel y has oído a alguien usarlo mal?","Conosci il teorema di Gödel e hai sentito qualcuno usarlo male?","Do you know Gödel’s theorem and have you heard someone misuse it?");
+
+/* ---------- Tecnología ---------- */
+Q("TEC-01","TEC","I","Sabes explicar cómo un modelo de lenguaje «predice» la palabra siguiente?","Sai spiegare come un modello linguistico «prevede» la parola successiva?","Can you explain how a language model «predicts» the next word?");
+Q("TEC-02","TEC","O","Escribes tus trabajos en LaTeX?","Scrivi i tuoi lavori in LaTeX?","Do you write your papers in LaTeX?");
+Q("TEC-03","TEC","O","Defiendes tu gestor de bibliografía (Zotero, Endnote…) como a un equipo de fútbol?","Difendi il tuo gestore bibliografico (Zotero, Endnote…) come una squadra di calcio?","Do you defend your reference manager (Zotero, EndNote…) like a football team?");
+Q("TEC-04","TEC","IO","Has escrito un programa para automatizar algo de tu estudio?","Hai scritto un programma per automatizzare qualcosa del tuo studio?","Have you written a program to automate part of your studies?");
+
+/* ---------- Cultura pop ---------- */
+Q("POP-01","POP","I","Has leído el ensayo de Tolkien «Sobre los cuentos de hadas»?","Hai letto il saggio di Tolkien «Sulle fiabe»?","Have you read Tolkien’s essay «On Fairy-Stories»?");
+Q("POP-02","POP","I","Sabes qué eran los Inklings y quiénes formaban el grupo?","Sai chi erano gli Inklings e chi faceva parte del gruppo?","Do you know who the Inklings were and who belonged to the group?");
+Q("POP-03","POP","OP","Has encontrado teología en Tolkien, Lewis o Star Wars y lo has explicado sin que te lo pidieran?","Hai trovato teologia in Tolkien, Lewis o Star Wars e l’hai spiegata senza che te lo chiedessero?","Have you found theology in Tolkien, Lewis or Star Wars and explained it unprompted?");
+Q("POP-04","POP","I","Sabes en qué lengua está la inscripción del Anillo Único?","Sai in che lingua è l’iscrizione dell’Unico Anello?","Do you know what language the inscription on the One Ring is in?");
+Q("POP-05","POP","OC","Tienes una figura, póster o taza de una saga en tu despacho?","Hai una statuetta, un poster o una tazza di una saga nel tuo ufficio?","Do you have a figurine, poster or mug from a saga in your office?");
+
+/* ---------- Rasgos generales ---------- */
+Q("GEN-01","GEN","P","Has respondido «depende de cómo definas…» a una pregunta de sí o no?","Hai risposto «dipende da come definisci…» a una domanda sì o no?","Have you answered «depends how you define…» to a yes-or-no question?");
+Q("GEN-02","GEN","g","En una fiesta has acabado hablando sólo con el único que conocía tu tema?","A una festa hai finito per parlare solo con l’unico che conosceva il tuo argomento?","At a party, have you ended up talking only to the one person who knew your subject?");
+Q("GEN-03","GEN","g","Tus amigos han dejado de preguntarte por tu tesis o tu libro?","I tuoi amici hanno smesso di chiederti della tua tesi o del tuo libro?","Have your friends stopped asking about your thesis or your book?");
+Q("GEN-04","GEN","P","Has tenido que explicar un chiste erudito que nadie entendió?","Hai dovuto spiegare una battuta erudita che nessuno aveva capito?","Have you had to explain a learned joke nobody got?");
+Q("GEN-05","GEN","P","Has mandado un correo con notas a pie de página?","Hai mandato un’e-mail con note a piè di pagina?","Have you sent an email with footnotes?");
+Q("GEN-06","GEN","E","Prefieres la sala de lectura de una biblioteca a una terraza?","Preferisci la sala lettura di una biblioteca a un bar all’aperto?","Do you prefer a library reading room to a café terrace?");
+Q("GEN-07","GEN","g","Te parece tiempo perdido hablar del tiempo?","Ti sembra tempo perso parlare del tempo?","Do you think talking about the weather is a waste of time?");
+Q("GEN-08","GEN","G","Te invitan con gusto a fiestas aunque sepan que hablarás de Aristóteles?","Ti invitano volentieri alle feste anche se sanno che parlerai di Aristotele?","Do people happily invite you to parties even knowing you’ll talk about Aristotle?");
+Q("GEN-09","GEN","G","Notas cuándo nadie te sigue y cambias de tema?","Ti accorgi quando nessuno ti segue e cambi argomento?","Do you notice when nobody is following you and change the subject?");
+Q("GEN-10","GEN","O","Llevas un cuaderno o fichero de citas?","Tieni un quaderno o uno schedario di citazioni?","Do you keep a notebook or card file of quotations?");
+Q("GEN-11","GEN","O","Has pasado una noche buscando el origen exacto de una cita?","Hai passato una notte a cercare l’origine esatta di una citazione?","Have you spent a night tracking down the exact source of a quotation?");
+Q("GEN-12","GEN","OC","Coleccionas algo (ediciones, plumas, estampas, breviarios antiguos)?","Collezioni qualcosa (edizioni, penne stilografiche, santini, breviari antichi)?","Do you collect something (editions, fountain pens, holy cards, old breviaries)?");
+Q("GEN-13","GEN","O","Hay un tema del que podrías hablar dos horas sin preparación?","C’è un argomento di cui potresti parlare due ore senza preparazione?","Is there a subject you could talk about for two hours unprepared?");
+Q("GEN-14","GEN","O","Te has olvidado de comer por estar leyendo?","Ti sei dimenticato di mangiare perché stavi leggendo?","Have you forgotten to eat because you were reading?");
+
+/* ---------- Adaptación social (geekidad) ---------- */
+Q("GEK-01","GEN","G","En una cena, la gente se sienta a tu lado porque sabe que contarás algo interesante?","A cena la gente si siede accanto a te perché sa che racconterai qualcosa di interessante?","At dinner, do people sit next to you because they know you’ll say something interesting?");
+Q("GEK-02","GEN","G","Al acabar tus clases o charlas, alguien se queda a preguntarte más?","Alla fine delle tue lezioni o conferenze, qualcuno resta a farti altre domande?","After your classes or talks, does someone stay behind to ask you more?");
+Q("GEK-03","GEN","G","Te invitan a dar charlas fuera de tu ámbito (colegios, parroquias, asociaciones)?","Ti invitano a tenere conferenze fuori dal tuo ambito (scuole, parrocchie, associazioni)?","Are you invited to give talks outside your field (schools, parishes, associations)?");
+Q("GEK-04","GEN","G","Sabes contar una anécdota histórica o teológica de modo que todos se rían?","Sai raccontare un aneddoto storico o teologico facendo ridere tutti?","Can you tell a historical or theological anecdote that makes everyone laugh?");
+Q("GEK-05","GEN","G","Te piden consejo personal, no sólo académico?","Ti chiedono consigli personali, non solo accademici?","Do people ask you for personal advice, not just academic?");
+Q("GEK-06","GEN","G","Haces amigos con facilidad en un congreso?","Fai amicizia facilmente a un convegno?","Do you make friends easily at a conference?");
+Q("GEK-07","GEN","G","Puedes explicar tu tema a un niño de diez años y que le guste?","Sai spiegare il tuo argomento a un bambino di dieci anni e fargli piacere?","Can you explain your subject to a ten-year-old and make them enjoy it?");
+Q("GEK-08","GEN","G","Organizas tú las cenas, viajes o excursiones de tu grupo?","Sei tu a organizzare cene, viaggi o gite del tuo gruppo?","Are you the one who organises your group’s dinners, trips or outings?");
+Q("GEK-09","GEN","G","Tu erudición te ha abierto amistades o puertas inesperadas?","La tua erudizione ti ha aperto amicizie o porte inaspettate?","Has your learning opened unexpected friendships or doors?");
+Q("GEK-10","GEN","G","Has practicado algún deporte o arte marcial con constancia? (el pádel cuenta)","Hai praticato uno sport o un’arte marziale con costanza? (il padel vale)","Have you practised a sport or martial art regularly? (padel counts)");
+Q("GEK-11","GEN","G","Has convertido a alguien en lector entusiasta de un autor que te apasiona?","Hai trasformato qualcuno in un lettore entusiasta di un autore che ami?","Have you turned someone into an eager reader of an author you love?");
+Q("GEK-12","GEN","G","Te ríes de tus propias manías nerd delante de otros?","Ridi delle tue manie nerd davanti agli altri?","Do you laugh at your own nerdy quirks in front of others?");
+Q("GEK-13","GEN","G","Te gusta presentar entre sí a amigos de mundos distintos?","Ti piace far conoscere tra loro amici di mondi diversi?","Do you like introducing friends from different worlds to each other?");
+Q("GEK-14","GEN","g","Necesitas un día entero para recuperarte de una reunión social?","Ti serve un giorno intero per riprenderti da un incontro sociale?","Do you need a whole day to recover from a social gathering?");
+Q("GEK-15","GEN","g","Te cuesta la conversación trivial (el tiempo, el fútbol, las vacaciones)?","Fai fatica con le chiacchiere (il tempo, il calcio, le vacanze)?","Do you struggle with small talk (weather, football, holidays)?");
+Q("GEK-16","GEN","g","En una fiesta buscas la estantería de libros del anfitrión para refugiarte?","A una festa cerchi la libreria del padrone di casa per rifugiarti?","At a party, do you seek refuge at the host’s bookshelf?");
+Q("GEK-17","GEN","g","Tardas días en contestar mensajes personales, pero no los correos académicos?","Ci metti giorni a rispondere ai messaggi personali, ma non alle e-mail accademiche?","Do you take days to answer personal messages, but not academic emails?");
+Q("GEK-18","GEN","g","Te han dicho que es difícil seguirte en una conversación?","Ti hanno detto che è difficile seguirti in una conversazione?","Have you been told you’re hard to follow in conversation?");
+Q("GEK-19","GEN","g","Prefieres comer solo con un libro que acompañado?","Preferisci mangiare da solo con un libro che in compagnia?","Would you rather eat alone with a book than in company?");
+
+/* ---------- Las 99 preguntas originales ---------- */
+const O_ = (n, d, ax, es, it, en) => Q("ORI-" + String(n).padStart(3,"0"), d, ax, es, it, en);
+O_(1,"HIS","I","Te gustan las obras de Escher (o al menos sabes quién es)?","Ti piacciono le opere di Escher (o almeno sai chi è)?","Do you like Escher’s work (or at least know who he is)?");
+O_(2,"TEC","O","Has desarmado algo sólo para volverlo a ensamblar?","Hai smontato qualcosa solo per rimontarlo?","Have you taken something apart just to put it back together?");
+O_(3,"POP","O","Te consideras un buen jugador de ajedrez?","Ti consideri un buon giocatore di scacchi?","Do you consider yourself a good chess player?");
+O_(4,"CIEN","O","Has participado en un club de ciencia?","Hai partecipato a un club di scienze?","Have you been in a science club?");
+O_(5,"LIT","O","Has participado en un club de lectura?","Hai partecipato a un club del libro?","Have you been in a book club?");
+O_(6,"POP","O","Has jugado juegos de rol (tipo Dungeons & Dragons)?","Hai giocato a giochi di ruolo (tipo Dungeons & Dragons)?","Have you played role-playing games (like Dungeons & Dragons)?");
+O_(7,"FIL","I","Has participado en algún club de debate?","Hai partecipato a un club di dibattito?","Have you been in a debating club?");
+O_(8,"CIEN","O","Has tenido un microscopio?","Hai avuto un microscopio?","Have you owned a microscope?");
+O_(9,"CIEN","I","Puedes reconocer más de cinco constelaciones?","Sai riconoscere più di cinque costellazioni?","Can you recognise more than five constellations?");
+O_(10,"TEC","I","Sabes la diferencia entre HTML y un lenguaje de programación?","Sai la differenza tra HTML e un linguaggio di programmazione?","Do you know the difference between HTML and a programming language?");
+O_(11,"CIEN","O","De niño tuviste un juego de química?","Da bambino hai avuto la scatola del Piccolo Chimico?","As a child, did you have a chemistry set?");
+O_(12,"POP","I","Sabes qué píldora hay que tomar para conocer cuán profunda es la madriguera del conejo?","Sai quale pillola prendere per scoprire quanto è profonda la tana del bianconiglio?","Do you know which pill to take to see how deep the rabbit hole goes?");
+O_(13,"POP","I","Recuerdas los nombres de los miembros de la Compañía del Anillo?","Ricordi i nomi dei membri della Compagnia dell’Anello?","Can you name the members of the Fellowship of the Ring?");
+O_(14,"CIEN","IO","Has pensado en calcular el número de combinaciones posibles de un cubo de Rubik?","Hai pensato di calcolare il numero di combinazioni possibili di un cubo di Rubik?","Have you thought about calculating how many combinations a Rubik’s cube has?");
+O_(15,"POP","O","Puedes resolver el cubo de Rubik en menos de cinco minutos?","Sai risolvere il cubo di Rubik in meno di cinque minuti?","Can you solve a Rubik’s cube in under five minutes?");
+O_(16,"LEN","I","Te has dedicado a conocer las etimologías de las palabras?","Ti sei dedicato a conoscere le etimologie delle parole?","Have you made a habit of learning word etymologies?");
+O_(17,"LEN","O","Estudiabas por tu cuenta latín, griego u otra lengua muerta o inventada?","Studiavi da solo latino, greco o un’altra lingua morta o inventata?","Did you study Latin, Greek or another dead or invented language on your own?");
+O_(18,"GEN","I","Te adelantabas al profesor en clase porque ya sabías la materia?","In classe anticipavi il professore perché sapevi già la materia?","Did you get ahead of the teacher in class because you already knew the subject?");
+O_(19,"POP","I","Has leído a Isaac Asimov?","Hai letto Isaac Asimov?","Have you read Isaac Asimov?");
+O_(20,"TEC","I","Sabes para qué sirve el test de Turing?","Sai a cosa serve il test di Turing?","Do you know what the Turing test is for?");
+O_(21,"POP","I","De Tolkien has leído algo más que El Señor de los Anillos?","Di Tolkien hai letto qualcosa oltre al Signore degli Anelli?","Have you read any Tolkien beyond The Lord of the Rings?");
+O_(22,"CIEN","I","Has leído algo de Stephen Hawking?","Hai letto qualcosa di Stephen Hawking?","Have you read anything by Stephen Hawking?");
+O_(23,"POP","I","Has leído libros sobre Dungeons & Dragons? (si no sabes qué es, responde que no)","Hai letto manuali di Dungeons & Dragons? (se non sai cos’è, rispondi no)","Have you read Dungeons & Dragons books? (if you don’t know what it is, answer no)");
+O_(24,"POP","O","Te gusta el anime japonés?","Ti piacciono gli anime giapponesi?","Do you like Japanese anime?");
+O_(25,"LIT","I","Lees más de diez libros al año?","Leggi più di dieci libri all’anno?","Do you read more than ten books a year?");
+O_(26,"POP","I","Conoces las tres leyes de la robótica de Asimov?","Conosci le tre leggi della robotica di Asimov?","Do you know Asimov’s three laws of robotics?");
+O_(27,"POP","OC","Has coleccionado cómics de superhéroes?","Hai collezionato fumetti di supereroi?","Have you collected superhero comics?");
+O_(28,"POP","I","Si te encontraras con Leonard Nimoy, sabrías cómo saludarlo y en qué lengua hablarle?","Se incontrassi Leonard Nimoy, sapresti come salutarlo e in che lingua parlargli?","If you met Leonard Nimoy, would you know how to greet him and what language to speak?");
+O_(29,"GEN","IP","Has corregido alguna vez a un profesor?","Hai mai corretto un professore?","Have you ever corrected a teacher?");
+O_(30,"GEN","g","Te consideras socialmente inadaptado?","Ti consideri socialmente disadattato?","Do you consider yourself socially awkward?");
+O_(31,"GEN","E","Llevas más o menos el mismo peinado desde la secundaria? (salvo causas de fuerza mayor, como la calvicie)","Porti più o meno la stessa pettinatura dalle superiori? (salvo cause di forza maggiore, come la calvizie)","Have you had more or less the same haircut since school? (baldness excepted)");
+O_(32,"GEN","E","Hablas contigo mismo?","Parli da solo?","Do you talk to yourself?");
+O_(33,"TEC","O","Prefieres usar programas de código abierto?","Preferisci usare programmi open source?","Do you prefer open-source software?");
+O_(34,"LIT","I","Has encontrado errores gramaticales, sintácticos u ortográficos en los libros que has leído?","Hai trovato errori grammaticali, sintattici o di ortografia nei libri che hai letto?","Have you found grammar, syntax or spelling mistakes in books you’ve read?");
+O_(35,"LIT","I","Te sientes orgulloso de tu ortografía impecable?","Sei orgoglioso della tua ortografia impeccabile?","Are you proud of your impeccable spelling?");
+O_(36,"LIT","I","Sabes de memoria textos o poesías?","Sai a memoria testi o poesie?","Do you know texts or poems by heart?");
+O_(37,"LEN","O","Te atraen las lenguas antiguas o inventadas, y te gusta aprender sus alfabetos?","Ti attraggono le lingue antiche o inventate, e ti piace impararne gli alfabeti?","Are you drawn to ancient or invented languages, and do you like learning their alphabets?");
+O_(38,"GEN","O","Has pensado en la posibilidad de los multiversos?","Hai riflettuto sulla possibilità dei multiversi?","Have you thought about the possibility of multiverses?");
+O_(39,"TEC","O","Has discutido con una IA sobre santo Tomás para pillarla en un error?","Hai discusso con un’IA su san Tommaso per coglierla in errore?","Have you argued with an AI about Aquinas to catch it in a mistake?");
+O_(40,"TEC","O","Has discutido con alguien sobre ordenadores o sistemas operativos?","Hai litigato con qualcuno su computer o sistemi operativi?","Have you argued with someone about computers or operating systems?");
+O_(41,"GEN","E","Te han llamado nerd o geek a lo largo de tu vida (o empollón, sabelotodo…)?","Ti hanno mai chiamato nerd, geek o secchione?","Have you been called a nerd, geek or know-it-all?");
+O_(42,"GEN","O","Has hecho algo sólo porque era geek hacerlo?","Hai fatto qualcosa solo perché era geek farlo?","Have you done something just because it was geeky?");
+O_(43,"CIEN","O","Te gustan las camisetas con diseños matemáticos?","Ti piacciono le magliette con disegni matematici?","Do you like T-shirts with mathematical designs?");
+O_(44,"POP","OC","Te gustan las camisetas con diseños de superhéroes?","Ti piacciono le magliette con i supereroi?","Do you like superhero T-shirts?");
+O_(45,"TEC","O","Te gusta conocer las capacidades de los últimos dispositivos electrónicos?","Ti piace conoscere le caratteristiche degli ultimi dispositivi elettronici?","Do you like knowing the specs of the latest gadgets?");
+O_(46,"TEC","O","Tienes una postura apasionada en la guerra Apple vs Windows vs Linux?","Hai una posizione appassionata nella guerra Apple vs Windows vs Linux?","Do you take a passionate side in the Apple vs Windows vs Linux war?");
+O_(47,"HIS","I","Serías capaz de reconocer un cuadro de Kandinsky?","Sapresti riconoscere un quadro di Kandinskij?","Could you recognise a Kandinsky painting?");
+O_(48,"TEC","O","Usas programas obsoletos aunque conoces los más actualizados?","Usi programmi obsoleti pur conoscendo quelli più aggiornati?","Do you use obsolete software even though you know the newer ones?");
+O_(49,"CIEN","I","Conoces la constante de Planck?","Conosci la costante di Planck?","Do you know Planck’s constant?");
+O_(50,"HIS","O","Prefieres ir a un museo que a la playa?","Preferisci andare in un museo piuttosto che al mare?","Would you rather go to a museum than to the beach?");
+O_(51,"GEN","P","Te gusta usar palabras técnicas que los demás desconocen?","Ti piace usare parole tecniche che gli altri non conoscono?","Do you like using technical words others don’t know?");
+O_(52,"POP","I","Conoces el nombre de más de tres campeones mundiales de ajedrez?","Conosci il nome di più di tre campioni del mondo di scacchi?","Can you name more than three world chess champions?");
+O_(53,"HIS","I","De niño te gustaba ver las noticias o documentales de ciencia o de historia?","Da bambino ti piaceva guardare il telegiornale o documentari di scienza o di storia?","As a child, did you like watching the news or science and history documentaries?");
+O_(54,"POP","O","Te gustan las películas de ciencia ficción?","Ti piacciono i film di fantascienza?","Do you like science-fiction films?");
+O_(55,"CIEN","I","Sabes qué es un sextante?","Sai cos’è un sestante?","Do you know what a sextant is?");
+O_(56,"CIEN","I","Sabes cuál es el sexto gas noble?","Sai qual è il sesto gas nobile?","Do you know the sixth noble gas?");
+O_(57,"POP","I","Sabes qué es el klingon?","Sai cos’è il klingon?","Do you know what Klingon is?");
+O_(58,"POP","I","Sabes qué son las gemas del infinito?","Sai cosa sono le gemme dell’infinito?","Do you know what the Infinity Stones are?");
+O_(59,"CIEN","I","Te acuerdas de lo que estudiaste en ciencias en la secundaria?","Ti ricordi quello che hai studiato di scienze alle superiori?","Do you remember the science you studied at school?");
+O_(60,"LEN","O","Has puesto las bases para crear una lengua nueva (alfabeto, gramática, palabras)?","Hai gettato le basi per creare una lingua nuova (alfabeto, grammatica, parole)?","Have you laid the foundations of a new language (alphabet, grammar, words)?");
+O_(61,"TEC","I","Puedes contar en binario?","Sai contare in binario?","Can you count in binary?");
+O_(62,"LEN","O","Has estudiado la lengua de un país al que no tienes posibilidad real de ir?","Hai studiato la lingua di un paese dove non hai reale possibilità di andare?","Have you studied the language of a country you have no real chance of visiting?");
+O_(63,"POP","O","Has visto Matrix más de una vez?","Hai visto Matrix più di una volta?","Have you seen The Matrix more than once?");
+O_(64,"POP","I","Sabes por qué el agente Smith comparó a los hombres con un virus?","Sai perché l’agente Smith paragonò gli uomini a un virus?","Do you know why Agent Smith compared humans to a virus?");
+O_(65,"TEC","O","Has entrado en una tienda de electrónica sólo para ver los nuevos dispositivos?","Sei entrato in un negozio di elettronica solo per vedere i nuovi dispositivi?","Have you gone into an electronics shop just to look at new gadgets?");
+O_(66,"TEC","I","Sabes qué es un cúbit?","Sai cos’è un qubit?","Do you know what a qubit is?");
+O_(67,"CIEN","I","Sabes cuál es el número de Avogadro?","Sai qual è il numero di Avogadro?","Do you know Avogadro’s number?");
+O_(68,"LIT","I","Has advertido que a las preguntas de este quiz les faltan los signos iniciales de interrogación?","Ti accorgi subito quando qualcuno scrive «qual’è» con l’apostrofo?","Do you wince when someone writes «could of» instead of «could have»?");
+O_(69,"CIEN","I","Puedes decir de memoria el número pi con más de tres cifras?","Sai dire a memoria il pi greco con più di tre cifre?","Can you recite pi to more than three digits?");
+O_(70,"CIEN","I","Eres capaz de convertir grados Celsius en Kelvin?","Sai convertire i gradi Celsius in Kelvin?","Can you convert Celsius to Kelvin?");
+O_(71,"TEC","I","Conoces la diferencia entre 32 y 64 bits?","Conosci la differenza tra 32 e 64 bit?","Do you know the difference between 32 and 64 bits?");
+O_(72,"CIEN","I","Conoces el teorema de Pitágoras?","Conosci il teorema di Pitagora?","Do you know Pythagoras’ theorem?");
+O_(73,"GEN","G","Generalmente estableces buenas relaciones sociales con todo tipo de personas?","In genere stabilisci buoni rapporti con ogni tipo di persona?","Do you generally get on well with all kinds of people?");
+O_(74,"GEN","O","Tienes algún hobby peculiar que te apasiona (uno que sólo a ti o a pocos como tú les apasiona)?","Hai un hobby particolare che ti appassiona (uno che appassiona solo te o pochi come te)?","Do you have a peculiar hobby that only you or a few like you care about?");
+O_(75,"POP","O","Te gustan los videojuegos?","Ti piacciono i videogiochi?","Do you like video games?");
+O_(76,"GEN","E","Has preferido leer o estudiar en vez de hacer deporte?","Hai preferito leggere o studiare invece di fare sport?","Have you preferred reading or studying to playing sport?");
+O_(77,"GEN","P","Prefieres ir a un debate académico que a una fiesta?","Preferisci andare a un dibattito accademico piuttosto che a una festa?","Would you rather go to an academic debate than a party?");
+O_(78,"GEN","OP","Sueles hablar constantemente de tus intereses académicos?","Parli di continuo dei tuoi interessi accademici?","Do you constantly talk about your academic interests?");
+O_(79,"FIL","I","Te consideras más analítico que sintético?","Ti consideri più analitico che sintetico?","Do you consider yourself more analytic than synthetic?");
+O_(80,"GEN","E","Usas el mismo estilo de vestir que hace diez años?","Ti vesti nello stesso stile di dieci anni fa?","Do you dress the same way you did ten years ago?");
+O_(81,"GEN","g","Interactúas con otras personas sólo por motivos de trabajo, porque si no preferirías estar estudiando?","Interagisci con gli altri solo per lavoro, perché altrimenti preferiresti studiare?","Do you interact with people only for work, because otherwise you’d rather be studying?");
+O_(82,"GEN","E","Sueles subirte los pantalones lo más cerca del ombligo que se pueda?","Porti i pantaloni il più vicino possibile all’ombelico?","Do you wear your trousers as close to your navel as possible?");
+O_(83,"GEN","E","Alguna vez has usado tirantes?","Hai mai portato le bretelle?","Have you ever worn braces (suspenders)?");
+O_(84,"POP","I","Conoces la diferencia entre un troll, un orco y un uruk-hai?","Conosci la differenza tra un troll, un orco e un uruk-hai?","Do you know the difference between a troll, an orc and an Uruk-hai?");
+O_(85,"GEN","IG","La gente acude a ti para preguntarte de todo porque sabe que tendrás al menos una respuesta inicial?","La gente si rivolge a te per chiederti di tutto perché sa che avrai almeno una prima risposta?","Do people come to you with all sorts of questions because they know you’ll have at least a first answer?");
+O_(86,"GEN","IO","Has contribuido a Wikipedia con algún artículo de ciencia, filosofía o historia?","Hai contribuito a Wikipedia con qualche voce di scienza, filosofia o storia?","Have you contributed a science, philosophy or history article to Wikipedia?");
+O_(87,"TEC","OC","Conservas dispositivos electrónicos viejos porque les tienes cariño?","Conservi vecchi dispositivi elettronici perché ci sei affezionato?","Do you keep old gadgets out of affection?");
+O_(88,"GEN","IO","Hay temas de los que eres el único verdadero experto en tu entorno?","Ci sono argomenti di cui sei l’unico vero esperto nel tuo ambiente?","Are there subjects on which you are the only real expert around you?");
+O_(89,"GEN","g","Te consideras introvertido y prefieres estudiar a socializar?","Ti consideri introverso e preferisci studiare piuttosto che socializzare?","Do you consider yourself an introvert who prefers studying to socialising?");
+O_(90,"GEN","E","Pasas muchas horas en tu habitación estudiando?","Passi molte ore in camera a studiare?","Do you spend many hours studying in your room?");
+O_(91,"GEN","g","Sueles socializar sólo con otros como tú, con intereses parecidos?","Frequenti solo persone come te, con interessi simili?","Do you socialise only with people like you, with similar interests?");
+O_(92,"GEN","P","Te han dicho que hablas «como un libro»?","Ti hanno detto che parli «come un libro stampato»?","Have you been told you talk «like a book»?");
+O_(93,"GEN","O","Te has dado cuenta alguna vez de que tus intereses se han convertido en obsesiones?","Ti sei mai accorto che i tuoi interessi sono diventati ossessioni?","Have you ever noticed your interests turning into obsessions?");
+O_(94,"GEN","O","Te interesa, aunque sea un poco, la diferencia entre un nerd y un geek?","Ti interessa, anche solo un po’, la differenza tra un nerd e un geek?","Are you even slightly interested in the difference between a nerd and a geek?");
+O_(95,"GEN","O","Te gusta que te llamen nerd o geek?","Ti piace che ti chiamino nerd o geek?","Do you like being called a nerd or geek?");
+O_(96,"GEN","I","Has hecho tareas o exámenes de otros compañeros de escuela?","Hai fatto i compiti o le verifiche di altri compagni di scuola?","Have you done other classmates’ homework or tests?");
+O_(97,"HIS","O","Tienes, o te gustaría tener, un globo terráqueo en tu despacho?","Hai, o vorresti avere, un mappamondo nel tuo ufficio?","Do you have, or would you like, a globe in your office?");
+O_(98,"TEC","O","Sabes usar el ordenador para algo más que lo indispensable?","Sai usare il computer per qualcosa di più dell’indispensabile?","Can you use a computer for more than the bare essentials?");
+O_(99,"TEC","O","Escribes más con el ordenador que a mano?","Scrivi più al computer che a mano?","Do you write more on a computer than by hand?");
+
+/* ---------- Verificación (opción múltiple, 2 puntos en erudición) ---------- */
+function V(id, d, c, es, it, en, oes, oit, oen){ return {id, d, c, tipo:"ver", t:{es, it, en}, o:{es:oes, it:oit, en:oen}}; }
+const VER = [
+ V("VER-01","TEO",1,"Quién acuñó «fides quaerens intellectum»?","Chi coniò «fides quaerens intellectum»?","Who coined «fides quaerens intellectum»?",
+   ["Agustín","Anselmo","Tomás","Buenaventura"],["Agostino","Anselmo","Tommaso","Bonaventura"],["Augustine","Anselm","Aquinas","Bonaventure"]),
+ V("VER-02","PAT",2,"Cuál NO fue un concilio ecuménico?","Quale NON fu un concilio ecumenico?","Which was NOT an ecumenical council?",
+   ["Nicea","Éfeso","Hipona","Calcedonia"],["Nicea","Efeso","Ippona","Calcedonia"],["Nicaea","Ephesus","Hippo","Chalcedon"]),
+ V("VER-03","TEO",1,"Qué añade el Filioque al Credo?","Che cosa aggiunge il Filioque al Credo?","What does the Filioque add to the Creed?",
+   ["Que el Hijo es eterno","Que el Espíritu procede también del Hijo","Que María es Theotokos","Que el Padre es ingénito"],
+   ["Che il Figlio è eterno","Che lo Spirito procede anche dal Figlio","Che Maria è Theotokos","Che il Padre è ingenerato"],
+   ["That the Son is eternal","That the Spirit proceeds from the Son too","That Mary is Theotokos","That the Father is unbegotten"]),
+ V("VER-04","FIL",1,"Quién escribió La consolación de la filosofía?","Chi scrisse La consolazione della filosofia?","Who wrote The Consolation of Philosophy?",
+   ["Casiodoro","Boecio","Séneca","Isidoro"],["Cassiodoro","Boezio","Seneca","Isidoro"],["Cassiodorus","Boethius","Seneca","Isidore"]),
+ V("VER-05","FIL",2,"Qué son ens, unum, verum, bonum?","Che cosa sono ens, unum, verum, bonum?","What are ens, unum, verum, bonum?",
+   ["Categorías","Predicables","Trascendentales","Causas"],["Categorie","Predicabili","Trascendentali","Cause"],["Categories","Predicables","Transcendentals","Causes"]),
+ V("VER-06","LEN",2,"En qué lengua se escribió la mayor parte del Antiguo Testamento?","In che lingua fu scritta la maggior parte dell’Antico Testamento?","In what language was most of the Old Testament written?",
+   ["Arameo","Griego","Hebreo","Siríaco"],["Aramaico","Greco","Ebraico","Siriaco"],["Aramaic","Greek","Hebrew","Syriac"]),
+ V("VER-07","LEN",2,"Qué tiempo verbal griego es «ἔλυσα»?","Che tempo verbale greco è «ἔλυσα»?","What Greek tense is «ἔλυσα»?",
+   ["Imperfecto","Perfecto","Aoristo","Futuro"],["Imperfetto","Perfetto","Aoristo","Futuro"],["Imperfect","Perfect","Aorist","Future"]),
+ V("VER-08","HIS",1,"A qué año corresponde MCDLIII?","A che anno corrisponde MCDLIII?","What year is MCDLIII?",
+   ["1353","1453","1553","1503"],["1353","1453","1553","1503"],["1353","1453","1553","1503"]),
+ V("VER-09","CIEN",2,"Cuál es el sexto gas noble?","Qual è il sesto gas nobile?","What is the sixth noble gas?",
+   ["Xenón","Kriptón","Radón","Argón"],["Xeno","Kripton","Radon","Argon"],["Xenon","Krypton","Radon","Argon"]),
+ V("VER-10","POP",1,"En qué alfabeto está grabada la inscripción del Anillo Único?","In quale alfabeto è incisa l’iscrizione dell’Unico Anello?","In which script is the One Ring’s inscription engraved?",
+   ["Rúnico","Tengwar","Cirth","Klingon"],["Runico","Tengwar","Cirth","Klingon"],["Runic","Tengwar","Cirth","Klingon"]),
+ V("VER-11","TEC",0,"Qué significa la «S» de HTTPS?","Che cosa significa la «S» di HTTPS?","What does the «S» in HTTPS stand for?",
+   ["Secure (seguro)","Server (servidor)","Simple","Standard"],["Secure (sicuro)","Server","Simple","Standard"],["Secure","Server","Simple","Standard"]),
+ V("VER-12","LIT",0,"Quién hace el elogio de san Francisco en la Divina Comedia?","Chi fa l’elogio di san Francesco nella Divina Commedia?","Who delivers the praise of St Francis in the Divine Comedy?",
+   ["Santo Tomás de Aquino","San Buenaventura","San Bernardo","Beatriz"],["San Tommaso d’Aquino","San Bonaventura","San Bernardo","Beatrice"],["St Thomas Aquinas","St Bonaventure","St Bernard","Beatrice"]),
+ V("VER-13","LIT",3,"Dónde coloca Dante a Siger de Brabante?","Dove colloca Dante Sigieri di Brabante?","Where does Dante place Siger of Brabant?",
+   ["En el Infierno, junto a Farinata","En el Limbo, junto a Aristóteles","En el Purgatorio, junto a Estacio","En el Paraíso, junto a santo Tomás"],
+   ["Nell’Inferno, accanto a Farinata","Nel Limbo, accanto ad Aristotele","Nel Purgatorio, accanto a Stazio","Nel Paradiso, accanto a san Tommaso"],
+   ["In Hell, beside Farinata","In Limbo, beside Aristotle","In Purgatory, beside Statius","In Paradise, beside St Thomas"])
+];
+
+/* ---------- Validez (no suman: detectan exageraciones) ---------- */
+function L(id, es, it, en){ return {id, d:"GEN", tipo:"val", t:{es, it, en}}; }
+const VAL = [
+ L("VAL-01","Has leído todos los libros que tienes en casa?","Hai letto tutti i libri che hai in casa?","Have you read every book you own?"),
+ L("VAL-02","Has entendido siempre todo lo que has leído de Hegel?","Hai sempre capito tutto quello che hai letto di Hegel?","Have you always understood everything you’ve read by Hegel?"),
+ L("VAL-03","Has admitido siempre, sin excepción, no conocer a un autor cuando no lo conocías?","Hai sempre ammesso, senza eccezioni, di non conoscere un autore quando non lo conoscevi?","Have you always, without exception, admitted not knowing an author you didn’t know?"),
+ L("VAL-04","Sabes el griego, el latín, el hebreo, el siríaco y el copto con fluidez?","Conosci fluentemente greco, latino, ebraico, siriaco e copto?","Are you fluent in Greek, Latin, Hebrew, Syriac and Coptic?"),
+ L("VAL-05","Has mentido en este quiz?","Hai mentito in questo quiz?","Have you lied in this quiz?")
+];
+
+/* Nerditas 2.0 — textos de la interfaz en español, italiano e inglés */
+const LANGS = [["es","Español"],["it","Italiano"],["en","English"]];
+
+const UI = {
+ es:{
+  sub:"Test de nerdidad para humanistas, filósofos y teólogos.",
+  padel:"Aquí ser nerd no exige haber visto Star Wars: basta con haber discutido sobre el Filioque mientras se jugaba a pádel.",
+  intro:"Sesenta preguntas. Ninguna trampa (bueno, tres). Al final sabrás si eres nerd, geek, dork, dweeb… o un simple muggle con buena biblioteca.",
+  start:"INCIPIT EXAMEN",
+  foot:"* Tus respuestas no salen de tu teléfono. Nadie más verá tu resultado (atentamente, The Matrix).",
+  lang:"Idioma",
+  thTitle:"Teoria nerditatis",
+  thLead:"La nerdidad es la intersección de tres conjuntos. Según en qué zona caigas, perteneces a una raza.",
+  setE:"Erudición", setO:"Obsesión", setA:"Adaptación social",
+  setEd:"Inteligencia y saber: lo que sabes, y lo que demuestras saber.",
+  setOd:"Pasión por saberes que un muggle no tendría: de la patrística al anime, del griego a los telescopios.",
+  setAd:"Si tu saber te acerca a los demás o te encierra en la biblioteca.",
+  thRaces:"Las grandes razas",
+  thRacesTxt:"Geek puro (los tres conjuntos), Nerd puro (erudición y obsesión, sin adaptación social) y Muggle (ni erudición ni obsesión). En las demás zonas viven el Erudito, el Dweeb, el Fan y el Dork.",
+  thSub:"Subclases",
+  thSubTxt:"Tu disciplina dominante da la subclase: metafísico, escolástico, patrólogo, filólogo, bibliófilo, anticuario, científico, tecnológico o cultura pop.",
+  thLevel:"Nivel y alter ego",
+  thLevelTxt:"El nivel va de 0 a 100. Por debajo de 50 eres todavía aspirante. Al final te espera un alter ego de The Big Bang Theory.",
+  thGo:"COMENZAR EL EXAMEN",
+  q:"QUAESTIO", art:"Articulus", yes:"SÍ", no:"NO", ns:"No sé de qué me hablas – me da lo mismo",
+  res:"SENTENTIA DEFINITIVA",
+  youAre:"Eres un", youAreAsp:"Eres un aspirante a",
+  traits:"con rasgos de", alter:"Tu alter ego",
+  axesH:"LOS TRES CONJUNTOS · LA RAYA MARCA EL 50 %",
+  axE:"E · Erudición", axO:"O · Obsesión", axA:"A · Adaptación social",
+  pedant:"Pedantómetro", aesth:"Estética nerd",
+  domH:"SUBCLASE · POR DISCIPLINA",
+  verH:"Las preguntas de verificación, corregidas",
+  suspect:"Resultado bajo sospecha: un nerd de verdad no ha entendido todo Hegel.",
+  dork:"Advertencia: la escala no vale para los dorks (el dork es sólo aparentemente un nerd).",
+  share:"COMPARTIR MI SENTENCIA", save:"Guardar la imagen", again:"Repetir el examen (otras 60 preguntas)",
+  shareTxt:"Según Nerditas soy", level:"nivel",
+  saveHint:"Mantén pulsada la imagen para guardarla o compartirla.", close:"Cerrar",
+  stampOk:["NIHIL","OBSTAT","validez ok"], stampKo:["SUB","SUSPICIONE","resultado dudoso"]
+ },
+ it:{
+  sub:"Test di nerditudine per umanisti, filosofi e teologi.",
+  padel:"Qui per essere nerd non serve aver visto Star Wars: basta aver discusso del Filioque mentre si giocava a padel.",
+  intro:"Sessanta domande. Nessun trabocchetto (be’, tre). Alla fine saprai se sei nerd, geek, dork, dweeb… o un semplice babbano con una bella biblioteca.",
+  start:"INCIPIT EXAMEN",
+  foot:"* Le tue risposte non escono dal telefono. Nessun altro vedrà il tuo risultato (cordialmente, The Matrix).",
+  lang:"Lingua",
+  thTitle:"Teoria nerditatis",
+  thLead:"La nerditudine è l’intersezione di tre insiemi. A seconda della zona in cui cadi, appartieni a una razza.",
+  setE:"Erudizione", setO:"Ossessione", setA:"Adattamento sociale",
+  setEd:"Intelligenza e sapere: ciò che sai, e ciò che dimostri di sapere.",
+  setOd:"Passione per saperi che un babbano non avrebbe: dalla patristica agli anime, dal greco ai telescopi.",
+  setAd:"Se il tuo sapere ti avvicina agli altri o ti chiude in biblioteca.",
+  thRaces:"Le grandi razze",
+  thRacesTxt:"Geek puro (tutti e tre gli insiemi), Nerd puro (erudizione e ossessione, senza adattamento sociale) e Babbano (né erudizione né ossessione). Nelle altre zone vivono l’Erudito, il Dweeb, il Fan e il Dork.",
+  thSub:"Sottoclassi",
+  thSubTxt:"La tua disciplina dominante dà la sottoclasse: metafisico, scolastico, patrologo, filologo, bibliofilo, antiquario, scientifico, tecnologico o cultura pop.",
+  thLevel:"Livello e alter ego",
+  thLevelTxt:"Il livello va da 0 a 100. Sotto il 50 sei ancora aspirante. Alla fine ti aspetta un alter ego di The Big Bang Theory.",
+  thGo:"INIZIA L’ESAME",
+  q:"QUAESTIO", art:"Articulus", yes:"SÌ", no:"NO", ns:"Non so di cosa parli – non mi interessa",
+  res:"SENTENTIA DEFINITIVA",
+  youAre:"Sei un", youAreAsp:"Sei un aspirante",
+  traits:"con tratti di", alter:"Il tuo alter ego",
+  axesH:"I TRE INSIEMI · LA LINEA SEGNA IL 50 %",
+  axE:"E · Erudizione", axO:"O · Ossessione", axA:"A · Adattamento sociale",
+  pedant:"Pedantometro", aesth:"Estetica nerd",
+  domH:"SOTTOCLASSE · PER DISCIPLINA",
+  verH:"Le domande di verifica, corrette",
+  suspect:"Risultato sotto sospetto: un vero nerd non ha capito tutto Hegel.",
+  dork:"Avvertenza: la scala non vale per i dork (il dork è nerd solo in apparenza).",
+  share:"CONDIVIDI LA MIA SENTENZA", save:"Salva l’immagine", again:"Ripeti l’esame (altre 60 domande)",
+  shareTxt:"Secondo Nerditas sono", level:"livello",
+  saveHint:"Tieni premuta l’immagine per salvarla o condividerla.", close:"Chiudi",
+  stampOk:["NIHIL","OBSTAT","validità ok"], stampKo:["SUB","SUSPICIONE","risultato dubbio"]
+ },
+ en:{
+  sub:"A nerdiness test for humanists, philosophers and theologians.",
+  padel:"You don’t need to have seen Star Wars to be a nerd here: arguing about the Filioque during a game of padel will do.",
+  intro:"Sixty questions. No tricks (well, three). At the end you’ll know whether you’re a nerd, geek, dork, dweeb… or just a Muggle with a good library.",
+  start:"INCIPIT EXAMEN",
+  foot:"* Your answers never leave your phone. Nobody else will see your result (sincerely, The Matrix).",
+  lang:"Language",
+  thTitle:"Teoria nerditatis",
+  thLead:"Nerdiness is the intersection of three sets. The zone you land in decides your race.",
+  setE:"Erudition", setO:"Obsession", setA:"Social adaptation",
+  setEd:"Intelligence and learning: what you know, and what you can show you know.",
+  setOd:"Passion for knowledge a Muggle wouldn’t have: from patristics to anime, from Greek to telescopes.",
+  setAd:"Whether your learning draws people to you or locks you in the library.",
+  thRaces:"The great races",
+  thRacesTxt:"Pure Geek (all three sets), Pure Nerd (erudition and obsession, without social adaptation) and Muggle (neither erudition nor obsession). The Scholar, the Dweeb, the Fan and the Dork live in the other zones.",
+  thSub:"Subclasses",
+  thSubTxt:"Your leading discipline gives your subclass: metaphysician, schoolman, patrologist, philologist, bibliophile, antiquarian, scientist, technologist or pop-culture buff.",
+  thLevel:"Level and alter ego",
+  thLevelTxt:"Your level runs from 0 to 100. Below 50 you are still aspiring. At the end, an alter ego from The Big Bang Theory awaits you.",
+  thGo:"START THE EXAM",
+  q:"QUAESTIO", art:"Articulus", yes:"YES", no:"NO", ns:"No idea what you mean – don’t care",
+  res:"SENTENTIA DEFINITIVA",
+  youAre:"You are a", youAreAsp:"You are an aspiring",
+  traits:"with traits of a", alter:"Your alter ego",
+  axesH:"THE THREE SETS · THE LINE MARKS 50 %",
+  axE:"E · Erudition", axO:"O · Obsession", axA:"A · Social adaptation",
+  pedant:"Pedantometer", aesth:"Nerd aesthetics",
+  domH:"SUBCLASS · BY DISCIPLINE",
+  verH:"The check questions, corrected",
+  suspect:"Result under suspicion: no true nerd has understood all of Hegel.",
+  dork:"Warning: the scale does not apply to dorks (a dork only looks like a nerd).",
+  share:"SHARE MY SENTENCE", save:"Save the image", again:"Retake the exam (another 60 questions)",
+  shareTxt:"According to Nerditas I am", level:"level",
+  saveHint:"Press and hold the image to save or share it.", close:"Close",
+  stampOk:["NIHIL","OBSTAT","valid"], stampKo:["SUB","SUSPICIONE","doubtful result"]
+ }
+};
+
+const DOMS = {
+ FIL:{es:["Filosofía","FILOSOFÍA","metafísico"], it:["Filosofia","FILOSOFIA","metafisico"], en:["Philosophy","PHILOSOPHY","metaphysician"]},
+ TEO:{es:["Teología","TEOLOGÍA","escolástico"], it:["Teologia","TEOLOGIA","scolastico"], en:["Theology","THEOLOGY","schoolman"]},
+ PAT:{es:["Patrística","PATRÍSTICA","patrólogo"], it:["Patristica","PATRISTICA","patrologo"], en:["Patristics","PATRISTICS","patrologist"]},
+ LEN:{es:["Lenguas","LENGUAS ANTIGUAS","filólogo"], it:["Lingue","LINGUE ANTICHE","filologo"], en:["Languages","ANCIENT LANGUAGES","philologist"]},
+ LIT:{es:["Literatura","LITERATURA","bibliófilo"], it:["Letteratura","LETTERATURA","bibliofilo"], en:["Literature","LITERATURE","bibliophile"]},
+ HIS:{es:["Historia","HISTORIA Y ARTE","anticuario"], it:["Storia","STORIA E ARTE","antiquario"], en:["History","HISTORY AND ART","antiquarian"]},
+ CIEN:{es:["Ciencia","CIENCIA","científico"], it:["Scienza","SCIENZA","scientifico"], en:["Science","SCIENCE","scientist"]},
+ TEC:{es:["Tecnología","TECNOLOGÍA","tecnológico"], it:["Tecnologia","TECNOLOGIA","tecnologico"], en:["Technology","TECHNOLOGY","technologist"]},
+ POP:{es:["Cultura pop","CULTURA POP","cultura pop"], it:["Cultura pop","CULTURA POP","cultura pop"], en:["Pop culture","POP CULTURE","pop-culture buff"]},
+ GEN:{es:["","VARIA",""], it:["","VARIA",""], en:["","VARIA",""]}
+};
+const DOM_KEYS = ["FIL","TEO","PAT","LEN","LIT","HIS","CIEN","TEC","POP"];
+
+/* Razas: clave = Erudición, Obsesión, Adaptación (H alto / L bajo) */
+const RAZAS = {
+ HHH:{es:["Geek puro","Tu saber atrae: la gente se te acerca por lo que sabes y tú lo compartes con gracia."],
+      it:["Geek puro","Il tuo sapere attira: la gente ti cerca per ciò che sai e tu lo condividi con grazia."],
+      en:["Pure Geek","Your learning attracts: people seek you out for what you know, and you share it gracefully."]},
+ HHL:{es:["Nerd puro","Sabes, te obsesionas y la biblioteca te entiende mejor que la fiesta. La especie en estado puro."],
+      it:["Nerd puro","Sai, ti ossessioni e la biblioteca ti capisce meglio della festa. La specie allo stato puro."],
+      en:["Pure Nerd","You know, you obsess, and the library understands you better than the party. The species in its pure state."]},
+ HLH:{es:["Erudito","Sabio sociable: sabes mucho y no lo conviertes en obsesión. El buen profesor de sobremesa."],
+      it:["Erudito","Sapiente socievole: sai molto e non ne fai un’ossessione. Il buon professore da fine pasto."],
+      en:["Scholar","A sociable sage: you know a lot without turning it into an obsession. The ideal after-dinner professor."]},
+ HLL:{es:["Dweeb","Estudioso y retraído, pero sin pasiones «de nerd». El simple erudito de toda la vida."],
+      it:["Dweeb","Studioso e riservato, ma senza passioni «da nerd». Il classico secchione."],
+      en:["Dweeb","Studious and withdrawn, but without «nerdy» passions. The plain bookworm of old."]},
+ LHH:{es:["Fan","Entusiasta simpático: más pasión que fundamento. Tienes madera; falta biblioteca."],
+      it:["Fan","Entusiasta simpatico: più passione che fondamento. Hai la stoffa; manca la biblioteca."],
+      en:["Fan","A likeable enthusiast: more passion than grounding. You have the makings; the library is missing."]},
+ LHL:{es:["Dork","Obsesión y torpeza social, sin la erudición que las justificaría. Se te confunde con un nerd; no lo eres (todavía)."],
+      it:["Dork","Ossessione e goffaggine sociale, senza l’erudizione che le giustificherebbe. Ti scambiano per un nerd; non lo sei (ancora)."],
+      en:["Dork","Obsession and social awkwardness, without the learning to justify them. People mistake you for a nerd; you aren’t (yet)."]},
+ LLH:{es:["Muggle sociable","Ni erudición ni obsesión, pero caes bien a todos. Puedes sentirte tranquilamente excluido de esta excelsa sociedad."],
+      it:["Babbano socievole","Né erudizione né ossessione, ma stai simpatico a tutti. Puoi sentirti tranquillamente escluso da questa eccelsa società."],
+      en:["Sociable Muggle","Neither learning nor obsession, but everyone likes you. You may consider yourself happily excluded from this lofty society."]},
+ LLL:{es:["Muggle","Puedes sentirte tranquilamente excluido de esta excelsa sociedad."],
+      it:["Babbano","Puoi sentirti tranquillamente escluso da questa eccelsa società."],
+      en:["Muggle","You may consider yourself happily excluded from this lofty society."]}
+};
+
+const ALTER = {
+ leonard:{n:"Leonard Hofstadter", es:"profundidad, violonchelo y el nerd que consiguió cruzar el pasillo", it:"profondità, violoncello e il nerd che è riuscito ad attraversare il pianerottolo", en:"depth, a cello and the nerd who made it across the hallway"},
+ howard:{n:"Howard Wolowitz", es:"coleccionista de cacharros y cómics, con una anécdota para cada ocasión", it:"collezionista di aggeggi e fumetti, con un aneddoto per ogni occasione", en:"collector of gadgets and comics, with an anecdote for every occasion"},
+ bernadette:{n:"Bernadette Rostenkowski", es:"sabe muchísimo y lo lleva con desparpajo", it:"sa moltissimo e lo porta con disinvoltura", en:"knows a great deal and wears it lightly"},
+ sheldon:{n:"Sheldon Cooper", es:"erudición, pedantería y un sitio fijo en el sofá", it:"erudizione, pedanteria e un posto fisso sul divano", en:"erudition, pedantry and a fixed spot on the couch"},
+ amy:{n:"Amy Farrah Fowler", es:"rigor científico antes que manías", it:"rigore scientifico prima delle manie", en:"scientific rigour before quirks"},
+ raj:{n:"Raj Koothrappali", es:"tímido en sociedad, apasionado del universo geek", it:"timido in società, appassionato dell’universo geek", en:"shy in company, devoted to the geek universe"},
+ kripke:{n:"Barry Kripke", es:"torpeza social con comentarios fuera de lugar", it:"goffaggine sociale con commenti fuori luogo", en:"social awkwardness with out-of-place remarks"},
+ stuart:{n:"Stuart Bloom", es:"tienda de cómics, mucha pasión, poca suerte", it:"negozio di fumetti, tanta passione, poca fortuna", en:"comic-book store, lots of passion, little luck"},
+ penny:{n:"Penny", es:"no es nerd, pero tiene sentido común y cae bien a todos", it:"non è nerd, ma ha buon senso e sta simpatica a tutti", en:"not a nerd, but full of common sense and liked by all"},
+ zack:{n:"Zack Johnson", es:"entusiasta, simpático y completamente perdido", it:"entusiasta, simpatico e completamente perso", en:"enthusiastic, friendly and completely lost"},
+ missy:{n:"Missy Cooper", es:"lista, pero sin ningún interés en ser nerd", it:"sveglia, ma senza alcun interesse a essere nerd", en:"smart, but with no interest in being a nerd"},
+ mary:{n:"Mary Cooper", es:"fe sencilla y cero paciencia con la ciencia", it:"fede semplice e zero pazienza con la scienza", en:"simple faith and zero patience with science"},
+ georgie:{n:"Georgie Cooper", es:"el antinerd: simpático, práctico y alérgico a los libros", it:"l’antinerd: simpatico, pratico e allergico ai libri", en:"the anti-nerd: likeable, practical and allergic to books"},
+ kurt:{n:"Kurt", es:"el exnovio grandullón de Penny, que mira mal a los nerds", it:"l’ex fidanzato grosso di Penny, che guarda male i nerd", en:"Penny’s hulking ex, who glares at nerds"}
+};
+
+const ESCALA = [
+ [20,{es:"¿Nerd? ¡No, gracias!",it:"Nerd? No, grazie!",en:"Nerd? No, thanks!"}],
+ [30,{es:"Tal vez tuviste algún antepasado nerd en la familia.",it:"Forse hai avuto qualche antenato nerd in famiglia.",en:"Perhaps you had a nerd ancestor somewhere in the family."}],
+ [35,{es:"Algunos síntomas de nerdidad, bajo investigación.",it:"Alcuni sintomi di nerditudine, sotto indagine.",en:"Some symptoms of nerdiness, under investigation."}],
+ [40,{es:"Nerd dentro del clóset (aún no ha hecho outing).",it:"Nerd nell’armadio (non ha ancora fatto coming out).",en:"Closet nerd (not out yet)."}],
+ [45,{es:"Primeros síntomas manifiestos de nerdidad.",it:"Primi sintomi manifesti di nerditudine.",en:"First visible symptoms of nerdiness."}],
+ [50,{es:"Oh my gosh, I'm a nerd!!! (fase del «conocerse»).",it:"Oddio, sono un nerd!!! (fase del «conoscersi»).",en:"Oh my gosh, I'm a nerd!!! (the «know thyself» phase)."}],
+ [55,{es:"Ok, soy nerd, ¿y ahora qué? (fase del «aceptarse»).",it:"Ok, sono nerd, e adesso? (fase dell’«accettarsi»).",en:"OK, I’m a nerd. Now what? (the «accept thyself» phase)."}],
+ [60,{es:"Soy nerd y me gusta serlo (fase del «superarse»).",it:"Sono nerd e mi piace esserlo (fase del «superarsi»).",en:"I’m a nerd and I like it (the «surpass thyself» phase)."}],
+ [65,{es:"Nerd 2.0 plus potenciado (no necesitabas hacer un test de nerdidad).",it:"Nerd 2.0 plus potenziato (non ti serviva un test di nerditudine).",en:"Nerd 2.0 Plus, turbocharged (you didn’t need a nerdiness test)."}],
+ [70,{es:"«The revenge of the nerds» se ha inspirado en personas como tú.",it:"«La rivincita dei nerds» si è ispirato a persone come te.",en:"«Revenge of the Nerds» was inspired by people like you."}],
+ [75,{es:"Eres un nerd patológico obsesivo-compulsivo.",it:"Sei un nerd patologico ossessivo-compulsivo.",en:"You are a pathologically obsessive-compulsive nerd."}],
+ [80,{es:"Los mutantes existen.",it:"I mutanti esistono.",en:"Mutants exist."}],
+ [85,{es:"Las leyes de Asimov podrían o no podrían aplicarse a ti.",it:"Le leggi di Asimov potrebbero o non potrebbero applicarsi a te.",en:"Asimov’s laws may or may not apply to you."}],
+ [90,{es:"Oh no! La mente de Einstein ha sido enchufada a Matrix.",it:"Oh no! La mente di Einstein è stata collegata a Matrix.",en:"Oh no! Einstein’s mind has been plugged into the Matrix."}],
+ [95,{es:"Salve, oh Maestro Nerd: en tu honor ofrezco holocaustos de terabits de información clasificada.",it:"Salve, o Maestro Nerd: in tuo onore offro olocausti di terabit di informazioni riservate.",en:"Hail, O Nerd Master: in your honour I offer holocausts of terabits of classified data."}],
+ [100,{es:"Eres un ens rationis que ha superado el principio de no contradicción.",it:"Sei un ens rationis che ha superato il principio di non contraddizione.",en:"You are an ens rationis that has transcended the principle of non-contradiction."}]
+];
+
+/* Frases bajo cada pregunta: las latinas valen para los tres idiomas */
+const VIDETUR = [
+ {es:"Videtur quod sic. Sed contra: no vale buscarlo ahora en el móvil.",it:"Videtur quod sic. Sed contra: non vale cercarlo ora sul telefono.",en:"Videtur quod sic. Sed contra: no googling it now."},
+ {es:"Respondeo dicendum: con sinceridad, que Tomás lo sabría.",it:"Respondeo dicendum: con sincerità, Tommaso lo saprebbe.",en:"Respondeo dicendum: honestly, Aquinas would know."},
+ {es:"Sed contra est quod dicitur: la primera respuesta es la que cuenta.",it:"Sed contra est quod dicitur: conta la prima risposta.",en:"Sed contra est quod dicitur: first answer counts."},
+ {es:"Ad primum ergo dicendum: «no sé» también es una respuesta honrada.",it:"Ad primum ergo dicendum: «non so» è anche una risposta onesta.",en:"Ad primum ergo dicendum: «I don’t know» is an honest answer too."},
+ {es:"Praeterea: nadie te está mirando (salvo The Matrix).",it:"Praeterea: nessuno ti guarda (tranne The Matrix).",en:"Praeterea: nobody is watching (except The Matrix)."},
+ {es:"Distinguo: concedo que es difícil; nego que sea imposible.",it:"Distinguo: concedo che sia difficile; nego che sia impossibile.",en:"Distinguo: I grant it is hard; I deny it is impossible."},
+ "Cogito, ergo nerd sum.",
+ "Dubito, ergo respondeo.",
+ {es:"Id quo maius cogitari nequit: una pregunta más difícil que ésta.",it:"Id quo maius cogitari nequit: una domanda più difficile di questa.",en:"Id quo maius cogitari nequit: a question harder than this one."},
+ {es:"Sapere aude: atrévete a responder sin Google.",it:"Sapere aude: abbi il coraggio di rispondere senza Google.",en:"Sapere aude: dare to answer without Google."},
+ {es:"El cielo estrellado sobre mí y el wifi apagado dentro de mí.",it:"Il cielo stellato sopra di me e il wi-fi spento dentro di me.",en:"The starry heavens above me and the Wi-Fi switched off within me."},
+ {es:"Obra de tal modo que tu respuesta pueda valer como ley universal del test.",it:"Agisci in modo che la tua risposta possa valere come legge universale del test.",en:"Act so that your answer could become a universal law of the test."},
+ {es:"De lo que no se puede hablar, mejor pulsar «No sé de qué me hablas».",it:"Su ciò di cui non si può parlare, meglio premere «Non so di cosa parli».",en:"Whereof one cannot speak, thereof one should press «No idea what you mean»."},
+ {es:"Los límites de mi lenguaje son los límites de mi nerdidad.",it:"I limiti del mio linguaggio sono i limiti della mia nerditudine.",en:"The limits of my language are the limits of my nerdiness."},
+ {es:"Lo verdadero es lo entero: responde las sesenta.",it:"Il vero è l’intero: rispondi a tutte e sessanta.",en:"The true is the whole: answer all sixty."},
+ {es:"Todo lo racional es nerd, y todo lo nerd es racional.",it:"Tutto ciò che è razionale è nerd, e tutto ciò che è nerd è razionale.",en:"What is rational is nerdy, and what is nerdy is rational."},
+ {es:"La lechuza de Minerva sólo emprende el vuelo al terminar el test.",it:"La nottola di Minerva spicca il volo solo alla fine del test.",en:"The owl of Minerva spreads its wings only when the test is over."},
+ "Esse est responderi.",
+ "Nihil est in intellectu quod prius non fuerit in Wikipedia.",
+ {es:"Credo ut intelligam; respondeo ut sciam (cuán nerd soy).",it:"Credo ut intelligam; respondeo ut sciam (quanto sono nerd).",en:"Credo ut intelligam; respondeo ut sciam (how nerdy I am)."},
+ "Tolle, lege… et responde.",
+ {es:"Sólo sé que no sé nada. Pero sí sé qué es el Filioque.",it:"So solo di non sapere nulla. Ma so cos’è il Filioque.",en:"I only know that I know nothing. But I do know what the Filioque is."},
+ {es:"Entia non sunt multiplicanda praeter necessitatem: tampoco las dudas.",it:"Entia non sunt multiplicanda praeter necessitatem: nemmeno i dubbi.",en:"Entia non sunt multiplicanda praeter necessitatem: nor are doubts."},
+ {es:"El corazón tiene razones que la razón no conoce. El test, también.",it:"Il cuore ha le sue ragioni che la ragione non conosce. Anche il test.",en:"The heart has its reasons which reason knows not. So does the test."},
+ "Gratia non tollit naturam, sed perficit nerditatem.",
+ {es:"El ser se dice de muchas maneras; el «sí», de una sola.",it:"L’essere si dice in molti modi; il «sì», in uno solo.",en:"Being is said in many ways; «yes», in only one."},
+ "Ama et fac quod vis. Responde et vide quis sis.",
+ {es:"Pienso, luego existo; contesto, luego me clasifican.",it:"Penso, dunque sono; rispondo, dunque mi classificano.",en:"I think, therefore I am; I answer, therefore I am classified."},
+ {es:"Hay más cosas en el cielo y en la tierra de las que sueña tu filosofía, Horacio. Y más preguntas.",it:"Ci sono più cose in cielo e in terra di quante ne sogni la tua filosofia, Orazio. E più domande.",en:"There are more things in heaven and earth than are dreamt of in your philosophy, Horatio. And more questions."}
+];
+
+</script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- Idioma ---------- */
+let LANG = "es";
+try { LANG = localStorage.getItem("nerditas-lang") || ""; } catch(e) { LANG = ""; }
+if(!UI[LANG]) { const nl = (navigator.language || "es").slice(0,2); LANG = UI[nl] ? nl : "es"; }
+const T = k => UI[LANG][k];
+const tx = o => typeof o === "string" ? o : o[LANG];
+function $(id){ return document.getElementById(id); }
+
+function applyLang(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll("[data-t]").forEach(el => { el.textContent = T(el.dataset.t); });
+  $("lang").setAttribute("aria-label", T("lang"));
+  ["HHH","HHL","HLH","HLL","LHH","LHL","LLH","LLL"].forEach(k => { $("z-"+k).textContent = RAZAS[k][LANG][0]; });
+  $("venn").setAttribute("aria-label", T("thLead"));
+  document.querySelectorAll("#lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === LANG ? "true" : "false"));
+}
+LANGS.forEach(([code,name]) => {
+  const b = document.createElement("button"); b.type="button"; b.dataset.l = code; b.textContent = code.toUpperCase(); b.title = name;
+  b.addEventListener("click", () => { LANG = code; try{ localStorage.setItem("nerditas-lang", code); }catch(e){} applyLang(); });
+  $("lang").append(b);
+});
+applyLang();
+
+/* ---------- Utilidades ---------- */
+function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function roman(n){ const m=[[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]]; let s=""; for(const [v,r] of m){ while(n>=v){ s+=r; n-=v; } } return s; }
+function axes(it){ const a=it.ax||""; return {I:a.includes("I"), O:a.includes("O"), A:a.includes("G")||a.includes("g"), arev:a.includes("g"), P:a.includes("P"), E:a.includes("E"), C:a.includes("C")}; }
+function qtext(q){ return LANG === "es" ? q.t.es : q.t[LANG]; }
+
+/* ---------- Sorteo de 60 ---------- */
+function sortear(){
+  const ver = shuffle(VER).slice(0,5);
+  const val = shuffle(VAL).slice(0,3);
+  const popMax = 5 - ver.filter(v=>v.d==="POP").length;
+  const pool = shuffle(BANK);
+  const used = new Set(); const out = [];
+  const take = it => { used.add(it.id); out.push(it); };
+  DOM_KEYS.filter(d=>d!=="POP").forEach(d => pool.filter(it=>it.d===d).slice(0,3).forEach(take));
+  pool.filter(it=>it.d==="POP").slice(0,popMax).forEach(take);
+  const count = () => { const c={I:0,O:0,A:0,P:0,E:0,C:0}; out.forEach(it=>{const a=axes(it); ["I","O","A","P","E","C"].forEach(k=>{ if(a[k]) c[k]++; });}); return c; };
+  const TARGET = {A:14, P:4, E:4, C:2};
+  while(out.length < 52){
+    const c = count();
+    let need = ["A","P","E","C"].find(k => c[k] < TARGET[k]);
+    if(!need) need = ["I","O"].sort((x,y)=>c[x]-c[y])[0];
+    let next = pool.find(it => !used.has(it.id) && (it.d!=="POP" || need==="C") && axes(it)[need]);
+    if(!next) next = pool.find(it => !used.has(it.id) && it.d!=="POP");
+    if(!next) break;
+    take(next);
+  }
+  return shuffle(out.concat(ver, val));
+}
+
+/* ---------- Flujo ---------- */
+let QS = [], idx = 0, ANS = {}, VORDER = [], LAST = null;
+function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on")); $(id).classList.add("on"); window.scrollTo(0,0); }
+function start(){ QS = sortear(); idx = 0; ANS = {}; VORDER = shuffle(VIDETUR); show("s-pregunta"); renderQ(); }
+
+function renderQ(){
+  const q = QS[idx], n = idx+1;
+  $("q-num").textContent = T("q") + " " + n + " / " + QS.length;
+  $("q-tag").textContent = DOMS[q.d][LANG][1];
+  $("q-prog").style.width = (idx / QS.length * 100) + "%";
+  $("q-art").textContent = T("art") + " " + roman(n);
+  $("q-text").textContent = qtext(q);
+  $("q-videtur").textContent = tx(VORDER[idx % VORDER.length]);
+  const box = $("q-answers"); box.textContent = "";
+  if(q.tipo === "ver"){
+    q.o[LANG].forEach((o,i) => {
+      const b = document.createElement("button"); b.type="button"; b.className="btn opt";
+      const k = document.createElement("b"); k.textContent = "ABCD"[i];
+      const s = document.createElement("span"); s.textContent = o;
+      b.append(k, s); b.addEventListener("click", () => answer(i)); box.append(b);
+    });
+  } else {
+    [[T("yes"),"si","btn solid"],[T("no"),"no","btn outline"],[T("ns"),"ns","btn link"]].forEach(([lab,val,cls]) => {
+      const b = document.createElement("button"); b.type="button"; b.className=cls; b.textContent=lab;
+      b.addEventListener("click", () => answer(val)); box.append(b);
+    });
+  }
+}
+function answer(v){ ANS[QS[idx].id] = v; idx++; if(idx < QS.length) renderQ(); else finish(); }
+
+/* ---------- Cálculo ---------- */
+function calcular(){
+  const sc={I:0,O:0,A:0,P:0,E:0,C:0}, mx={I:0,O:0,A:0,P:0,E:0,C:0};
+  const dom={}; DOM_KEYS.forEach(k=>dom[k]={y:0,n:0});
+  let pts=0, tot=0, valYes=0, afN=0, afY=0;
+  QS.forEach(q => {
+    const a = ANS[q.id];
+    if(q.tipo === "val"){ if(a==="si") valYes++; return; }
+    if(q.tipo === "ver"){
+      const ok = a === q.c;
+      mx.I += 2; if(ok) sc.I += 2;
+      tot++; if(ok) pts++;
+      if(dom[q.d]){ dom[q.d].n++; if(ok) dom[q.d].y++; }
+      return;
+    }
+    const ax = axes(q), si = a === "si";
+    if(q.d==="POP" || ((q.d==="TEC" || q.d==="CIEN") && ax.O)){ afN++; if(si) afY++; }
+    if(ax.A){ mx.A += 1; if(ax.arev ? !si : si) sc.A += 1; }
+    ["I","O","P","E","C"].forEach(k => { if(ax[k]){ mx[k]++; if(si) sc[k]++; } });
+    if(ax.I || ax.O || ax.P || ax.E){ tot++; if(si) pts++; }
+    if(dom[q.d]){ dom[q.d].n++; if(si) dom[q.d].y++; }
+  });
+  const pct = k => mx[k] ? Math.round(sc[k]/mx[k]*100) : 0;
+  const ejes = {E:pct("I"), O:pct("O"), A:pct("A")};
+  const P = pct("P"), Est = pct("E"), Col = mx.C ? pct("C") : 0;
+  const afic = afN ? Math.round(afY/afN*100) : 0;
+  const nivel = tot ? Math.round(pts/tot*100) : 0;
+  const key = ["E","O","A"].map(k => ejes[k]>=50?"H":"L").join("");
+  const muggle = key.startsWith("LL");
+  const aspirante = !muggle && nivel < 50;
+  // con rasgos de… (el conjunto más cercano al 50 %)
+  let rasgos = "";
+  const near = ["E","O","A"].filter(k => Math.abs(ejes[k]-50) <= 5).sort((x,y)=>Math.abs(ejes[x]-50)-Math.abs(ejes[y]-50))[0];
+  if(near){ const i = ["E","O","A"].indexOf(near); const alt = key.split(""); alt[i] = alt[i]==="H"?"L":"H"; const k2 = alt.join(""); if(k2 !== key) rasgos = k2; }
+  // subclase: disciplina dominante (híbrida si las dos primeras están a menos de 10 puntos)
+  const domPct = DOM_KEYS.map(k => ({k, v: dom[k].n ? Math.round(dom[k].y/dom[k].n*100) : 0, n: dom[k].n})).filter(x=>x.n>0).sort((a,b)=>b.v-a.v);
+  const sub = [domPct[0].k]; if(domPct[1] && domPct[0].v - domPct[1].v < 10) sub.push(domPct[1].k);
+  // alter ego
+  let alter;
+  if(muggle) alter = ejes.A >= 50 ? "georgie" : "kurt";
+  else if(aspirante){
+    if(sub[0]==="TEO" || sub[0]==="PAT") alter = "mary";
+    else if(ejes.E < 30) alter = "zack";
+    else if(ejes.A >= 50) alter = "penny";
+    else alter = "missy";
+  } // Geek puro: Leonard es el geek profundo (erudición ≥ 70 %); Howard, el más superficial o muy coleccionista
+  else if(key==="HHH") alter = (Col >= 50 || ejes.E < 70) ? "howard" : "leonard";
+  else if(key==="HLH") alter = "bernadette";
+  else if(key==="HHL") alter = (ejes.A < 35 && P >= 50) ? "kripke" : (afic >= 60 && P < 50) ? "raj" : "sheldon";
+  else if(key==="HLL") alter = "amy";
+  else alter = "stuart";
+  const frase = (ESCALA.find(([max]) => nivel <= max) || ESCALA[ESCALA.length-1])[1];
+  return {ejes, P, Est, afic, nivel, key, muggle, aspirante, rasgos, domPct, sub, alter, frase, sospecha: valYes>=2};
+}
+
+/* ---------- Resultado ---------- */
+function especieTxt(r){ return r.sub.map(k => DOMS[k][LANG][2]).join("-"); }
+function razaTxt(r){ return RAZAS[r.key][LANG][0]; }
+function eresTxt(r){ return r.aspirante ? T("youAreAsp") : T("youAre"); }
+
+function finish(){ LAST = calcular(); renderResult(); show("s-resultado"); }
+
+function renderResult(){
+  const r = LAST; if(!r) return;
+  $("r-eres").textContent = eresTxt(r);
+  $("r-perfil").textContent = razaTxt(r);
+  $("r-especie").textContent = especieTxt(r);
+  $("r-rasgos").textContent = r.rasgos ? T("traits") + " " + RAZAS[r.rasgos][LANG][0] : "";
+  const al = ALTER[r.alter];
+  $("r-alter").textContent = "";
+  const ab = document.createElement("b"); ab.textContent = T("alter").toUpperCase();
+  $("r-alter").append(ab, document.createTextNode(al.n + " — " + al[LANG]));
+  $("r-nivel").textContent = r.nivel;
+  $("r-frase").textContent = r.frase[LANG];
+  $("r-dork").textContent = r.key==="LHL" ? T("dork") : "";
+  $("r-desc").textContent = RAZAS[r.key][LANG][1];
+  const st = $("r-stamp"); st.textContent = "";
+  const sl = r.sospecha ? T("stampKo") : T("stampOk");
+  [sl[0], sl[1]].forEach(l => { const s=document.createElement("span"); s.textContent=l; st.append(s); });
+  const sm = document.createElement("small"); sm.textContent = sl[2]; st.append(sm);
+  $("r-validez").textContent = r.sospecha ? T("suspect") : "";
+
+  const ej = $("r-ejes"); ej.textContent = "";
+  [["E",T("axE")],["O",T("axO")],["A",T("axA")]].forEach(([k,lab]) => {
+    const w = document.createElement("div"); w.className="eje";
+    const l = document.createElement("div"); l.className="lab";
+    const a = document.createElement("span"); a.textContent = lab;
+    const b = document.createElement("span"); b.textContent = r.ejes[k] + " %";
+    l.append(a,b);
+    const t = document.createElement("div"); t.className="track"; t.setAttribute("role","img"); t.setAttribute("aria-label", lab + ": " + r.ejes[k] + " %");
+    const f = document.createElement("div"); f.className="fill"; f.style.width = r.ejes[k] + "%";
+    const m = document.createElement("div"); m.className="mid";
+    t.append(f,m); w.append(l,t); ej.append(w);
+  });
+  $("r-indices").textContent = T("pedant") + " " + r.P + " % · " + T("aesth") + " " + r.Est + " %";
+
+  const dm = $("r-doms"); dm.textContent = "";
+  r.domPct.forEach((x,i) => {
+    const row = document.createElement("div"); row.className = "dom" + (i===0?" top":"");
+    const a = document.createElement("span"); a.textContent = DOMS[x.k][LANG][0];
+    const t = document.createElement("div"); t.className="t";
+    const f = document.createElement("div"); f.style.width = x.v + "%"; t.append(f);
+    const v = document.createElement("span"); v.className="v"; v.textContent = x.v + "%";
+    row.append(a,t,v); dm.append(row);
+  });
+
+  const vr = $("r-ver"); vr.textContent = "";
+  QS.filter(q=>q.tipo==="ver").forEach(q => {
+    const p = document.createElement("p"); p.className="ver";
+    const ok = ANS[q.id] === q.c;
+    const mark = document.createElement("span"); mark.className = ok?"ok":"ko"; mark.textContent = ok ? "BENE  " : "MALE  ";
+    p.append(mark, document.createTextNode((LANG==="es"?"¿":"") + q.t[LANG] + " → " + q.o[LANG][q.c]));
+    vr.append(p);
+  });
+}
+
+/* ---------- Tarjeta-imagen para compartir ---------- */
+function wrap(ctx, text, x, y, maxW, lh){
+  const words = text.split(" "); let line = ""; let yy = y;
+  for(const w of words){ const test = line ? line + " " + w : w; if(ctx.measureText(test).width > maxW && line){ ctx.fillText(line, x, yy); line = w; yy += lh; } else line = test; }
+  if(line) ctx.fillText(line, x, yy); return yy + lh;
+}
+async function tarjeta(){
+  const r = LAST;
+  try { await Promise.all(["44px 'IM Fell English SC'","italic 40px 'IM Fell English'","40px 'IM Fell English'","600 30px 'JetBrains Mono'"].map(f => document.fonts.load(f))); } catch(e){}
+  const W=1080, H=1350, c=document.createElement("canvas"); c.width=W; c.height=H;
+  const x=c.getContext("2d"); const M=84;
+  x.fillStyle="#121A2E"; x.fillRect(0,0,W,H);
+  x.fillStyle="#9AA3B8"; x.font="400 26px 'JetBrains Mono', monospace"; x.textBaseline="alphabetic";
+  x.fillText("INDEX NERDITATIS · " + T("res"), M, 110);
+  x.fillStyle="#2E3854"; x.fillRect(M,138,W-2*M,2);
+  // sello
+  x.save(); x.translate(W-M-110, 290); x.rotate(-14*Math.PI/180);
+  x.strokeStyle="#E2553F"; x.lineWidth=5; x.beginPath(); x.arc(0,0,105,0,Math.PI*2); x.stroke();
+  x.fillStyle="#E2553F"; x.textAlign="center"; x.font="600 26px 'JetBrains Mono', monospace";
+  const sl = r.sospecha ? T("stampKo") : T("stampOk");
+  x.fillText(sl[0],0,-12); x.fillText(sl[1],0,22); x.font="400 15px 'JetBrains Mono', monospace"; x.fillText(sl[2],0,50);
+  x.restore(); x.textAlign="left";
+  // raza
+  x.fillStyle="#9AA3B8"; x.font="400 28px 'JetBrains Mono', monospace"; x.fillText(eresTxt(r), M, 230);
+  x.fillStyle="#EDE6D6"; x.font="400 104px 'IM Fell English SC', Georgia, serif";
+  let y = wrap(x, razaTxt(r), M, 340, W-2*M-240, 104);
+  x.fillStyle="#E2553F"; x.font="italic 64px 'IM Fell English', Georgia, serif";
+  y = wrap(x, especieTxt(r), M, y-14, W-2*M, 70);
+  if(r.rasgos){ x.fillStyle="#C9C2B2"; x.font="400 26px 'JetBrains Mono', monospace"; x.fillText(T("traits") + " " + RAZAS[r.rasgos][LANG][0], M, y+4); y += 40; }
+  // alter ego
+  y += 30; x.fillStyle="#9AA3B8"; x.font="400 24px 'JetBrains Mono', monospace"; x.fillText(T("alter").toUpperCase(), M, y);
+  x.fillStyle="#EDE6D6"; x.font="400 44px 'IM Fell English', Georgia, serif"; y = wrap(x, ALTER[r.alter].n, M, y+52, W-2*M, 50);
+  // nivel
+  y += 20; x.fillStyle="#2E3854"; x.fillRect(M,y,W-2*M,2);
+  x.fillStyle="#EDE6D6"; x.font="600 120px 'JetBrains Mono', monospace"; x.fillText(String(r.nivel), M, y+140);
+  const nw = x.measureText(String(r.nivel)).width;
+  x.fillStyle="#C9C2B2"; x.font="italic 36px 'IM Fell English', Georgia, serif";
+  wrap(x, r.frase[LANG], M+nw+40, y+70, W-2*M-nw-40, 44);
+  y += 190; x.fillStyle="#2E3854"; x.fillRect(M,y,W-2*M,2);
+  // barras
+  y += 60;
+  [["E",T("axE")],["O",T("axO")],["A",T("axA")]].forEach(([k,lab]) => {
+    x.fillStyle="#EDE6D6"; x.font="400 28px 'JetBrains Mono', monospace"; x.fillText(lab, M, y);
+    x.textAlign="right"; x.fillText(r.ejes[k]+" %", W-M, y); x.textAlign="left";
+    x.fillStyle="#2E3854"; x.fillRect(M, y+16, W-2*M, 18);
+    x.fillStyle="#EDE6D6"; x.fillRect(M, y+16, (W-2*M)*r.ejes[k]/100, 18);
+    x.fillStyle="#9AA3B8"; x.fillRect(M+(W-2*M)/2-1, y+8, 3, 34);
+    y += 84;
+  });
+  // pie
+  x.fillStyle="#E2553F"; x.strokeStyle="#E2553F"; x.lineWidth=3; x.strokeRect(M, H-150, 64, 72);
+  x.font="400 66px 'IM Fell English SC', Georgia, serif"; x.textAlign="center"; x.fillText("N", M+32, H-92); x.textAlign="left";
+  x.fillStyle="#EDE6D6"; x.font="400 44px 'IM Fell English SC', Georgia, serif"; x.fillText("erditas", M+70, H-98);
+  x.fillStyle="#9AA3B8"; x.font="400 22px 'JetBrains Mono', monospace";
+  const where = (location.protocol.startsWith("http") ? location.host + location.pathname.replace(/index\.html$/,"") : "Index nerditatis v2.0");
+  x.fillText(where, M, H-56);
+  return new Promise(res => c.toBlob(b => res(b), "image/png"));
+}
+function shareText(){ const r = LAST; return T("shareTxt") + " " + razaTxt(r) + " (" + especieTxt(r) + "), " + T("level") + " " + r.nivel + ". " + T("alter") + ": " + ALTER[r.alter].n + "."; }
+let lastURL = null;
+function openModal(blob){
+  if(lastURL) URL.revokeObjectURL(lastURL);
+  lastURL = URL.createObjectURL(blob);
+  $("m-img").src = lastURL; $("m-img").alt = shareText(); $("m-dl").href = lastURL;
+  $("modal").classList.add("on"); $("m-close").focus();
+}
+async function compartir(){
+  if(!LAST) return;
+  const blob = await tarjeta(); if(!blob) return;
+  const file = new File([blob], "nerditas.png", {type:"image/png"});
+  try {
+    if(navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file], text: shareText(), title:"Nerditas"}); return; }
+  } catch(e){ if(e && e.name === "AbortError") return; }
+  openModal(blob);
+}
+async function guardarImagen(){ if(!LAST) return; const blob = await tarjeta(); if(blob) openModal(blob); }
+
+/* ---------- Botones ---------- */
+$("b-start").addEventListener("click", () => show("s-teoria"));
+$("b-go").addEventListener("click", start);
+$("b-again").addEventListener("click", start);
+$("b-share").addEventListener("click", compartir);
+$("b-save").addEventListener("click", guardarImagen);
+$("m-close").addEventListener("click", () => $("modal").classList.remove("on"));
+})();
+if ("serviceWorker" in navigator) { window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); }); }
+</script>
+</body>
+</html>
