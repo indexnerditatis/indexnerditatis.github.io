@@ -202,6 +202,7 @@
     <div class="nivel"><div class="n" id="r-nivel"></div><p id="r-frase"></p></div>
     <div class="dork" id="r-dork"></div>
     <p class="desc" id="r-desc"></p>
+    <p class="desc" id="r-ciencia" style="font-size:16px;border-left:2px solid var(--green);padding-left:12px;color:var(--parch2)"></p>
     <p class="desc" id="r-validez" style="font-style:italic;color:var(--parch2)"></p>
 
     <div class="section-h" data-t="axesH"></div>
@@ -557,6 +558,7 @@ const UI = {
   shareTxt:"Según Nerditas soy", level:"nivel",
   saveHint:"Mantén pulsada la imagen para guardarla o compartirla.", close:"Cerrar",
   stampOk:["NIHIL","OBSTAT","validez ok"], stampKo:["SUB","SUSPICIONE","resultado dudoso"],
+  sciNote:"Nota bene: tu nerdidad parece más de bata blanca que de biblioteca. Este test es para nerds de letras; quedas a la espera del futuro Index nerditatis scientificae, para candidatos al MIT.",
   footStats:"* Tus respuestas no salen de tu teléfono, salvo que al final decidas donarlas, anónimamente, a la ciencia nerd (atentamente, The Matrix).",
   askDonate:"¿Quieres donar tu resultado, anónimamente, a la ciencia nerd? Sin nombre ni correo: sólo la sentencia y las respuestas.",
   donateYes:"SÍ, DONAR", donateNo:"No, gracias",
@@ -597,6 +599,7 @@ const UI = {
   shareTxt:"Secondo Nerditas sono", level:"livello",
   saveHint:"Tieni premuta l’immagine per salvarla o condividerla.", close:"Chiudi",
   stampOk:["NIHIL","OBSTAT","validità ok"], stampKo:["SUB","SUSPICIONE","risultato dubbio"],
+  sciNote:"Nota bene: la tua nerditudine sembra più da camice bianco che da biblioteca. Questo test è per nerd umanisti; resti in attesa del futuro Index nerditatis scientificae, per aspiranti al MIT.",
   footStats:"* Le tue risposte non escono dal telefono, a meno che alla fine tu decida di donarle, in forma anonima, alla scienza nerd (cordialmente, The Matrix).",
   askDonate:"Vuoi donare il tuo risultato, in forma anonima, alla scienza nerd? Niente nome né e-mail: solo la sentenza e le risposte.",
   donateYes:"SÌ, DONA", donateNo:"No, grazie",
@@ -637,6 +640,7 @@ const UI = {
   shareTxt:"According to Nerditas I am", level:"level",
   saveHint:"Press and hold the image to save or share it.", close:"Close",
   stampOk:["NIHIL","OBSTAT","valid"], stampKo:["SUB","SUSPICIONE","doubtful result"],
+  sciNote:"Nota bene: your nerdiness looks more lab coat than library. This test is for humanities nerds; stay tuned for the future Index nerditatis scientificae, for MIT hopefuls.",
   footStats:"* Your answers never leave your phone, unless at the end you choose to donate them, anonymously, to nerd science (sincerely, The Matrix).",
   askDonate:"Would you like to donate your result, anonymously, to nerd science? No name or email: just the sentence and the answers.",
   donateYes:"YES, DONATE", donateNo:"No, thanks",
@@ -921,7 +925,11 @@ function calcular(){
   else if(key==="HLL") alter = "amy";
   else alter = "stuart";
   const frase = (ESCALA.find(([max]) => nivel <= max) || ESCALA[ESCALA.length-1])[1];
-  return {ejes, P, Est, afic, nivel, key, muggle, aspirante, rasgos, domPct, sub, alter, frase, sospecha: valYes>=2};
+  // ¿nerd más científico que humanista?
+  const dv = k => (dom[k] && dom[k].n) ? dom[k].y/dom[k].n*100 : null;
+  const avg = ks => { const v = ks.map(dv).filter(x=>x!==null); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : 0; };
+  const cientifico = (["CIEN","TEC"].includes(sub[0]) && domPct[0].v >= 50) || (avg(["CIEN","TEC"]) >= 40 && avg(["CIEN","TEC"]) - avg(["FIL","TEO","PAT","LEN","LIT","HIS"]) >= 20);
+  return {cientifico, ejes, P, Est, afic, nivel, key, muggle, aspirante, rasgos, domPct, sub, alter, frase, sospecha: valYes>=2};
 }
 
 /* ---------- Resultado ---------- */
@@ -973,6 +981,8 @@ function renderResult(){
   [sl[0], sl[1]].forEach(l => { const s=document.createElement("span"); s.textContent=l; st.append(s); });
   const sm = document.createElement("small"); sm.textContent = sl[2]; st.append(sm);
   $("r-validez").textContent = r.sospecha ? T("suspect") : "";
+  $("r-ciencia").textContent = r.cientifico ? T("sciNote") : "";
+  $("r-ciencia").style.display = r.cientifico ? "" : "none";
 
   const ej = $("r-ejes"); ej.textContent = "";
   [["E",T("axE")],["O",T("axO")],["A",T("axA")]].forEach(([k,lab]) => {
