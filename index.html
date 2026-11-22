@@ -233,8 +233,8 @@
       <div class="stamp" id="r-stamp" aria-hidden="true"></div>
     </div>
     <p class="alter" id="r-alter"></p>
-    <p class="alter titulo" id="r-titulo"></p>
     <button class="btn link gal" type="button" data-t="gallery"></button>
+    <p class="alter titulo" id="r-titulo"></p>
     <div class="nivel"><div class="n" id="r-nivel"></div><p id="r-frase"></p></div>
     <div class="dork" id="r-dork"></div>
     <div class="dork" id="r-reinc" style="color:var(--green)"></div>
@@ -645,13 +645,13 @@ const MCQ = [
  /* Ciencia y tecnología */
  M("MC-C01","CYT","CIEN",1,{es:"Cuál es el sexto gas noble?",it:"Qual è il sesto gas nobile?",en:"What is the sixth noble gas?"},
    {es:["Xenón","Radón","Kriptón"],it:["Xeno","Radon","Kripton"],en:["Xenon","Radon","Krypton"]},
-   {es:"Pista: es radiactivo y se acumula en los sótanos.",it:"Indizio: è radioattivo e si accumula nelle cantine.",en:"Hint: it’s radioactive and collects in basements."}),
+   {es:"Pista: si no sabes química pero has visto The Big Bang Theory, el nombre te sonará.",it:"Indizio: se non sai la chimica ma hai visto The Big Bang Theory, il nome ti suonerà familiare.",en:"Hint: if you don’t know chemistry but you’ve watched The Big Bang Theory, the name will ring a bell."}),
  M("MC-C02","CYT","TEC",0,{es:"Qué significa la «S» de HTTPS?",it:"Che cosa significa la «S» di HTTPS?",en:"What does the «S» in HTTPS stand for?"},
    {es:["Secure (seguro)","Server (servidor)","Simple"],it:["Secure (sicuro)","Server","Simple"],en:["Secure","Server","Simple"]},
    {es:"Pista: es lo que indica el candado del navegador.",it:"Indizio: è ciò che indica il lucchetto del browser.",en:"Hint: it’s what the padlock in your browser means."}),
  M("MC-C03","CYT","CIEN",1,{es:"Qué número es, según Sheldon Cooper, «el Chuck Norris de los números»?",it:"Quale numero è, secondo Sheldon Cooper, «il Chuck Norris dei numeri»?",en:"Which number is, according to Sheldon Cooper, «the Chuck Norris of numbers»?"},
    {es:["42","73","7"],it:["42","73","7"],en:["42","73","7"]},
-   {es:"Pista: es el 21.º número primo.",it:"Indizio: è il 21° numero primo.",en:"Hint: it’s the 21st prime number."}),
+   {es:"Pista: es el 21.º número primo, y Sheldon lo explica en el episodio 73 de The Big Bang Theory («The Alien Parasite Hypothesis», 4.ª temporada).",it:"Indizio: è il 21° numero primo, e Sheldon lo spiega nell’episodio 73 di The Big Bang Theory («The Alien Parasite Hypothesis», 4ª stagione).",en:"Hint: it’s the 21st prime, and Sheldon explains it in episode 73 of The Big Bang Theory («The Alien Parasite Hypothesis», season 4)."}),
  M("MC-C04","CYT","CIEN",0,{es:"Cuál es, aproximadamente, el número de Avogadro?",it:"Qual è, circa, il numero di Avogadro?",en:"Roughly, what is Avogadro’s number?"},
    {es:["6,022 × 10²³","3,14 × 10⁸","9,81 × 10⁶"],it:["6,022 × 10²³","3,14 × 10⁸","9,81 × 10⁶"],en:["6.022 × 10²³","3.14 × 10⁸","9.81 × 10⁶"]},
    {es:"Pista: cuenta las partículas de un mol.",it:"Indizio: conta le particelle di una mole.",en:"Hint: it counts the particles in a mole."}),
@@ -685,7 +685,7 @@ const MCQ = [
    {es:"Pista: es la escritura de los elfos, aunque la lengua sea de Mordor.",it:"Indizio: è la scrittura degli elfi, anche se la lingua è di Mordor.",en:"Hint: it’s the elves’ script, though the language is Mordor’s."}),
  M("MC-P02","POP","POP",0,{es:"Cuál es la respuesta a la pregunta fundamental sobre la vida, el universo y todo lo demás?",it:"Qual è la risposta alla domanda fondamentale sulla vita, l’universo e tutto quanto?",en:"What is the answer to the ultimate question of life, the universe and everything?"},
    {es:["42","73","7"],it:["42","73","7"],en:["42","73","7"]},
-   {es:"Pista: la calculó Pensamiento Profundo en siete millones y medio de años.",it:"Indizio: la calcolò Pensiero Profondo in sette milioni e mezzo di anni.",en:"Hint: Deep Thought took seven and a half million years to compute it."}),
+   {es:"Pista: la calculó Pensamiento Profundo en siete millones y medio de años. ¿No has leído la Guía del autoestopista galáctico?",it:"Indizio: la calcolò Pensiero Profondo in sette milioni e mezzo di anni. Non hai letto la Guida galattica per gli autostoppisti?",en:"Hint: Deep Thought took seven and a half million years to compute it. Haven’t you read The Hitchhiker’s Guide to the Galaxy?"}),
  M("MC-P03","POP","POP",0,{es:"Qué píldora hay que tomar para ver cuán profunda es la madriguera del conejo?",it:"Quale pillola bisogna prendere per vedere quanto è profonda la tana del bianconiglio?",en:"Which pill do you take to see how deep the rabbit hole goes?"},
    {es:["La roja","La azul","La verde"],it:["La rossa","La blu","La verde"],en:["The red one","The blue one","The green one"]},
    {es:"Pista: la azul te devuelve a tu cama.",it:"Indizio: la blu ti rimanda nel tuo letto.",en:"Hint: the blue one sends you back to bed."}),
@@ -700,7 +700,7 @@ const MCQ = [
    {es:"Pista: significa «Llama del Oeste».",it:"Indizio: significa «Fiamma dell’Ovest».",en:"Hint: it means «Flame of the West»."}),
  M("MC-P07","POP","POP",0,{es:"En Dungeons & Dragons, qué dado se tira para atacar?",it:"In Dungeons & Dragons, quale dado si tira per attaccare?",en:"In Dungeons & Dragons, which die do you roll to attack?"},
    {es:["d20","d6","d12"],it:["d20","d6","d12"],en:["d20","d6","d12"]},
-   {es:"Pista: es el dado de veinte caras.",it:"Indizio: è il dado a venti facce.",en:"Hint: it’s the twenty-sided one."}),
+   {es:"Pista: si sacas un «natural one», pueden pasar cosas.",it:"Indizio: se fai un «uno naturale», possono succedere cose.",en:"Hint: roll a «natural one» and things can happen."}),
  M("MC-P08","POP","POP",0,{es:"En qué videojuego apareció Mario por primera vez?",it:"In quale videogioco è apparso Mario per la prima volta?",en:"In which video game did Mario first appear?"},
    {es:["Donkey Kong","Pac-Man","Space Invaders"],it:["Donkey Kong","Pac-Man","Space Invaders"],en:["Donkey Kong","Pac-Man","Space Invaders"]},
    {es:"Pista: entonces se llamaba Jumpman y esquivaba barriles.",it:"Indizio: allora si chiamava Jumpman e schivava barili.",en:"Hint: back then he was called Jumpman and dodged barrels."}),
@@ -800,7 +800,7 @@ const LANGS = [["es","Español"],["it","Italiano"],["en","English"]];
 
 const UI = {
  es:{
-  gallery:"Conoce a todos los alter ego", galleryTitle:"Galería de alter ego", back:"Volver", grp_special:"Títulos especiales", grp_aspirante:"No nerds: aspirantes", grp_muggle:"No nerds: muggles",
+  gallery:"Explicación de todos los alter ego →", galleryTitle:"Galería de alter ego", back:"Volver", grp_special:"Títulos especiales", grp_aspirante:"No nerds: aspirantes", grp_muggle:"No nerds: muggles",
   tagDet:"ESPECIE", oppNote:"Piensa analógicamente: lo que importa es la idea.", ns3:"No sé", hint:"Pista nerd (vale medio punto)",
   susTitle:"Sospecha de nerdidad", sus_alta:"Alta", sus_media:"Media", sus_baja:"Baja",
   susTxt_alta:"Indicios abundantes. El tribunal procede a determinar tu especie.",
@@ -859,7 +859,7 @@ const UI = {
   thanks:"Gratias tibi. Ad maiorem scientiae nerd gloriam.", queued:"Gratias tibi. Se enviará cuando haya conexión.", declined:"Entendido: tu sentencia se queda contigo."
  },
  it:{
-  gallery:"Conosci tutti gli alter ego", galleryTitle:"Galleria degli alter ego", back:"Indietro", grp_special:"Titoli speciali", grp_aspirante:"Non nerd: aspiranti", grp_muggle:"Non nerd: babbani",
+  gallery:"Spiegazione di tutti gli alter ego →", galleryTitle:"Galleria degli alter ego", back:"Indietro", grp_special:"Titoli speciali", grp_aspirante:"Non nerd: aspiranti", grp_muggle:"Non nerd: babbani",
   tagDet:"SPECIE", oppNote:"Pensa analogicamente: ciò che conta è l’idea.", ns3:"Non so", hint:"Indizio nerd (vale mezzo punto)",
   susTitle:"Sospetto di nerditudine", sus_alta:"Alto", sus_media:"Medio", sus_baja:"Basso",
   susTxt_alta:"Indizi abbondanti. Il tribunale procede a determinare la tua specie.",
@@ -918,7 +918,7 @@ const UI = {
   thanks:"Gratias tibi. Ad maiorem scientiae nerd gloriam.", queued:"Gratias tibi. Verrà inviato quando ci sarà connessione.", declined:"Capito: la tua sentenza resta con te."
  },
  en:{
-  gallery:"Meet all the alter egos", galleryTitle:"Alter ego gallery", back:"Back", grp_special:"Special titles", grp_aspirante:"Not nerds: aspiring", grp_muggle:"Not nerds: Muggles",
+  gallery:"About all the alter egos →", galleryTitle:"Alter ego gallery", back:"Back", grp_special:"Special titles", grp_aspirante:"Not nerds: aspiring", grp_muggle:"Not nerds: Muggles",
   tagDet:"SPECIES", oppNote:"Think analogically: the idea is what counts.", ns3:"I don’t know", hint:"Nerd hint (worth half a point)",
   susTitle:"Suspicion of nerdiness", sus_alta:"High", sus_media:"Medium", sus_baja:"Low",
   susTxt_alta:"Plenty of evidence. The court will now determine your species.",
