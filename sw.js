@@ -1,5 +1,5 @@
 // Nerditas: guarda la app en el teléfono para que funcione sin conexión.
-const CACHE = "nerditas-2.1-r1";
+const CACHE = "nerditas-2.1-r2";
 const FILES = [
   "./", "index.html", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png",

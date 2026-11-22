@@ -82,6 +82,12 @@
   .btn.hint{min-height:44px;font-size:16px}
   .fase-big{font-family:var(--sc);font-size:46px;line-height:1.05;color:var(--rub);margin-top:6px}
   .alter.titulo b{color:var(--rub)}
+  .btn.link.gal{min-height:44px;justify-content:flex-start;padding:0;font-size:16px}
+  .g-h{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute);margin:24px 0 8px;text-transform:uppercase}
+  .g-item{border-top:1px solid var(--line);padding:12px 0}
+  .g-item b{display:block;font-family:var(--serif);font-size:20px;font-weight:400;color:var(--parch)}
+  .g-item span{display:block;font-size:16px;line-height:1.45;color:var(--parch2);margin-top:4px}
+  .g-item.me b{color:var(--rub)}
   /* resultado */
   .eres{font-family:var(--mono);font-size:12px;color:var(--mute);margin-top:30px;padding-right:116px}
   .perfil{font-family:var(--sc);font-size:44px;line-height:1.02;margin-top:6px;padding-right:116px}
@@ -177,10 +183,19 @@
     <div class="th-h" data-t="thRaces"></div><p class="th-p" data-t="thRacesTxt"></p>
     <div class="th-h" data-t="thSub"></div><p class="th-p" data-t="thSubTxt"></p>
     <div class="th-h" data-t="thLevel"></div><p class="th-p" data-t="thLevelTxt"></p>
+    <button class="btn link gal" type="button" data-t="gallery" style="margin-top:10px"></button>
     <div style="margin-top:auto;padding-top:28px">
       <button class="btn primary" id="b-go" type="button"><span data-t="thGo"></span>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#121A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
     </div>
+  </section>
+
+  <!-- GALERÍA DE ALTER EGO -->
+  <section class="screen" id="s-galeria">
+    <div class="meta"><span>INDEX NERDITATIS</span><span>v2.1</span></div>
+    <div class="th-title" data-t="galleryTitle" style="font-size:34px"></div>
+    <div id="g-list"></div>
+    <div style="margin-top:auto;padding-top:24px"><button class="btn outline" id="g-back" type="button" data-t="back"></button></div>
   </section>
 
   <!-- PANTALLA ENTRE FASES -->
@@ -219,6 +234,7 @@
     </div>
     <p class="alter" id="r-alter"></p>
     <p class="alter titulo" id="r-titulo"></p>
+    <button class="btn link gal" type="button" data-t="gallery"></button>
     <div class="nivel"><div class="n" id="r-nivel"></div><p id="r-frase"></p></div>
     <div class="dork" id="r-dork"></div>
     <div class="dork" id="r-reinc" style="color:var(--green)"></div>
@@ -702,11 +718,89 @@ const MCQ = [
    {es:"Pista: «Yo soy tu padre».",it:"Indizio: «Io sono tuo padre».",en:"Hint: «I am your father»."})
 ];
 
+/* Nerditas 2.1 (r2) — banchi più ampi per le fasi I e II, domande al rovescio e domande di preferenza.
+   Una «R» negli assi indica una domanda al rovescio: il «sì» conta come meno nerd. */
+
+/* ---------- Fase I: nuove ---------- */
+DISCRIM_NEW.push(
+ D("DIS-06","P","Has dicho alguna vez «técnicamente…» para corregir a alguien?","Hai mai detto «tecnicamente…» per correggere qualcuno?","Have you ever said «technically…» to correct someone?"),
+ D("DIS-07","O","Tienes más pestañas abiertas en el navegador que amigos en el bar?","Hai più schede aperte nel browser che amici al bar?","Do you have more browser tabs open than friends at the pub?"),
+ D("DIS-08","O","Has leído por gusto las instrucciones de un electrodoméstico?","Ti è capitato di leggere per piacere le istruzioni di un elettrodomestico?","Have you ever read an appliance manual for fun?"),
+ D("DIS-09","O","Tienes un tema favorito que acabas sacando en cualquier conversación?","Hai un argomento preferito che finisci per tirare fuori in ogni conversazione?","Do you have a favourite topic you end up bringing into every conversation?"),
+ D("DIS-10","I","Recuerdas fechas, nombres o números que nadie más recuerda?","Ricordi date, nomi o numeri che nessun altro ricorda?","Do you remember dates, names or numbers nobody else remembers?"),
+ D("DIS-11","O","Prefieres un buen debate a un partido de fútbol?","Preferisci un buon dibattito a una partita di calcio?","Would you rather have a good debate than watch a football match?"),
+ D("DIS-12","O","Has preparado alguna vez una presentación que nadie te había pedido?","Hai mai preparato una presentazione che nessuno ti aveva chiesto?","Have you ever prepared a presentation nobody asked for?"),
+ D("DIS-13","O","Te sientes en casa en una biblioteca o en una librería?","Ti senti a casa in una biblioteca o in una libreria?","Do you feel at home in a library or a bookshop?"),
+ D("DIS-14","O","Te gusta más saber «cómo funciona» algo que usarlo?","Ti piace sapere «come funziona» qualcosa più che usarla?","Do you enjoy knowing «how something works» more than using it?"),
+ D("DIS-15","O","Te aburres cuando una conversación se queda en la superficie?","Ti annoi quando una conversazione resta in superficie?","Do you get bored when a conversation stays on the surface?"),
+ D("DIS-16","O","Tienes un cuaderno, un archivo o una app sólo para tus ideas?","Hai un quaderno, un file o un’app solo per le tue idee?","Do you have a notebook, file or app just for your ideas?"),
+ D("DIS-17","P","Te ha pasado explicar algo y darte cuenta de que ya nadie te seguía?","Ti è capitato di spiegare qualcosa e accorgerti che nessuno ti seguiva più?","Have you ever explained something and realised nobody was following any more?"),
+ D("DIS-18","O","Tienes una teoría personal sobre algo que nadie te ha preguntado?","Hai una teoria personale su qualcosa che nessuno ti ha chiesto?","Do you have a personal theory about something nobody asked you about?"),
+ D("DIS-19","I","Conoces el significado de palabras que tus amigos tienen que buscar en el diccionario?","Conosci il significato di parole che i tuoi amici devono cercare sul dizionario?","Do you know words your friends have to look up?"),
+ D("DIS-20","I","Te han dicho alguna vez «pero cómo sabes tú estas cosas»?","Ti hanno mai detto «ma come fai a sapere queste cose?»","Has anyone ever asked you «how on earth do you know that?»"),
+ D("DIS-21","ER","Te preocupas de que tu ropa combine en color y estilo?","Ti preoccupi che i vestiti si abbinino per colore e per tipo?","Do you make sure your clothes match in colour and style?"),
+ D("DIS-22","P","Delante de un monumento o en un museo, te gusta explicar detalles que nadie conoce?","Davanti a un monumento o in un museo ti piace spiegare dettagli che nessuno conosce?","At a monument or in a museum, do you like explaining details nobody knows?"),
+ D("DIS-23","OR","Prefieres un aperitivo con amigos a una tarde de lectura?","Preferisci un aperitivo con gli amici a una serata di lettura?","Would you rather have drinks with friends than an evening of reading?"),
+ D("DIS-24","OR","Te aburren los documentales?","Ti annoiano i documentari?","Do documentaries bore you?"),
+ D("DIS-25","OR","Has dicho alguna vez «no soy bueno para estas cosas», con alivio?","Hai mai detto «non sono portato per queste cose», con sollievo?","Have you ever said «I’m no good at this stuff», with relief?")
+);
+
+/* ---------- Fase II: nuove per area (le «R» sono al rovescio) ---------- */
+function SR(id, area, ax, es, it, en){ return {id, d:"DET", area, ax, tipo:"si_no", fase:2, t:{es, it, en}}; }
+DETERM.push(
+ SR("DET-H5","HUM","O","Lees las introducciones y las notas de los clásicos, no sólo el texto?","Leggi le introduzioni e le note dei classici, non solo il testo?","Do you read the introductions and notes of the classics, not just the text?"),
+ SR("DET-H6","HUM","O","Tienes una frase latina o griega favorita?","Hai una frase latina o greca preferita?","Do you have a favourite Latin or Greek phrase?"),
+ SR("DET-H7","HUM","O","Te gusta comparar distintas traducciones del mismo texto?","Ti piace confrontare traduzioni diverse dello stesso testo?","Do you enjoy comparing different translations of the same text?"),
+ SR("DET-H8","HUM","O","Cuando visitas una iglesia o un museo, lees todas las cartelas?","Visitando una chiesa o un museo, leggi tutte le didascalie?","When you visit a church or museum, do you read every label?"),
+ SR("DET-H9","HUM","O","Has discutido de metafísica fuera de un aula?","Hai mai discusso di metafisica fuori da un’aula?","Have you ever argued about metaphysics outside a classroom?"),
+ SR("DET-H10","HUM","O","Tienes más de una edición del mismo libro?","Possiedi più di un’edizione dello stesso libro?","Do you own more than one edition of the same book?"),
+ SR("DET-H11","HUM","OR","Te parecen inútiles las notas a pie de página?","Pensi che le note a piè di pagina siano inutili?","Do you think footnotes are pointless?"),
+ SR("DET-H12","HUM","OR","Te parece tiempo perdido estudiar lenguas que ya nadie habla?","Ti sembra tempo perso studiare lingue che nessuno parla più?","Is studying languages nobody speaks any more a waste of time to you?"),
+ SR("DET-C5","CYT","O","Has montado o reparado alguna vez un ordenador?","Hai mai montato o riparato un computer?","Have you ever built or repaired a computer?"),
+ SR("DET-C6","CYT","O","Sigues la exploración espacial (misiones, lanzamientos, telescopios)?","Segui l’esplorazione spaziale (missioni, lanci, telescopi)?","Do you follow space exploration (missions, launches, telescopes)?"),
+ SR("DET-C7","CYT","O","Te diviertes con problemas de lógica o de matemáticas?","Ti diverti con problemi di logica o di matematica?","Do you enjoy logic or maths puzzles?"),
+ SR("DET-C8","CYT","O","Usas atajos de teclado que los demás no conocen?","Usi scorciatoie da tastiera che gli altri non conoscono?","Do you use keyboard shortcuts others don’t know?"),
+ SR("DET-C9","CYT","O","Has hecho un experimento en casa «para ver qué pasa»?","Hai mai fatto un esperimento in casa «per vedere cosa succede»?","Have you ever done an experiment at home «to see what happens»?"),
+ SR("DET-C10","CYT","O","Te intriga la inteligencia artificial y cómo funciona?","Ti incuriosisce l’intelligenza artificiale e come funziona?","Are you curious about artificial intelligence and how it works?"),
+ SR("DET-C11","CYT","OR","Te basta con saber que algo funciona, sin preguntarte cómo?","Ti basta sapere che una cosa funziona, senza chiederti come?","Is it enough for you that something works, without asking how?"),
+ SR("DET-C12","CYT","OR","Tiras las instrucciones sin leerlas?","Butti le istruzioni senza leggerle?","Do you throw away instructions without reading them?"),
+ SR("DET-P5","POP","O","Tienes una saga favorita de la que conoces hasta los entresijos?","Hai una saga preferita di cui conosci anche i retroscena?","Do you have a favourite saga whose behind-the-scenes you know too?"),
+ SR("DET-P6","POP","O","Te has visto una serie entera en un fin de semana?","Hai mai fatto una maratona di una serie intera in un fine settimana?","Have you ever binge-watched a whole series in a weekend?"),
+ SR("DET-P7","POP","O","Has ido, o te gustaría ir, a un evento de cómics, juegos o cosplay?","Hai partecipato, o ti piacerebbe partecipare, a un evento di fumetti, giochi o cosplay?","Have you been, or would you like to go, to a comics, gaming or cosplay event?"),
+ SR("DET-P8","POP","O","Hay un personaje de ficción con el que te identificas?","Hai un personaggio di fantasia con cui ti identifichi?","Is there a fictional character you identify with?"),
+ SR("DET-P9","POP","O","Recuerdas el primer videojuego al que jugaste?","Ricordi il primo videogioco a cui hai giocato?","Do you remember the first video game you played?"),
+ SR("DET-P10","POP","O","Has discutido en serio quién ganaría entre dos personajes imaginarios?","Hai mai discusso seriamente su chi vincerebbe tra due personaggi immaginari?","Have you seriously argued about who would win between two fictional characters?"),
+ SR("DET-P11","POP","O","Te enfadan las últimas películas de Star Wars?","Ti arrabbi per gli ultimi film di Star Wars?","Do the latest Star Wars films make you angry?"),
+ SR("DET-P12","POP","OR","Te parecen todas iguales las películas de superhéroes?","I film di supereroi ti sembrano tutti uguali?","Do all superhero films seem the same to you?"),
+ SR("DET-P13","POP","OR","Te parecen una pérdida de tiempo los videojuegos?","Ti sembrano una perdita di tempo i videogiochi?","Do you think video games are a waste of time?")
+);
+OPUESTOS.push(
+ X("OPP-4","Citas a san Agustín en un chat de videojugadores?","Citi sant’Agostino in una chat di videogiocatori?","Do you quote St Augustine in a gamers’ chat?"),
+ X("OPP-5","Escuchas canto gregoriano mientras juegas en línea?","Ascolti canto gregoriano mentre giochi online?","Do you listen to Gregorian chant while gaming online?"),
+ X("OPP-6","Lees a Tolkien y la Suma Teológica en la misma tarde?","Leggi Tolkien e la Summa nello stesso pomeriggio?","Do you read Tolkien and the Summa on the same afternoon?")
+);
+
+/* ---------- Domande di preferenza (nessuna risposta giusta) ----------
+   v: valore di ogni opzione → 1 conta come nerd, 0 no; area: a quale area somma */
+const PREFS = [
+ {id:"PREF-EMO", tipo:"pref", fase:1, d:"GEN", ax:"O",
+  t:{es:"Qué te emociona más?", it:"Che cosa ti emoziona di più?", en:"What thrills you most?"},
+  o:{es:["Un descubrimiento científico","Un manuscrito encontrado","Un videojuego nuevo","La victoria de mi equipo en la Champions"],
+     it:["Una scoperta scientifica","Un manoscritto ritrovato","Un nuovo videogioco","La vittoria della mia squadra in Champions"],
+     en:["A scientific discovery","A rediscovered manuscript","A new video game","My team winning the Champions League"]},
+  v:[1,1,1,0], areas:["CYT","HUM","POP",null]},
+ {id:"PREF-MDC", tipo:"pref", fase:2, d:"DET", area:"POP", ax:"O",
+  t:{es:"Marvel o DC?", it:"Marvel o DC?", en:"Marvel or DC?"},
+  o:{es:["Marvel","DC","Las dos","Ninguna"], it:["Marvel","DC","Tutte e due","Nessuna delle due"], en:["Marvel","DC","Both","Neither"]},
+  v:[1,1,1,0]}
+];
+
 /* Nerditas 2.0 — textos de la interfaz en español, italiano e inglés */
 const LANGS = [["es","Español"],["it","Italiano"],["en","English"]];
 
 const UI = {
  es:{
+  gallery:"Conoce a todos los alter ego", galleryTitle:"Galería de alter ego", back:"Volver", grp_special:"Títulos especiales", grp_aspirante:"No nerds: aspirantes", grp_muggle:"No nerds: muggles",
   tagDet:"ESPECIE", oppNote:"Piensa analógicamente: lo que importa es la idea.", ns3:"No sé", hint:"Pista nerd (vale medio punto)",
   susTitle:"Sospecha de nerdidad", sus_alta:"Alta", sus_media:"Media", sus_baja:"Baja",
   susTxt_alta:"Indicios abundantes. El tribunal procede a determinar tu especie.",
@@ -765,6 +859,7 @@ const UI = {
   thanks:"Gratias tibi. Ad maiorem scientiae nerd gloriam.", queued:"Gratias tibi. Se enviará cuando haya conexión.", declined:"Entendido: tu sentencia se queda contigo."
  },
  it:{
+  gallery:"Conosci tutti gli alter ego", galleryTitle:"Galleria degli alter ego", back:"Indietro", grp_special:"Titoli speciali", grp_aspirante:"Non nerd: aspiranti", grp_muggle:"Non nerd: babbani",
   tagDet:"SPECIE", oppNote:"Pensa analogicamente: ciò che conta è l’idea.", ns3:"Non so", hint:"Indizio nerd (vale mezzo punto)",
   susTitle:"Sospetto di nerditudine", sus_alta:"Alto", sus_media:"Medio", sus_baja:"Basso",
   susTxt_alta:"Indizi abbondanti. Il tribunale procede a determinare la tua specie.",
@@ -823,6 +918,7 @@ const UI = {
   thanks:"Gratias tibi. Ad maiorem scientiae nerd gloriam.", queued:"Gratias tibi. Verrà inviato quando ci sarà connessione.", declined:"Capito: la tua sentenza resta con te."
  },
  en:{
+  gallery:"Meet all the alter egos", galleryTitle:"Alter ego gallery", back:"Back", grp_special:"Special titles", grp_aspirante:"Not nerds: aspiring", grp_muggle:"Not nerds: Muggles",
   tagDet:"SPECIES", oppNote:"Think analogically: the idea is what counts.", ns3:"I don’t know", hint:"Nerd hint (worth half a point)",
   susTitle:"Suspicion of nerdiness", sus_alta:"High", sus_media:"Medium", sus_baja:"Low",
   susTxt_alta:"Plenty of evidence. The court will now determine your species.",
@@ -925,21 +1021,133 @@ const RAZAS = {
 };
 
 const ALTER = {
- leonard:{n:"Leonard Hofstadter", es:"profundidad, violonchelo y el nerd que consiguió cruzar el pasillo", it:"profondità, violoncello e il nerd che è riuscito ad attraversare il pianerottolo", en:"depth, a cello and the nerd who made it across the hallway"},
- howard:{n:"Howard Wolowitz", es:"coleccionista de cacharros y cómics, con una anécdota para cada ocasión", it:"collezionista di aggeggi e fumetti, con un aneddoto per ogni occasione", en:"collector of gadgets and comics, with an anecdote for every occasion"},
- bernadette:{n:"Bernadette Rostenkowski", es:"sabe muchísimo y lo lleva con desparpajo", it:"sa moltissimo e lo porta con disinvoltura", en:"knows a great deal and wears it lightly"},
- sheldon:{n:"Sheldon Cooper", es:"erudición, pedantería y un sitio fijo en el sofá", it:"erudizione, pedanteria e un posto fisso sul divano", en:"erudition, pedantry and a fixed spot on the couch"},
- amy:{n:"Amy Farrah Fowler", es:"rigor científico antes que manías", it:"rigore scientifico prima delle manie", en:"scientific rigour before quirks"},
- raj:{n:"Raj Koothrappali", es:"tímido en sociedad, apasionado del universo geek", it:"timido in società, appassionato dell’universo geek", en:"shy in company, devoted to the geek universe"},
- kripke:{n:"Barry Kripke", es:"habilidades sociales en versión beta y comentarios siempre inesperados", it:"abilità sociali in versione beta e commenti sempre inaspettati", en:"social skills still in beta, and remarks that always surprise"},
- stuart:{n:"Stuart Bloom", es:"tienda de cómics, mucha pasión, poca suerte", it:"negozio di fumetti, tanta passione, poca fortuna", en:"comic-book store, lots of passion, little luck"},
- penny:{n:"Penny", es:"no es nerd, pero tiene sentido común y cae bien a todos", it:"non è nerd, ma ha buon senso e sta simpatica a tutti", en:"not a nerd, but full of common sense and liked by all"},
- zack:{n:"Zack Johnson", es:"entusiasta, simpático y completamente perdido", it:"entusiasta, simpatico e completamente perso", en:"enthusiastic, friendly and completely lost"},
- missy:{n:"Missy Cooper", es:"lista, pero sin ningún interés en ser nerd", it:"sveglia, ma senza alcun interesse a essere nerd", en:"smart, but with no interest in being a nerd"},
- mary:{n:"Mary Cooper", es:"fe sencilla y cero paciencia con la ciencia", it:"fede semplice e zero pazienza con la scienza", en:"simple faith and zero patience with science"},
- georgie:{n:"Georgie Cooper", es:"el antinerd: simpático, práctico y alérgico a los libros", it:"l’antinerd: simpatico, pratico e allergico ai libri", en:"the anti-nerd: likeable, practical and allergic to books"},
- kurt:{n:"Kurt", es:"el exnovio grandullón de Penny, que mira mal a los nerds", it:"l’ex fidanzato grosso di Penny, che guarda male i nerd", en:"Penny’s hulking ex, who glares at nerds"}
+ chesterton:{g:"geek", n:"G. K. Chesterton",
+  es:"erudición, paradojas y buen humor", it:"erudizione, paradossi e buonumore", en:"learning, paradoxes and good humour",
+  L:{es:"Periodista, novelista y apologeta, padre del padre Brown y de Ortodoxia. Erudito y obsesionado con las paradojas, debatía en público con Shaw y Wells y seguía siendo su amigo.",
+     it:"Giornalista, romanziere e apologeta, padre di Padre Brown e di Ortodossia. Erudito e ossessionato dai paradossi, discuteva in pubblico con Shaw e Wells e restava loro amico.",
+     en:"Journalist, novelist and apologist, creator of Father Brown and author of Orthodoxy. Learned and obsessed with paradox, he debated Shaw and Wells in public and stayed their friend."}},
+ leonard:{g:"geek", n:"Leonard Hofstadter",
+  es:"profundidad, violonchelo y el nerd que cruzó el rellano", it:"profondità, violoncello e il nerd che ha attraversato il pianerottolo", en:"depth, a cello and the nerd who crossed the hallway",
+  L:{es:"Físico experimental, toca el violonchelo y tiene profundidad de sobra. Es el nerd que cruzó el rellano… y al final se casó con Penny.",
+     it:"Fisico sperimentale, suona il violoncello e ha profondità da vendere. È il nerd che ha attraversato il pianerottolo… e alla fine ha sposato Penny.",
+     en:"Experimental physicist, cellist, with depth to spare. He’s the nerd who crossed the hallway… and ended up marrying Penny."}},
+ howard:{g:"geek", n:"Howard Wolowitz",
+  es:"coleccionista de cacharros y anécdotas", it:"collezionista di aggeggi e aneddoti", en:"collector of gadgets and anecdotes",
+  L:{es:"Ingeniero aeroespacial que llegó hasta la Estación Espacial. Colecciona cómics, cacharros y anécdotas: tiene una para cada ocasión.",
+     it:"Ingegnere aerospaziale arrivato fino alla Stazione spaziale. Colleziona fumetti, aggeggi e aneddoti: ne ha uno per ogni occasione.",
+     en:"Aerospace engineer who made it to the Space Station. Collects comics, gadgets and anecdotes: he has one for every occasion."}},
+ tommaso:{g:"nerd", n:"Santo Tomás de Aquino|San Tommaso d’Aquino|St Thomas Aquinas",
+  es:"el «buey mudo» cuyos mugidos se oyen en todo el mundo", it:"il «bue muto» i cui muggiti si sentono in tutto il mondo", en:"the «dumb ox» whose bellowing fills the world",
+  L:{es:"Sus compañeros lo llamaban «el buey mudo» porque nunca hablaba. San Alberto profetizó que sus mugidos se oirían en todo el mundo.",
+     it:"I compagni lo chiamavano «il bue muto» perché taceva sempre. Sant’Alberto profetizzò che i suoi muggiti si sarebbero sentiti in tutto il mondo.",
+     en:"His fellow students called him «the dumb ox» because he never spoke. St Albert foretold that his bellowing would be heard throughout the world."}},
+ newton:{g:"nerd", n:"Isaac Newton",
+  es:"gravedad, cálculo y ninguna gana de fiestas", it:"gravità, calcolo e nessuna voglia di feste", en:"gravity, calculus and no taste for parties",
+  L:{es:"Gravitación, cálculo y óptica, pero también alquimia y cronología bíblica. Solitario, obsesivo y pendenciero, cambió la historia de la ciencia.",
+     it:"Gravitazione, calcolo e ottica, ma anche alchimia e cronologia biblica. Solitario, ossessivo e litigioso, ha cambiato la storia della scienza.",
+     en:"Gravitation, calculus and optics, but also alchemy and biblical chronology. Solitary, obsessive and quarrelsome, he changed the history of science."}},
+ sheldon:{g:"nerd", n:"Sheldon Cooper",
+  es:"erudición, pedantería y un sitio fijo en el sofá", it:"erudizione, pedanteria e un posto fisso sul divano", en:"erudition, pedantry and a fixed spot on the couch",
+  L:{es:"Físico teórico con un sitio fijo en el sofá y un acuerdo de convivencia de treinta páginas. Erudición y pedantería en estado puro.",
+     it:"Fisico teorico con un posto fisso sul divano e un accordo di convivenza di trenta pagine. Erudizione e pedanteria allo stato puro.",
+     en:"Theoretical physicist with a fixed spot on the couch and a thirty-page roommate agreement. Erudition and pedantry in their purest form."}},
+ spock:{g:"nerd", n:"Mr. Spock",
+  es:"la lógica ante todo", it:"la logica prima di tutto", en:"logic above all",
+  L:{es:"Oficial científico del Enterprise, medio vulcano. La lógica ante todo; las emociones, (casi) nunca.",
+     it:"Ufficiale scientifico dell’Enterprise, metà vulcaniano. La logica prima di tutto, le emozioni (quasi) mai.",
+     en:"Science officer of the Enterprise, half Vulcan. Logic above all; emotions, (almost) never."}},
+ lewis:{g:"erudito", n:"C. S. Lewis",
+  es:"Narnia, Oxford y largas tertulias en el pub", it:"Narnia, Oxford e lunghe chiacchierate al pub", en:"Narnia, Oxford and long talks at the pub",
+  L:{es:"Profesor de literatura medieval en Oxford y Cambridge, autor de Narnia y apologeta. Gran conversador en el pub con los Inklings.",
+     it:"Professore di letteratura medievale a Oxford e Cambridge, autore di Narnia e apologeta. Grande conversatore al pub con gli Inklings.",
+     en:"Professor of medieval literature at Oxford and Cambridge, author of Narnia and apologist. A great conversationalist at the pub with the Inklings."}},
+ sagan:{g:"erudito", n:"Carl Sagan",
+  es:"el cosmos explicado a todos", it:"il cosmo spiegato a tutti", en:"the cosmos explained to everyone",
+  L:{es:"Astrónomo y divulgador de la serie Cosmos. Hizo comprensibles las estrellas para millones de personas.",
+     it:"Astronomo e divulgatore della serie Cosmos. Ha reso le stelle comprensibili a milioni di persone.",
+     en:"Astronomer and populariser behind the Cosmos series. He made the stars understandable to millions."}},
+ bernadette:{g:"erudito", n:"Bernadette Rostenkowski",
+  es:"sabe muchísimo y no se deja intimidar", it:"sa moltissimo e non si lascia intimidire", en:"knows a great deal and won’t be intimidated",
+  L:{es:"Microbióloga brillante, pequeña de estatura y grande de carácter. Sabe muchísimo, lo lleva con desparpajo y les planta cara a todos, Howard incluido.",
+     it:"Microbiologa brillante, piccola di statura e grande di carattere. Sa moltissimo, lo porta con disinvoltura e tiene testa a tutti, Howard compreso.",
+     en:"Brilliant microbiologist, small in stature and big in character. She knows a great deal, wears it lightly and stands up to everyone, Howard included."}},
+ tolkien:{g:"erudito", n:"J. R. R. Tolkien",
+  es:"inventó lenguas y luego historias para hablarlas", it:"inventò lingue e poi storie per parlarle", en:"invented languages, then stories to speak them in",
+  L:{es:"Filólogo de Oxford que inventó lenguas enteras y luego escribió historias para poder hablarlas.",
+     it:"Filologo di Oxford che inventò lingue intere e poi scrisse storie per poterle parlare.",
+     en:"Oxford philologist who invented whole languages and then wrote stories so they could be spoken."}},
+ hermione:{g:"dweeb", n:"Hermione Granger",
+  es:"siempre con la mano levantada", it:"sempre con la mano alzata", en:"always with her hand up",
+  L:{es:"La alumna más preparada de Hogwarts: siempre levanta la mano y la biblioteca es su refugio.",
+     it:"La studentessa più preparata di Hogwarts: alza sempre la mano e la biblioteca è il suo rifugio.",
+     en:"Hogwarts’ best-prepared student: her hand is always up and the library is her refuge."}},
+ turing:{g:"dweeb", n:"Alan Turing",
+  es:"descifró Enigma e imaginó máquinas que piensan", it:"decifrò Enigma e immaginò macchine pensanti", en:"cracked Enigma and imagined thinking machines",
+  L:{es:"Matemático reservado que descifró Enigma e imaginó las máquinas pensantes.",
+     it:"Matematico riservato che decifrò Enigma e immaginò le macchine pensanti.",
+     en:"A reserved mathematician who cracked Enigma and imagined thinking machines."}},
+ amy:{g:"dweeb", n:"Amy Farrah Fowler",
+  es:"rigor científico antes que manías", it:"rigore scientifico prima delle manie", en:"scientific rigour before quirks",
+  L:{es:"Neurocientífica rigurosa que toca el arpa: método antes que manías.",
+     it:"Neuroscienziata rigorosa, suona l’arpa: metodo prima delle manie.",
+     en:"Rigorous neuroscientist who plays the harp: method before quirks."}},
+ raj:{g:"dweeb", n:"Raj Koothrappali",
+  es:"tímido en sociedad, apasionado del universo geek", it:"timido in società, appassionato dell’universo geek", en:"shy in company, devoted to the geek universe",
+  L:{es:"Astrofísico timidísimo, apasionado de todo el universo geek.",
+     it:"Astrofisico timidissimo, appassionato di tutto l’universo geek.",
+     en:"Painfully shy astrophysicist, devoted to the whole geek universe."}},
+ quijote:{g:"fan", n:"Don Quijote|Don Chisciotte|Don Quixote",
+  es:"pasión infinita y molinos por gigantes", it:"passione infinita e mulini scambiati per giganti", en:"boundless passion and windmills mistaken for giants",
+  L:{es:"Leyó tantos libros de caballerías que confundió los molinos con gigantes. Pasión infinita; la realidad, algo menos.",
+     it:"Ha letto tanti libri di cavalleria da scambiare i mulini per giganti. Passione infinita, la realtà un po’ meno.",
+     en:"He read so many books of chivalry that he took windmills for giants. Boundless passion; reality, rather less."}},
+ docbrown:{g:"fan", n:"Doc Brown",
+  es:"más experimentos que método", it:"più esperimenti che metodo", en:"more experiments than method",
+  L:{es:"El científico entusiasta de Regreso al futuro: más experimentos que método, pero con un DeLorean que viaja en el tiempo.",
+     it:"Lo scienziato entusiasta di Ritorno al futuro: più esperimenti che metodo, ma con una DeLorean che viaggia nel tempo.",
+     en:"The enthusiastic scientist of Back to the Future: more experiments than method, but with a time-travelling DeLorean."}},
+ stuart:{g:"fan", n:"Stuart Bloom",
+  es:"tienda de cómics, mucha pasión, poca suerte", it:"negozio di fumetti, tanta passione, poca fortuna", en:"comic-book store, lots of passion, little luck",
+  L:{es:"Dueño de la tienda de cómics: mucha pasión y poca suerte.",
+     it:"Proprietario del negozio di fumetti: tanta passione, poca fortuna.",
+     en:"Owner of the comic-book store: lots of passion, little luck."}},
+ leonardo:{g:"special", n:"Leonardo da Vinci",
+  es:"todas las especies del saber en un solo hombre", it:"tutte le specie del sapere in un solo uomo", en:"every species of knowledge in one man",
+  L:{es:"Doctor universalis. Pintor, ingeniero, anatomista, inventor: todas las especies del saber en un solo hombre.",
+     it:"Doctor universalis. Pittore, ingegnere, anatomista, inventore: tutte le specie del sapere in un solo uomo.",
+     en:"Doctor universalis. Painter, engineer, anatomist, inventor: every species of knowledge in one man."}},
+ lemaitre:{g:"special", n:"Georges Lemaître",
+  es:"sacerdote y padre del Big Bang", it:"sacerdote e padre del Big Bang", en:"priest and father of the Big Bang",
+  L:{es:"Coincidentia oppositorum. Sacerdote y físico belga, padre de la teoría del Big Bang: fe y cosmología en el mismo hombre.",
+     it:"Coincidentia oppositorum. Sacerdote e fisico belga, padre della teoria del Big Bang: fede e cosmologia nello stesso uomo.",
+     en:"Coincidentia oppositorum. Belgian priest and physicist, father of the Big Bang theory: faith and cosmology in one man."}},
+ wittgenstein:{g:"special", n:"Ludwig Wittgenstein",
+  es:"imposible de clasificar", it:"impossibile da classificare", en:"impossible to classify",
+  L:{es:"Unicornio. Ingeniero, filósofo del Tractatus, maestro de escuela, jardinero en un monasterio y arquitecto: imposible de clasificar.",
+     it:"Unicorno. Ingegnere, filosofo del Tractatus, maestro elementare, giardiniere in un monastero e architetto: impossibile da classificare.",
+     en:"Unicorn. Engineer, philosopher of the Tractatus, schoolteacher, monastery gardener and architect: impossible to classify."}},
+ penny:{g:"aspirante", n:"Penny",
+  es:"no es nerd, pero cae bien a todos", it:"non è nerd, ma sta simpatica a tutti", en:"not a nerd, but liked by all",
+  L:{es:"No es nerd, pero tiene sentido común y cae bien a todos.", it:"Non è nerd, ma ha buon senso e sta simpatica a tutti.", en:"Not a nerd, but full of common sense and liked by everyone."}},
+ zack:{g:"aspirante", n:"Zack Johnson",
+  es:"entusiasta, simpático y completamente perdido", it:"entusiasta, simpatico e completamente perso", en:"enthusiastic, friendly and completely lost",
+  L:{es:"Entusiasta, simpático y completamente perdido.", it:"Entusiasta, simpatico e completamente perso.", en:"Enthusiastic, friendly and completely lost."}},
+ missy:{g:"aspirante", n:"Missy Cooper",
+  es:"lista, pero sin interés en ser nerd", it:"sveglia, ma senza interesse a essere nerd", en:"smart, but with no interest in being a nerd",
+  L:{es:"La gemela de Sheldon: lista, pero sin ningún interés en ser nerd.", it:"La gemella di Sheldon: sveglia, ma senza alcun interesse a essere nerd.", en:"Sheldon’s twin: smart, but with no interest in being a nerd."}},
+ mary:{g:"aspirante", n:"Mary Cooper",
+  es:"fe sencilla y cero paciencia con la ciencia", it:"fede semplice e zero pazienza con la scienza", en:"simple faith and zero patience with science",
+  L:{es:"La madre de Sheldon: fe sencilla y cero paciencia con la ciencia.", it:"La madre di Sheldon: fede semplice e zero pazienza con la scienza.", en:"Sheldon’s mother: simple faith and zero patience with science."}},
+ georgie:{g:"muggle", n:"Georgie Cooper",
+  es:"el antinerd: simpático, práctico y alérgico a los libros", it:"l’antinerd: simpatico, pratico e allergico ai libri", en:"the anti-nerd: likeable, practical and allergic to books",
+  L:{es:"El antinerd: simpático, práctico y alérgico a los libros.", it:"L’antinerd: simpatico, pratico e allergico ai libri.", en:"The anti-nerd: likeable, practical and allergic to books."}},
+ kurt:{g:"muggle", n:"Kurt",
+  es:"el exnovio grandullón de Penny", it:"l’ex fidanzato grosso di Penny", en:"Penny’s hulking ex",
+  L:{es:"El exnovio grandullón de Penny, que mira mal a los nerds.", it:"L’ex fidanzato grosso di Penny, che guarda male i nerd.", en:"Penny’s hulking ex, who glares at nerds."}}
 };
+/* nombre en el idioma actual (algunos cambian: «Don Quijote|Don Chisciotte|Don Quixote») */
+function alterName(k, lang){ const p = ALTER[k].n.split("|"); return p.length === 3 ? p[["es","it","en"].indexOf(lang)] : p[0]; }
+const ALTER_GROUPS = [["geek","HHH"],["nerd","HHL"],["erudito","HLH"],["dweeb","HLL"],["fan","LHH"],["special",null],["aspirante",null],["muggle",null]];
 
 const ESCALA = [
  [20,{es:"¿Nerd? ¡No, gracias!",it:"Nerd? No, grazie!",en:"Nerd? No, thanks!"}],
@@ -1050,16 +1258,31 @@ applyLang();
 /* ---------- Utilidades ---------- */
 function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function roman(n){ const m=[[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]]; let s=""; for(const [v,r] of m){ while(n>=v){ s+=r; n-=v; } } return s; }
-function axes(it){ const a=it.ax||""; return {I:a.includes("I"), O:a.includes("O"), A:a.includes("G")||a.includes("g"), arev:a.includes("g"), P:a.includes("P"), E:a.includes("E"), C:a.includes("C")}; }
+function axes(it){ const a=it.ax||""; return {I:a.includes("I"), O:a.includes("O"), A:a.includes("G")||a.includes("g"), arev:a.includes("g"), P:a.includes("P"), E:a.includes("E"), C:a.includes("C"), rev:a.includes("R")}; }
 function qtext(q){ return LANG === "es" ? q.t.es : q.t[LANG]; }
 
 /* ---------- Nerditas 2.1: examen en tres fases ---------- */
-const BYID = {}; BANK.concat(DISCRIM_NEW, DETERM, OPUESTOS, MCQ, VAL).forEach(q => BYID[q.id] = q);
+const BYID = {}; BANK.concat(DISCRIM_NEW, DETERM, OPUESTOS, MCQ, VAL, PREFS).forEach(q => BYID[q.id] = q);
+const punto = (q, a) => q.tipo === "pref" ? (q.v[a] || 0) : (axes(q).rev ? (a === "no" ? 1 : 0) : (a === "si" ? 1 : 0));
 const AREAS = ["HUM","CYT","POP"];
 let QS = [], idx = 0, ANS = {}, HINT = {}, VORDER = [], LAST = null, FASE = 1, AREA_SC = null, SOSP = 0, CONFESO = false;
 
-function fase1(){ return shuffle(DISCRIM_NEW.concat(DISCRIM_IDS.map(id => BYID[id]))).map(q => Object.assign({}, q, {fase:1})); }
-function fase2(){ return shuffle(DETERM.concat(shuffle(OPUESTOS).slice(0,2))); }
+function fase1(){
+  const todas = DISCRIM_NEW.concat(DISCRIM_IDS.map(id => BYID[id]));
+  const rev = shuffle(todas.filter(q => axes(q).rev)).slice(0,3);
+  const dir = shuffle(todas.filter(q => !axes(q).rev)).slice(0,6);
+  return shuffle(dir.concat(rev, [BYID["PREF-EMO"]])).map(q => Object.assign({}, q, {fase:1}));
+}
+function fase2(){
+  const out = [];
+  AREAS.forEach(a => {
+    const dir = shuffle(DETERM.filter(q => q.area === a && !axes(q).rev));
+    const rev = shuffle(DETERM.filter(q => q.area === a && axes(q).rev));
+    let n = 3; if(a === "POP" && Math.random() < 0.5){ out.push(BYID["PREF-MDC"]); n = 2; }
+    dir.slice(0,n).forEach(q => out.push(q)); out.push(rev[0]);
+  });
+  return shuffle(out.concat(shuffle(OPUESTOS).slice(0,2))).map(q => Object.assign({}, q, {fase:2}));
+}
 function fase3(fuertes){
   const areas = fuertes.length ? fuertes : AREAS.slice();
   const used = new Set(QS.map(q => q.id)); const out = [];
@@ -1101,13 +1324,19 @@ function renderQ(){
   $("q-videtur").classList.toggle("note", !!q.opp);
   if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
   const box = $("q-answers"); box.textContent = "";
-  if(q.tipo === "ver"){
-    q.o[LANG].concat([T("ns3")]).forEach((o,i) => {
+  if(q.tipo === "ver" || q.tipo === "pref"){
+    const nOpt = q.o[LANG].length;
+    // orden aleatorio; la última opción («No sé» o la de muggle) siempre al final
+    const fijos = q.tipo === "ver" ? [0,1,2] : [...Array(nOpt-1).keys()];
+    const orden = shuffle(fijos).concat(q.tipo === "ver" ? [3] : [nOpt-1]);
+    const textos = q.tipo === "ver" ? q.o[LANG].concat([T("ns3")]) : q.o[LANG];
+    orden.forEach((orig,i) => {
       const b = document.createElement("button"); b.type="button"; b.className="btn opt";
       const k = document.createElement("b"); k.textContent = "ABCD"[i];
-      const s = document.createElement("span"); s.textContent = o;
-      b.append(k, s); b.addEventListener("click", () => answer(i)); box.append(b);
+      const s = document.createElement("span"); s.textContent = textos[orig];
+      b.append(k, s); b.addEventListener("click", () => answer(orig)); box.append(b);
     });
+    if(q.tipo === "pref") return;
     const h = document.createElement("button"); h.type="button"; h.className="btn link hint"; h.textContent = T("hint");
     h.addEventListener("click", () => { HINT[q.id] = true; $("q-videtur").textContent = q.h[LANG]; $("q-videtur").classList.add("note"); h.remove(); });
     box.append(h);
@@ -1128,7 +1357,7 @@ function answer(v){
 /* Pantalla intermedia tras la Discriminatio */
 function finFase1(){
   const ids = QS.filter(q => q.fase === 1).map(q => q.id);
-  SOSP = Math.round(ids.filter(id => ANS[id] === "si").length / ids.length * 100);
+  SOSP = Math.round(QS.filter(q => q.fase === 1).reduce((t,q) => t + punto(q, ANS[q.id]), 0) / ids.length * 100);
   const nivel = SOSP >= 60 ? "alta" : SOSP >= 35 ? "media" : "baja";
   $("f-meta").textContent = "I · DISCRIMINATIO";
   $("f-title").textContent = T("susTitle");
@@ -1144,7 +1373,7 @@ function finFase1(){
 /* Pantalla intermedia tras la Determinatio speciei */
 function finFase2(){
   AREA_SC = {};
-  AREAS.forEach(a => { const qs = DETERM.filter(q => q.area === a); AREA_SC[a] = Math.round(qs.filter(q => ANS[q.id] === "si").length / qs.length * 100); });
+  AREAS.forEach(a => { const qs = QS.filter(q => q.fase === 2 && q.area === a); AREA_SC[a] = qs.length ? Math.round(qs.reduce((t,q) => t + punto(q, ANS[q.id]), 0) / qs.length * 100) : 0; });
   const fuertes = AREAS.filter(a => AREA_SC[a] >= 50).sort((x,y) => AREA_SC[y]-AREA_SC[x]);
   let especie;
   if(fuertes.length === 3) especie = T("allAreas");
@@ -1169,6 +1398,7 @@ function calcular(){
     const a = ANS[q.id];
     if(q.tipo === "val"){ if(a==="si") valYes++; return; }
     if(q.opp){ if(a==="si") oppYes++; return; }
+    if(q.tipo === "pref"){ const v = q.v[a] || 0; mx.O++; sc.O += v; tot++; pts += v; return; }
     if(q.tipo === "ver"){
       const ok = a === q.c, conPista = !!HINT[q.id];
       if(a === 3) mcNs++; else if(!ok) mcWrong++;
@@ -1177,12 +1407,12 @@ function calcular(){
       if(dom[q.d]){ dom[q.d].n++; if(ok) dom[q.d].y++; }
       return;
     }
-    const ax = axes(q), si = a === "si";
-    if(q.d==="POP" || ((q.d==="TEC" || q.d==="CIEN") && ax.O)){ afN++; if(si) afY++; }
+    const ax = axes(q), si = a === "si", pos = punto(q, a) === 1;
+    if(q.d==="POP" || ((q.d==="TEC" || q.d==="CIEN") && ax.O)){ afN++; if(pos) afY++; }
     if(ax.A){ mx.A += 1; if(ax.arev ? !si : si) sc.A += 1; }
-    ["I","O","P","E","C"].forEach(k => { if(ax[k]){ mx[k]++; if(si) sc[k]++; } });
-    if(ax.I || ax.O || ax.P || ax.E){ tot++; if(si) pts++; }
-    if(dom[q.d]){ dom[q.d].n++; if(si) dom[q.d].y++; }
+    ["I","O","P","E","C"].forEach(k => { if(ax[k]){ mx[k]++; if(pos) sc[k]++; } });
+    if(ax.I || ax.O || ax.P || ax.E){ tot++; if(pos) pts++; }
+    if(dom[q.d]){ dom[q.d].n++; if(pos) dom[q.d].y++; }
   });
   const pct = k => mx[k] ? Math.round(sc[k]/mx[k]*100) : 0;
   const ejes = {E:pct("I"), O:pct("O"), A:pct("A")};
@@ -1202,7 +1432,15 @@ function calcular(){
   // subclase: disciplina dominante (híbrida si las dos primeras están a menos de 10 puntos)
   const domPct = DOM_KEYS.map(k => ({k, v: dom[k].n ? Math.round(dom[k].y/dom[k].n*100) : 0, n: dom[k].n})).filter(x=>x.n>0).sort((a,b)=>b.v-a.v);
   const sub = (domPct.length && domPct[0].v >= 25) ? [domPct[0].k] : []; if(domPct[1] && domPct[0].v - domPct[1].v < 10) sub.push(domPct[1].k);
-  // alter ego
+  // alter ego: según la raza y el área dominante
+  const areaDom = (() => {
+    const tot = {HUM:[0,0], CYT:[0,0], POP:[0,0]};
+    domPct.forEach(x => { const a = AREA_OF[x.k]; if(a){ tot[a][0] += x.v * x.n; tot[a][1] += x.n; } });
+    let best = null, bv = -1;
+    AREAS.forEach(a => { const v = tot[a][1] ? tot[a][0]/tot[a][1] : (AREA_SC ? AREA_SC[a] : 0); if(v > bv){ bv = v; best = a; } });
+    return best || "HUM";
+  })();
+  const dv0 = k => (dom[k] && dom[k].n) ? dom[k].y/dom[k].n : 0;
   let alter;
   if(CONFESO) alter = "georgie";
   else if(muggle) alter = ejes.A >= 50 ? "georgie" : "kurt";
@@ -1211,12 +1449,17 @@ function calcular(){
     else if(ejes.E < 30) alter = "zack";
     else if(ejes.A >= 50) alter = "penny";
     else alter = "missy";
-  } // Geek puro: Leonard es el geek profundo (erudición ≥ 70 %); Howard, el más superficial o muy coleccionista
-  else if(key==="HHH") alter = (Col >= 50 || ejes.E < 70) ? "howard" : "leonard";
-  else if(key==="HLH") alter = "bernadette";
-  else if(key==="HHL") alter = (ejes.A < 35 && P >= 50) ? "kripke" : (afic >= 60 && P < 50) ? "raj" : "sheldon";
-  else if(key==="HLL") alter = "amy";
-  else alter = "stuart";
+  } else {
+    const T3 = {
+      HHH:{HUM:"chesterton", CYT:"leonard", POP:"howard"},
+      HHL:{HUM:"tommaso", CYT: P >= 50 ? "sheldon" : "newton", POP:"spock"},
+      HLH:{HUM:"lewis", CYT: Math.random() < 0.5 ? "sagan" : "bernadette", POP:"tolkien"},
+      HLL:{HUM:"hermione", CYT: dv0("CIEN") >= dv0("TEC") ? "amy" : "turing", POP:"raj"},
+      LHH:{HUM:"quijote", CYT:"docbrown", POP:"stuart"},
+      LHL:{HUM:"quijote", CYT:"docbrown", POP:"stuart"}
+    };
+    alter = (T3[key] || T3.LHL)[areaDom];
+  }
   const frase = (ESCALA.find(([max]) => nivel <= max) || ESCALA[ESCALA.length-1])[1];
   // ¿nerd más científico que humanista?
   const dv = k => (dom[k] && dom[k].n) ? dom[k].y/dom[k].n*100 : null;
@@ -1224,12 +1467,13 @@ function calcular(){
   const cientifico = !CONFESO && ((["CIEN","TEC"].includes(sub[0]) && domPct[0].v >= 50) || (avg(["CIEN","TEC"]) >= 40 && avg(["CIEN","TEC"]) - avg(["FIL","TEO","PAT","LEN","LIT","HIS"]) >= 20));
   // títulos honoríficos
   let titulo = "";
-  if(AREA_SC && !CONFESO){
+  if(AREA_SC && !CONFESO && !muggle && !aspirante){
     const altos = AREAS.filter(a => AREA_SC[a] >= 50).length;
     if(AREAS.every(a => AREA_SC[a] >= 75)) titulo = "doctor";
     else if(oppYes >= 1 && AREA_SC.HUM >= 50 && (AREA_SC.POP >= 50 || AREA_SC.CYT >= 50)) titulo = "coincidentia";
     else if(SOSP >= 60 && altos === 0) titulo = "unicornio";
   }
+  if(titulo === "doctor") alter = "leonardo"; else if(titulo === "coincidentia") alter = "lemaitre"; else if(titulo === "unicornio") alter = "wittgenstein";
   const impostor = mcWrong >= 3;
   const honesto = !impostor && mcNs >= 3;
   return {titulo, impostor, honesto, veces, reincidente, cientifico, ejes, P, Est, afic, nivel, key, muggle, aspirante, rasgos, domPct, sub, alter, frase, sospecha: valYes>=2};
@@ -1249,11 +1493,11 @@ function finish(){
 }
 function payload(){
   const r = LAST, resp = {};
-  QS.forEach(q => { const a = ANS[q.id]; resp[q.id] = q.tipo==="ver" ? (a===q.c?1:(a===3?-1:0)) : (a==="si"?1:(a==="ns"?-1:0)); });
+  QS.forEach(q => { const a = ANS[q.id]; resp[q.id] = q.tipo==="pref" ? a : q.tipo==="ver" ? (a===q.c?1:(a===3?-1:0)) : (a==="si"?1:(a==="ns"?-1:0)); });
   const dom = {}; r.domPct.forEach(x => dom[x.k] = x.v);
   return {
     lang: LANG, raza: (r.aspirante ? "aspirante " : "") + RAZAS[r.key].es[0], sub: r.sub.join("-"),
-    alter: ALTER[r.alter].n, nivel: String(r.nivel),
+    alter: alterName(r.alter,"es"), nivel: String(r.nivel),
     datos: JSON.stringify({v:"2.1", E:r.ejes.E, O:r.ejes.O, A:r.ejes.A, P:r.P, Est:r.Est, afic:r.afic, sospecha:r.sospecha, sosp:SOSP, areas:AREA_SC, titulo:r.titulo, impostor:r.impostor, honesto:r.honesto, veces:r.veces, confeso:CONFESO, pistas:Object.keys(HINT), dom, resp})
   };
 }
@@ -1275,7 +1519,7 @@ function renderResult(){
   const al = ALTER[r.alter];
   $("r-alter").textContent = "";
   const ab = document.createElement("b"); ab.textContent = T("alter").toUpperCase();
-  $("r-alter").append(ab, document.createTextNode(al.n + " — " + al[LANG]));
+  $("r-alter").append(ab, document.createTextNode(alterName(r.alter, LANG) + " — " + al[LANG]));
   $("r-nivel").textContent = r.nivel;
   $("r-frase").textContent = r.frase[LANG];
   $("r-dork").textContent = r.key==="LHL" ? T("dork") : "";
@@ -1357,7 +1601,7 @@ async function tarjeta(){
   if(r.rasgos){ x.fillStyle="#C9C2B2"; x.font="400 26px 'JetBrains Mono', monospace"; x.fillText(T("traits") + " " + RAZAS[r.rasgos][LANG][0], M, y+4); y += 40; }
   // alter ego
   y += 30; x.fillStyle="#9AA3B8"; x.font="400 24px 'JetBrains Mono', monospace"; x.fillText(T("alter").toUpperCase(), M, y);
-  x.fillStyle="#EDE6D6"; x.font="400 44px 'IM Fell English', Georgia, serif"; y = wrap(x, ALTER[r.alter].n, M, y+52, W-2*M, 50);
+  x.fillStyle="#EDE6D6"; x.font="400 44px 'IM Fell English', Georgia, serif"; y = wrap(x, alterName(r.alter, LANG), M, y+52, W-2*M, 50);
   if(r.titulo){ x.fillStyle="#E2553F"; x.font="italic 36px 'IM Fell English', Georgia, serif"; y = wrap(x, T("tit_" + r.titulo).split(":")[0], M, y+6, W-2*M, 42); }
   // nivel
   y += 20; x.fillStyle="#2E3854"; x.fillRect(M,y,W-2*M,2);
@@ -1385,7 +1629,7 @@ async function tarjeta(){
   x.fillText(where, M, H-56);
   return new Promise(res => c.toBlob(b => res(b), "image/png"));
 }
-function shareText(){ const r = LAST; return T("shareTxt") + " " + razaTxt(r) + " (" + especieTxt(r) + "), " + T("level") + " " + r.nivel + ". " + T("alter") + ": " + ALTER[r.alter].n + "."; }
+function shareText(){ const r = LAST; return T("shareTxt") + " " + razaTxt(r) + " (" + especieTxt(r) + "), " + T("level") + " " + r.nivel + ". " + T("alter") + ": " + alterName(r.alter, LANG) + "."; }
 let lastURL = null;
 function openModal(blob){
   if(lastURL) URL.revokeObjectURL(lastURL);
@@ -1404,8 +1648,29 @@ async function compartir(){
 }
 async function guardarImagen(){ if(!LAST) return; const blob = await tarjeta(); if(blob) openModal(blob); }
 
+/* ---------- Galería de alter ego ---------- */
+let antes = "s-portada";
+function galeria(){
+  antes = [...document.querySelectorAll(".screen")].find(s => s.classList.contains("on")).id;
+  const box = $("g-list"); box.textContent = "";
+  ALTER_GROUPS.forEach(([g, raza]) => {
+    const h = document.createElement("div"); h.className = "g-h";
+    h.textContent = raza ? RAZAS[raza][LANG][0] + (g === "fan" ? " / " + RAZAS.LHL[LANG][0] : "") : T("grp_" + g);
+    box.append(h);
+    Object.keys(ALTER).filter(k => ALTER[k].g === g).forEach(k => {
+      const it = document.createElement("div"); it.className = "g-item" + (LAST && LAST.alter === k ? " me" : "");
+      const b = document.createElement("b"); b.textContent = alterName(k, LANG);
+      const s = document.createElement("span"); s.textContent = ALTER[k].L[LANG];
+      it.append(b, s); box.append(it);
+    });
+  });
+  show("s-galeria");
+}
+document.querySelectorAll(".gal").forEach(b => b.addEventListener("click", galeria));
+
 /* ---------- Botones ---------- */
 $("b-start").addEventListener("click", () => show("s-teoria"));
+$("g-back").addEventListener("click", () => show(antes));
 $("b-go").addEventListener("click", start);
 $("b-again").addEventListener("click", start);
 $("b-share").addEventListener("click", compartir);
