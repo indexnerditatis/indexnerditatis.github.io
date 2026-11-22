@@ -78,6 +78,10 @@
   .qtext{font-size:30px;line-height:1.25;margin-top:16px}
   .videtur{font-size:17px;line-height:1.5;font-style:italic;color:var(--parch2);margin-top:20px}
   .answers{margin-top:auto;padding-top:28px;display:flex;flex-direction:column;gap:12px}
+  .videtur.note{font-style:normal;font-family:var(--mono);font-size:13px;color:var(--green);border-left:2px solid var(--green);padding-left:10px}
+  .btn.hint{min-height:44px;font-size:16px}
+  .fase-big{font-family:var(--sc);font-size:46px;line-height:1.05;color:var(--rub);margin-top:6px}
+  .alter.titulo b{color:var(--rub)}
   /* resultado */
   .eres{font-family:var(--mono);font-size:12px;color:var(--mute);margin-top:30px;padding-right:116px}
   .perfil{font-family:var(--sc);font-size:44px;line-height:1.02;margin-top:6px;padding-right:116px}
@@ -129,7 +133,7 @@
 
   <!-- PORTADA -->
   <section class="screen on" id="s-portada">
-    <div class="meta"><span>INDEX NERDITATIS</span><span>v2.0</span></div>
+    <div class="meta"><span>INDEX NERDITATIS</span><span>v2.1</span></div>
     <div class="rule"></div>
     <div class="lang" role="group" id="lang" aria-label="Idioma"></div>
     <div class="stack" style="gap:24px;margin-top:22px">
@@ -147,7 +151,7 @@
 
   <!-- TEORÍA -->
   <section class="screen" id="s-teoria">
-    <div class="meta"><span>PROLEGOMENA</span><span>v2.0</span></div>
+    <div class="meta"><span>PROLEGOMENA</span><span>v2.1</span></div>
     <div class="th-title" data-t="thTitle"></div>
     <p class="th-lead" data-t="thLead"></p>
     <svg class="venn" viewBox="0 0 340 330" role="img" id="venn">
@@ -179,6 +183,20 @@
     </div>
   </section>
 
+  <!-- PANTALLA ENTRE FASES -->
+  <section class="screen" id="s-fase">
+    <div class="meta"><span id="f-meta"></span><span>v2.1</span></div>
+    <div class="rule"></div>
+    <div class="th-h" id="f-title" style="margin-top:40px"></div>
+    <div class="fase-big" id="f-big"></div>
+    <p class="th-lead" id="f-txt"></p>
+    <div class="stack" style="gap:12px;margin-top:auto;padding-top:32px">
+      <button class="btn primary" id="f-go" type="button"><span></span>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#121A2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <button class="btn link" id="f-alt" type="button"></button>
+    </div>
+  </section>
+
   <!-- PREGUNTA -->
   <section class="screen" id="s-pregunta">
     <div class="meta"><span id="q-num"></span><span class="tag" id="q-tag"></span></div>
@@ -191,7 +209,7 @@
 
   <!-- RESULTADO -->
   <section class="screen" id="s-resultado">
-    <div class="meta"><span data-t="res"></span><span>60 / 60</span></div>
+    <div class="meta"><span data-t="res"></span><span>v2.1</span></div>
     <div class="rel">
       <div class="eres" id="r-eres"></div>
       <div class="perfil" id="r-perfil"></div>
@@ -200,8 +218,10 @@
       <div class="stamp" id="r-stamp" aria-hidden="true"></div>
     </div>
     <p class="alter" id="r-alter"></p>
+    <p class="alter titulo" id="r-titulo"></p>
     <div class="nivel"><div class="n" id="r-nivel"></div><p id="r-frase"></p></div>
     <div class="dork" id="r-dork"></div>
+    <div class="dork" id="r-reinc" style="color:var(--green)"></div>
     <p class="desc" id="r-desc"></p>
     <p class="desc" id="r-ciencia" style="font-size:16px;border-left:2px solid var(--green);padding-left:12px;color:var(--parch2)"></p>
     <p class="desc" id="r-validez" style="font-style:italic;color:var(--parch2)"></p>
@@ -520,14 +540,193 @@ const VAL = [
  L("VAL-05","Has mentido en este quiz?","Hai mentito in questo quiz?","Have you lied in this quiz?")
 ];
 
+/* Nerditas 2.1 — preguntas de las fases I y II y banco de opción múltiple con pista.
+   Áreas de la fase II: HUM humanista · CYT ciencia y tecnología · POP cultura pop y videojuegos */
+const AREA_OF = {FIL:"HUM", TEO:"HUM", PAT:"HUM", LEN:"HUM", LIT:"HUM", HIS:"HUM", CIEN:"CYT", TEC:"CYT", POP:"POP"};
+
+/* ---------- Fase I · Discriminatio (sospecha de nerdidad) ---------- */
+function D(id, ax, es, it, en){ return {id, d:"GEN", ax, tipo:"si_no", fase:1, t:{es, it, en}}; }
+const DISCRIM_NEW = [
+ D("DIS-01","O","Te sientes nerd, aunque sea un poco?","Ti senti nerd, anche solo un po’?","Do you feel like a nerd, even a little?"),
+ D("DIS-02","O","Te obsesionas con los temas que estudias?","Ti ossessioni con gli argomenti che studi?","Do you get obsessed with the subjects you study?"),
+ D("DIS-03","IO","Lees por gusto cosas que nadie te ha mandado leer?","Leggi per piacere cose che nessuno ti ha chiesto di leggere?","Do you read for pleasure things nobody asked you to read?"),
+ D("DIS-04","O","Te has quedado despierto hasta tarde por un libro, un problema o una partida?","Sei rimasto sveglio fino a tardi per un libro, un problema o una partita?","Have you stayed up late over a book, a problem or a game?"),
+ D("DIS-05","P","Corriges mentalmente los errores que oyes o lees?","Correggi mentalmente gli errori che senti o leggi?","Do you mentally correct the mistakes you hear or read?")
+];
+/* más cinco que ya existen en el banco */
+const DISCRIM_IDS = ["ORI-041","GEN-13","ORI-085","GEN-12","GEN-06"];
+
+/* ---------- Fase II · Determinatio speciei ---------- */
+function S(id, area, es, it, en){ return {id, d:"DET", area, ax:"O", tipo:"si_no", fase:2, t:{es, it, en}}; }
+const DETERM = [
+ S("DET-H1","HUM","Disfrutas leyendo filosofía o teología por tu cuenta?","Ti piace leggere filosofia o teologia per conto tuo?","Do you enjoy reading philosophy or theology on your own?"),
+ S("DET-H2","HUM","Te emociona encontrar la etimología de una palabra o una cita en su lengua original?","Ti emoziona scoprire l’etimologia di una parola o una citazione nella lingua originale?","Does finding a word’s etymology or a quotation in its original language thrill you?"),
+ S("DET-H3","HUM","Pasarías una tarde feliz en un archivo o en una biblioteca antigua?","Passeresti un pomeriggio felice in un archivio o in una biblioteca antica?","Would you happily spend an afternoon in an archive or an old library?"),
+ S("DET-H4","HUM","Tienes opiniones firmes sobre algún autor clásico (Platón, Agustín, Dante…)?","Hai opinioni ferme su qualche autore classico (Platone, Agostino, Dante…)?","Do you hold firm opinions about some classic author (Plato, Augustine, Dante…)?"),
+ S("DET-C1","CYT","Te interesa saber cómo funcionan las cosas por dentro (motores, ordenadores, el cosmos)?","Ti interessa sapere come funzionano le cose dentro (motori, computer, il cosmo)?","Are you curious about how things work inside (engines, computers, the cosmos)?"),
+ S("DET-C2","CYT","Sigues por gusto las novedades de ciencia o tecnología?","Segui per piacere le novità di scienza o tecnologia?","Do you follow science or technology news for fun?"),
+ S("DET-C3","CYT","Has programado algo, aunque sea una macro de Excel?","Hai programmato qualcosa, anche solo una macro di Excel?","Have you programmed anything, even an Excel macro?"),
+ S("DET-C4","CYT","Has mirado el cielo con un telescopio, o algo por un microscopio, sólo por curiosidad?","Hai guardato il cielo con un telescopio, o qualcosa al microscopio, solo per curiosità?","Have you looked through a telescope or a microscope just out of curiosity?"),
+ S("DET-P1","POP","Te sabes de memoria diálogos de alguna película o serie de culto?","Sai a memoria dialoghi di qualche film o serie cult?","Do you know lines from a cult film or series by heart?"),
+ S("DET-P2","POP","Juegas o has jugado a videojuegos con entusiasmo?","Giochi o hai giocato ai videogiochi con entusiasmo?","Do you play, or have you played, video games enthusiastically?"),
+ S("DET-P3","POP","Lees o has leído cómics, manga o novelas de fantasía con devoción?","Leggi o hai letto fumetti, manga o romanzi fantasy con devozione?","Do you read, or have you read, comics, manga or fantasy novels devotedly?"),
+ S("DET-P4","POP","Has jugado a rol o a juegos de mesa complicados?","Hai giocato di ruolo o a giochi da tavolo complicati?","Have you played role-playing games or complex board games?")
+];
+/* Preguntas de opuestos (coincidentia oppositorum) */
+function X(id, es, it, en){ return {id, d:"DET", ax:"", opp:true, tipo:"si_no", fase:2, t:{es, it, en}}; }
+const OPUESTOS = [
+ X("OPP-1","Escuchas heavy metal mientras lees a los Padres de la Iglesia?","Ascolti heavy metal mentre leggi i Padri della Chiesa?","Do you listen to heavy metal while reading the Church Fathers?"),
+ X("OPP-2","Alternas el Denzinger con el anime, o la Suma Teológica con la consola?","Alterni il Denzinger con gli anime, o la Summa con la console?","Do you alternate Denzinger with anime, or the Summa with a games console?"),
+ X("OPP-3","Pasas de Kant a un videojuego sin cambiar de humor?","Passi da Kant a un videogioco senza cambiare umore?","Do you go from Kant to a video game without a change of mood?")
+];
+
+/* ---------- Fase III · Opción múltiple: 3 alternativas + «No sé», con pista nerd ---------- */
+function M(id, area, d, c, t, o, h){ return {id, area, d, c, tipo:"ver", fase:3, t, o, h}; }
+const MCQ = [
+ /* Humanista */
+ M("MC-H01","HUM","TEO",1,{es:"Quién acuñó «fides quaerens intellectum»?",it:"Chi coniò «fides quaerens intellectum»?",en:"Who coined «fides quaerens intellectum»?"},
+   {es:["Agustín","Anselmo","Tomás"],it:["Agostino","Anselmo","Tommaso"],en:["Augustine","Anselm","Aquinas"]},
+   {es:"Pista: es el del argumento ontológico.",it:"Indizio: è quello dell’argomento ontologico.",en:"Hint: he’s the ontological-argument man."}),
+ M("MC-H02","HUM","PAT",1,{es:"Cuál NO fue un concilio ecuménico?",it:"Quale NON fu un concilio ecumenico?",en:"Which was NOT an ecumenical council?"},
+   {es:["Nicea","Hipona","Calcedonia"],it:["Nicea","Ippona","Calcedonia"],en:["Nicaea","Hippo","Chalcedon"]},
+   {es:"Pista: uno de los tres es la ciudad africana de san Agustín.",it:"Indizio: una delle tre è la città africana di sant’Agostino.",en:"Hint: one of them is St Augustine’s African town."}),
+ M("MC-H03","HUM","TEO",1,{es:"Qué añade el Filioque al Credo?",it:"Che cosa aggiunge il Filioque al Credo?",en:"What does the Filioque add to the Creed?"},
+   {es:["Que el Hijo es eterno","Que el Espíritu procede también del Hijo","Que María es Theotokos"],it:["Che il Figlio è eterno","Che lo Spirito procede anche dal Figlio","Che Maria è Theotokos"],en:["That the Son is eternal","That the Spirit proceeds from the Son too","That Mary is Theotokos"]},
+   {es:"Pista: Filioque significa «y del Hijo».",it:"Indizio: Filioque significa «e dal Figlio».",en:"Hint: Filioque means «and from the Son»."}),
+ M("MC-H04","HUM","FIL",1,{es:"Quién escribió La consolación de la filosofía?",it:"Chi scrisse La consolazione della filosofia?",en:"Who wrote The Consolation of Philosophy?"},
+   {es:["Casiodoro","Boecio","Séneca"],it:["Cassiodoro","Boezio","Seneca"],en:["Cassiodorus","Boethius","Seneca"]},
+   {es:"Pista: la escribió en la cárcel, condenado por Teodorico.",it:"Indizio: la scrisse in carcere, condannato da Teodorico.",en:"Hint: he wrote it in prison, condemned by Theodoric."}),
+ M("MC-H05","HUM","FIL",1,{es:"Qué son ens, unum, verum, bonum?",it:"Che cosa sono ens, unum, verum, bonum?",en:"What are ens, unum, verum, bonum?"},
+   {es:["Categorías","Trascendentales","Predicables"],it:["Categorie","Trascendentali","Predicabili"],en:["Categories","Transcendentals","Predicables"]},
+   {es:"Pista: se convierten con el ente y lo atraviesan todo.",it:"Indizio: si convertono con l’ente e attraversano tutto.",en:"Hint: they are convertible with being and cut across everything."}),
+ M("MC-H06","HUM","LEN",1,{es:"En qué lengua se escribió la mayor parte del Antiguo Testamento?",it:"In che lingua fu scritta la maggior parte dell’Antico Testamento?",en:"In what language was most of the Old Testament written?"},
+   {es:["Arameo","Hebreo","Griego"],it:["Aramaico","Ebraico","Greco"],en:["Aramaic","Hebrew","Greek"]},
+   {es:"Pista: es la lengua de la Torá.",it:"Indizio: è la lingua della Torah.",en:"Hint: it’s the language of the Torah."}),
+ M("MC-H07","HUM","LEN",1,{es:"Qué tiempo verbal griego es «ἔλυσα»?",it:"Che tempo verbale greco è «ἔλυσα»?",en:"What Greek tense is «ἔλυσα»?"},
+   {es:["Imperfecto","Aoristo","Perfecto"],it:["Imperfetto","Aoristo","Perfetto"],en:["Imperfect","Aorist","Perfect"]},
+   {es:"Pista: el aumento ἐ- y la terminación -σα delatan un pasado puntual.",it:"Indizio: l’aumento ἐ- e la desinenza -σα tradiscono un passato puntuale.",en:"Hint: the augment ἐ- and the -σα ending betray a punctual past."}),
+ M("MC-H08","HUM","HIS",1,{es:"A qué año corresponde MCDLIII?",it:"A che anno corrisponde MCDLIII?",en:"What year is MCDLIII?"},
+   {es:["1353","1453","1553"],it:["1353","1453","1553"],en:["1353","1453","1553"]},
+   {es:"Pista: es el año en que cayó Constantinopla.",it:"Indizio: è l’anno della caduta di Costantinopoli.",en:"Hint: it’s the year Constantinople fell."}),
+ M("MC-H09","HUM","LIT",0,{es:"Quién hace el elogio de san Francisco en la Divina Comedia?",it:"Chi fa l’elogio di san Francesco nella Divina Commedia?",en:"Who delivers the praise of St Francis in the Divine Comedy?"},
+   {es:["Santo Tomás de Aquino","San Buenaventura","San Bernardo"],it:["San Tommaso d’Aquino","San Bonaventura","San Bernardo"],en:["St Thomas Aquinas","St Bonaventure","St Bernard"]},
+   {es:"Pista: Dante cruza las órdenes: un dominico alaba al fundador franciscano.",it:"Indizio: Dante incrocia gli ordini: un domenicano loda il fondatore francescano.",en:"Hint: Dante crosses the orders: a Dominican praises the Franciscan founder."}),
+ M("MC-H10","HUM","LIT",2,{es:"Dónde coloca Dante a Siger de Brabante?",it:"Dove colloca Dante Sigieri di Brabante?",en:"Where does Dante place Siger of Brabant?"},
+   {es:["En el Infierno, junto a Farinata","En el Limbo, junto a Aristóteles","En el Paraíso, junto a santo Tomás"],it:["Nell’Inferno, accanto a Farinata","Nel Limbo, accanto ad Aristotele","Nel Paradiso, accanto a san Tommaso"],en:["In Hell, beside Farinata","In Limbo, beside Aristotle","In Paradise, beside St Thomas"]},
+   {es:"Pista: Dante sorprende y lo pone junto a su gran adversario.",it:"Indizio: Dante sorprende e lo mette accanto al suo grande avversario.",en:"Hint: Dante surprises us and seats him by his great opponent."}),
+ M("MC-H11","HUM","PAT",0,{es:"Qué cuatro Padres sostienen la Cátedra de San Pedro en la basílica vaticana?",it:"Quali quattro Padri sostengono la Cattedra di San Pietro nella basilica vaticana?",en:"Which four Fathers hold up the Chair of St Peter in St Peter’s Basilica?"},
+   {es:["Ambrosio, Agustín, Atanasio y Crisóstomo","Jerónimo, Gregorio, Basilio y Gregorio Nacianceno","Agustín, Jerónimo, Ambrosio y Gregorio Magno"],
+    it:["Ambrogio, Agostino, Atanasio e Crisostomo","Girolamo, Gregorio, Basilio e Gregorio Nazianzeno","Agostino, Girolamo, Ambrogio e Gregorio Magno"],
+    en:["Ambrose, Augustine, Athanasius and Chrysostom","Jerome, Gregory, Basil and Gregory Nazianzen","Augustine, Jerome, Ambrose and Gregory the Great"]},
+   {es:"Pista: el Bernini puso dos latinos y dos griegos.",it:"Indizio: il Bernini ha messo due latini e due greci.",en:"Hint: Bernini chose two Latins and two Greeks."}),
+ M("MC-H12","HUM","PAT",0,{es:"En qué obra se cuenta el episodio del «Tolle, lege»?",it:"In quale opera si racconta l’episodio del «Tolle, lege»?",en:"Which work tells the «Tolle, lege» episode?"},
+   {es:["Las Confesiones","La ciudad de Dios","De Trinitate"],it:["Le Confessioni","La città di Dio","De Trinitate"],en:["The Confessions","The City of God","De Trinitate"]},
+   {es:"Pista: es un episodio autobiográfico, en un jardín de Milán.",it:"Indizio: è un episodio autobiografico, in un giardino di Milano.",en:"Hint: it’s autobiographical, set in a garden in Milan."}),
+ M("MC-H13","HUM","FIL",0,{es:"Quién proclamó «Dios ha muerto»?",it:"Chi proclamò «Dio è morto»?",en:"Who proclaimed «God is dead»?"},
+   {es:["Nietzsche","Feuerbach","Sartre"],it:["Nietzsche","Feuerbach","Sartre"],en:["Nietzsche","Feuerbach","Sartre"]},
+   {es:"Pista: lo anuncia un loco con una linterna a plena luz del día.",it:"Indizio: lo annuncia un folle con una lanterna in pieno giorno.",en:"Hint: a madman announces it with a lantern in broad daylight."}),
+
+ /* Ciencia y tecnología */
+ M("MC-C01","CYT","CIEN",1,{es:"Cuál es el sexto gas noble?",it:"Qual è il sesto gas nobile?",en:"What is the sixth noble gas?"},
+   {es:["Xenón","Radón","Kriptón"],it:["Xeno","Radon","Kripton"],en:["Xenon","Radon","Krypton"]},
+   {es:"Pista: es radiactivo y se acumula en los sótanos.",it:"Indizio: è radioattivo e si accumula nelle cantine.",en:"Hint: it’s radioactive and collects in basements."}),
+ M("MC-C02","CYT","TEC",0,{es:"Qué significa la «S» de HTTPS?",it:"Che cosa significa la «S» di HTTPS?",en:"What does the «S» in HTTPS stand for?"},
+   {es:["Secure (seguro)","Server (servidor)","Simple"],it:["Secure (sicuro)","Server","Simple"],en:["Secure","Server","Simple"]},
+   {es:"Pista: es lo que indica el candado del navegador.",it:"Indizio: è ciò che indica il lucchetto del browser.",en:"Hint: it’s what the padlock in your browser means."}),
+ M("MC-C03","CYT","CIEN",1,{es:"Qué número es, según Sheldon Cooper, «el Chuck Norris de los números»?",it:"Quale numero è, secondo Sheldon Cooper, «il Chuck Norris dei numeri»?",en:"Which number is, according to Sheldon Cooper, «the Chuck Norris of numbers»?"},
+   {es:["42","73","7"],it:["42","73","7"],en:["42","73","7"]},
+   {es:"Pista: es el 21.º número primo.",it:"Indizio: è il 21° numero primo.",en:"Hint: it’s the 21st prime number."}),
+ M("MC-C04","CYT","CIEN",0,{es:"Cuál es, aproximadamente, el número de Avogadro?",it:"Qual è, circa, il numero di Avogadro?",en:"Roughly, what is Avogadro’s number?"},
+   {es:["6,022 × 10²³","3,14 × 10⁸","9,81 × 10⁶"],it:["6,022 × 10²³","3,14 × 10⁸","9,81 × 10⁶"],en:["6.022 × 10²³","3.14 × 10⁸","9.81 × 10⁶"]},
+   {es:"Pista: cuenta las partículas de un mol.",it:"Indizio: conta le particelle di una mole.",en:"Hint: it counts the particles in a mole."}),
+ M("MC-C05","CYT","CIEN",0,{es:"Quién formuló el principio de incertidumbre?",it:"Chi formulò il principio di indeterminazione?",en:"Who formulated the uncertainty principle?"},
+   {es:["Heisenberg","Schrödinger","Bohr"],it:["Heisenberg","Schrödinger","Bohr"],en:["Heisenberg","Schrödinger","Bohr"]},
+   {es:"Pista: en Breaking Bad, Walter White usa su apellido como alias.",it:"Indizio: in Breaking Bad, Walter White usa il suo cognome come pseudonimo.",en:"Hint: in Breaking Bad, Walter White uses his surname as an alias."}),
+ M("MC-C06","CYT","TEC",0,{es:"Cuánto vale 1010 en binario?",it:"Quanto vale 1010 in binario?",en:"What is 1010 in binary?"},
+   {es:["10","8","12"],it:["10","8","12"],en:["10","8","12"]},
+   {es:"Pista: 8 + 2.",it:"Indizio: 8 + 2.",en:"Hint: 8 + 2."}),
+ M("MC-C07","CYT","TEC",0,{es:"Qué significa CPU?",it:"Che cosa significa CPU?",en:"What does CPU stand for?"},
+   {es:["Central Processing Unit","Computer Personal Unit","Central Program Utility"],it:["Central Processing Unit","Computer Personal Unit","Central Program Utility"],en:["Central Processing Unit","Computer Personal Unit","Central Program Utility"]},
+   {es:"Pista: es el «cerebro» del ordenador.",it:"Indizio: è il «cervello» del computer.",en:"Hint: it’s the computer’s «brain»."}),
+ M("MC-C08","CYT","CIEN",0,{es:"Qué partícula se descubrió en el CERN en 2012?",it:"Quale particella fu scoperta al CERN nel 2012?",en:"Which particle was discovered at CERN in 2012?"},
+   {es:["El bosón de Higgs","El neutrino","El quark top"],it:["Il bosone di Higgs","Il neutrino","Il quark top"],en:["The Higgs boson","The neutrino","The top quark"]},
+   {es:"Pista: la prensa la llamó «la partícula de Dios».",it:"Indizio: la stampa la chiamò «la particella di Dio».",en:"Hint: the press called it «the God particle»."}),
+ M("MC-C09","CYT","TEC",0,{es:"A quién se considera la primera programadora de la historia?",it:"Chi è considerata la prima programmatrice della storia?",en:"Who is considered the first computer programmer?"},
+   {es:["Ada Lovelace","Marie Curie","Grace Hopper"],it:["Ada Lovelace","Marie Curie","Grace Hopper"],en:["Ada Lovelace","Marie Curie","Grace Hopper"]},
+   {es:"Pista: era hija de lord Byron.",it:"Indizio: era figlia di lord Byron.",en:"Hint: she was Lord Byron’s daughter."}),
+ M("MC-C10","CYT","CIEN",0,{es:"A qué velocidad viaja aproximadamente la luz en el vacío?",it:"A che velocità viaggia circa la luce nel vuoto?",en:"Roughly how fast does light travel in a vacuum?"},
+   {es:["300.000 km/s","30.000 km/s","3.000.000 km/s"],it:["300.000 km/s","30.000 km/s","3.000.000 km/s"],en:["300,000 km/s","30,000 km/s","3,000,000 km/s"]},
+   {es:"Pista: da unas siete vueltas y media a la Tierra en un segundo.",it:"Indizio: fa circa sette giri e mezzo della Terra in un secondo.",en:"Hint: it circles the Earth about seven and a half times a second."}),
+ M("MC-C11","CYT","TEC",0,{es:"Qué dice la ley de Moore?",it:"Che cosa dice la legge di Moore?",en:"What does Moore’s law say?"},
+   {es:["Los transistores de un chip se duplican cada dos años, más o menos","Si algo puede salir mal, saldrá mal","La energía ni se crea ni se destruye"],
+    it:["I transistor di un chip raddoppiano circa ogni due anni","Se qualcosa può andare storto, lo farà","L’energia non si crea né si distrugge"],
+    en:["Transistors on a chip double roughly every two years","Anything that can go wrong will go wrong","Energy is neither created nor destroyed"]},
+   {es:"Pista: su autor fundó Intel.",it:"Indizio: il suo autore fondò Intel.",en:"Hint: its author co-founded Intel."}),
+
+ /* Cultura pop y videojuegos */
+ M("MC-P01","POP","POP",1,{es:"En qué alfabeto está grabada la inscripción del Anillo Único?",it:"In quale alfabeto è incisa l’iscrizione dell’Unico Anello?",en:"In which script is the One Ring’s inscription engraved?"},
+   {es:["Rúnico","Tengwar","Cirth"],it:["Runico","Tengwar","Cirth"],en:["Runic","Tengwar","Cirth"]},
+   {es:"Pista: es la escritura de los elfos, aunque la lengua sea de Mordor.",it:"Indizio: è la scrittura degli elfi, anche se la lingua è di Mordor.",en:"Hint: it’s the elves’ script, though the language is Mordor’s."}),
+ M("MC-P02","POP","POP",0,{es:"Cuál es la respuesta a la pregunta fundamental sobre la vida, el universo y todo lo demás?",it:"Qual è la risposta alla domanda fondamentale sulla vita, l’universo e tutto quanto?",en:"What is the answer to the ultimate question of life, the universe and everything?"},
+   {es:["42","73","7"],it:["42","73","7"],en:["42","73","7"]},
+   {es:"Pista: la calculó Pensamiento Profundo en siete millones y medio de años.",it:"Indizio: la calcolò Pensiero Profondo in sette milioni e mezzo di anni.",en:"Hint: Deep Thought took seven and a half million years to compute it."}),
+ M("MC-P03","POP","POP",0,{es:"Qué píldora hay que tomar para ver cuán profunda es la madriguera del conejo?",it:"Quale pillola bisogna prendere per vedere quanto è profonda la tana del bianconiglio?",en:"Which pill do you take to see how deep the rabbit hole goes?"},
+   {es:["La roja","La azul","La verde"],it:["La rossa","La blu","La verde"],en:["The red one","The blue one","The green one"]},
+   {es:"Pista: la azul te devuelve a tu cama.",it:"Indizio: la blu ti rimanda nel tuo letto.",en:"Hint: the blue one sends you back to bed."}),
+ M("MC-P04","POP","POP",0,{es:"Qué se dice al hacer el saludo vulcano?",it:"Che cosa si dice facendo il saluto vulcaniano?",en:"What do you say with the Vulcan salute?"},
+   {es:["Larga vida y prosperidad","Que la Fuerza te acompañe","Hasta el infinito y más allá"],it:["Lunga vita e prosperità","Che la Forza sia con te","Verso l’infinito e oltre"],en:["Live long and prosper","May the Force be with you","To infinity and beyond"]},
+   {es:"Pista: lo dice Spock, no Yoda.",it:"Indizio: lo dice Spock, non Yoda.",en:"Hint: Spock says it, not Yoda."}),
+ M("MC-P05","POP","POP",0,{es:"Cuántas gemas del infinito hay?",it:"Quante sono le gemme dell’infinito?",en:"How many Infinity Stones are there?"},
+   {es:["Seis","Siete","Cinco"],it:["Sei","Sette","Cinque"],en:["Six","Seven","Five"]},
+   {es:"Pista: caben en el guantelete: una por dedo y otra en el dorso.",it:"Indizio: stanno nel guanto: una per dito e un’altra sul dorso.",en:"Hint: they fit the gauntlet: one per finger and one on the back."}),
+ M("MC-P06","POP","POP",0,{es:"Cómo se llama la espada reforjada de Aragorn?",it:"Come si chiama la spada riforgiata di Aragorn?",en:"What is the name of Aragorn’s reforged sword?"},
+   {es:["Andúril","Glamdring","Dardo"],it:["Andúril","Glamdring","Pungolo"],en:["Andúril","Glamdring","Sting"]},
+   {es:"Pista: significa «Llama del Oeste».",it:"Indizio: significa «Fiamma dell’Ovest».",en:"Hint: it means «Flame of the West»."}),
+ M("MC-P07","POP","POP",0,{es:"En Dungeons & Dragons, qué dado se tira para atacar?",it:"In Dungeons & Dragons, quale dado si tira per attaccare?",en:"In Dungeons & Dragons, which die do you roll to attack?"},
+   {es:["d20","d6","d12"],it:["d20","d6","d12"],en:["d20","d6","d12"]},
+   {es:"Pista: es el dado de veinte caras.",it:"Indizio: è il dado a venti facce.",en:"Hint: it’s the twenty-sided one."}),
+ M("MC-P08","POP","POP",0,{es:"En qué videojuego apareció Mario por primera vez?",it:"In quale videogioco è apparso Mario per la prima volta?",en:"In which video game did Mario first appear?"},
+   {es:["Donkey Kong","Pac-Man","Space Invaders"],it:["Donkey Kong","Pac-Man","Space Invaders"],en:["Donkey Kong","Pac-Man","Space Invaders"]},
+   {es:"Pista: entonces se llamaba Jumpman y esquivaba barriles.",it:"Indizio: allora si chiamava Jumpman e schivava barili.",en:"Hint: back then he was called Jumpman and dodged barrels."}),
+ M("MC-P09","POP","POP",0,{es:"Cómo se llama el protagonista de The Legend of Zelda?",it:"Come si chiama il protagonista di The Legend of Zelda?",en:"What is the name of the hero of The Legend of Zelda?"},
+   {es:["Link","Zelda","Ganon"],it:["Link","Zelda","Ganon"],en:["Link","Zelda","Ganon"]},
+   {es:"Pista: el error clásico es llamarlo como el título.",it:"Indizio: l’errore classico è chiamarlo come il titolo.",en:"Hint: the classic mistake is to call him by the title."}),
+ M("MC-P10","POP","POP",0,{es:"Qué casa de Hogwarts tiene un tejón como emblema?",it:"Quale casa di Hogwarts ha un tasso come emblema?",en:"Which Hogwarts house has a badger as its emblem?"},
+   {es:["Hufflepuff","Ravenclaw","Slytherin"],it:["Tassorosso","Corvonero","Serpeverde"],en:["Hufflepuff","Ravenclaw","Slytherin"]},
+   {es:"Pista: es la casa de Cedric Diggory.",it:"Indizio: è la casa di Cedric Diggory.",en:"Hint: it’s Cedric Diggory’s house."}),
+ M("MC-P11","POP","POP",0,{es:"Qué lengua habla Worf en Star Trek?",it:"Che lingua parla Worf in Star Trek?",en:"What language does Worf speak in Star Trek?"},
+   {es:["Klingon","Vulcano","Romulano"],it:["Klingon","Vulcaniano","Romulano"],en:["Klingon","Vulcan","Romulan"]},
+   {es:"Pista: el lingüista Marc Okrand le escribió hasta un diccionario.",it:"Indizio: il linguista Marc Okrand ne ha scritto perfino un dizionario.",en:"Hint: linguist Marc Okrand even wrote a dictionary for it."}),
+ M("MC-P12","POP","POP",0,{es:"Quién es el padre de Luke Skywalker?",it:"Chi è il padre di Luke Skywalker?",en:"Who is Luke Skywalker’s father?"},
+   {es:["Darth Vader","Obi-Wan Kenobi","El emperador Palpatine"],it:["Darth Vader","Obi-Wan Kenobi","L’imperatore Palpatine"],en:["Darth Vader","Obi-Wan Kenobi","Emperor Palpatine"]},
+   {es:"Pista: «Yo soy tu padre».",it:"Indizio: «Io sono tuo padre».",en:"Hint: «I am your father»."})
+];
+
 /* Nerditas 2.0 — textos de la interfaz en español, italiano e inglés */
 const LANGS = [["es","Español"],["it","Italiano"],["en","English"]];
 
 const UI = {
  es:{
+  tagDet:"ESPECIE", oppNote:"Piensa analógicamente: lo que importa es la idea.", ns3:"No sé", hint:"Pista nerd (vale medio punto)",
+  susTitle:"Sospecha de nerdidad", sus_alta:"Alta", sus_media:"Media", sus_baja:"Baja",
+  susTxt_alta:"Indicios abundantes. El tribunal procede a determinar tu especie.",
+  susTxt_media:"Indicios suficientes para abrir causa. Sigamos.",
+  susTxt_baja:"Pocos indicios de nerdidad… pero las apariencias engañan. ¿Quieres seguir?",
+  continue:"CONTINUAR", acceptMuggle:"Acepto mi condición de muggle",
+  specTitle:"Especie probable", allAreas:"Todas las anteriores", noArea:"Especie desconocida",
+  area_HUM:"Humanista", area_CYT:"Científico-tecnológica", area_POP:"Cultura pop y videojuegos",
+  specTxt:"Ahora viene la Probatio: pondremos a prueba lo que has declarado.",
+  impostor:"Has respondido con aplomo… y te has equivocado bastante: sospechamos un nerd de imitación.",
+  honest:"Muggle honesto: reconoces lo que no sabes. Sócrates estaría orgulloso.",
+  honorific:"TÍTULO HONORÍFICO",
+  tit_doctor:"Doctor universalis: dominas todas las especies de la nerdidad, como san Alberto Magno.",
+  tit_coincidentia:"Coincidentia oppositorum: reúnes en ti lo que parecía inconciliable. Nicolás de Cusa te saluda.",
+  tit_unicornio:"Unicornio: nerd sin duda, pero de una especie que la ciencia aún no ha clasificado.",
+  reinc:"Reincidente ({n}.ª vez): indicio indirecto de nerdidad (+3 al nivel).",
+  stampImp:["IMITATIO","NERD","imitación"],
   sub:"Test de nerdidad para humanistas, filósofos y teólogos.",
   padel:"Aquí ser nerd no exige haber visto Star Wars: basta con haber discutido sobre el Filioque mientras se jugaba a pádel.",
-  intro:"Sesenta preguntas. Ninguna trampa (bueno, tres). Al final sabrás si eres nerd, geek, dork, dweeb… o un simple muggle con buena biblioteca.",
+  intro:"Tres fases, unas cincuenta preguntas. Ninguna trampa (bueno, algunas). Al final sabrás si eres nerd, geek, dork, dweeb… o un simple muggle con buena biblioteca.",
   start:"INCIPIT EXAMEN",
   foot:"* Tus respuestas no salen de tu teléfono. Nadie más verá tu resultado (atentamente, The Matrix).",
   lang:"Idioma",
@@ -541,10 +740,10 @@ const UI = {
   thRacesTxt:"Geek puro (los tres conjuntos), Nerd puro (erudición y obsesión, sin adaptación social) y Muggle (ni erudición ni obsesión). En las demás zonas viven el Erudito, el Dweeb, el Fan y el Dork.",
   thSub:"Subclases",
   thSubTxt:"Tu disciplina dominante da la subclase: metafísico, escolástico, patrólogo, filólogo, bibliófilo, anticuario, científico, tecnológico o cultura pop.",
-  thLevel:"Nivel y alter ego",
-  thLevelTxt:"El nivel va de 0 a 100. Por debajo de 50 eres todavía aspirante. Al final te espera un alter ego de The Big Bang Theory.",
+  thLevel:"Fases, nivel y alter ego",
+  thLevelTxt:"El examen tiene tres fases: Discriminatio (¿hay sospecha de nerdidad?), Determinatio speciei (¿de qué especie?) y Probatio (¿es verdad lo que dices?). El nivel va de 0 a 100. Por debajo de 50 eres todavía aspirante. Al final te espera un alter ego de The Big Bang Theory.",
   thGo:"COMENZAR EL EXAMEN",
-  q:"QUAESTIO", art:"Articulus", yes:"SÍ", no:"NO", ns:"No sé de qué me hablas – me da lo mismo",
+  q:"QUAESTIO", art:"Articulus", yes:"SÍ", no:"NO", ns:"No sé / no me interesa",
   res:"SENTENTIA DEFINITIVA",
   youAre:"Eres un", youAreAsp:"Eres un aspirante a",
   traits:"con rasgos de", alter:"Tu alter ego",
@@ -555,7 +754,7 @@ const UI = {
   verH:"Las preguntas de verificación, corregidas",
   suspect:"Resultado bajo sospecha: un nerd de verdad no ha entendido todo Hegel.",
   dork:"Advertencia: la escala no vale para los dorks (el dork es sólo aparentemente un nerd).",
-  share:"COMPARTIR MI SENTENCIA", save:"Guardar la imagen", again:"Repetir el examen (otras 60 preguntas)",
+  share:"COMPARTIR MI SENTENCIA", save:"Guardar la imagen", again:"Repetir el examen con otras preguntas, para confirmar el veredicto",
   shareTxt:"Según Nerditas soy", level:"nivel",
   saveHint:"Mantén pulsada la imagen para guardarla o compartirla.", close:"Cerrar",
   stampOk:["NIHIL","OBSTAT","validez ok"], stampKo:["SUB","SUSPICIONE","resultado dudoso"],
@@ -566,9 +765,26 @@ const UI = {
   thanks:"Gratias tibi. Ad maiorem scientiae nerd gloriam.", queued:"Gratias tibi. Se enviará cuando haya conexión.", declined:"Entendido: tu sentencia se queda contigo."
  },
  it:{
+  tagDet:"SPECIE", oppNote:"Pensa analogicamente: ciò che conta è l’idea.", ns3:"Non so", hint:"Indizio nerd (vale mezzo punto)",
+  susTitle:"Sospetto di nerditudine", sus_alta:"Alto", sus_media:"Medio", sus_baja:"Basso",
+  susTxt_alta:"Indizi abbondanti. Il tribunale procede a determinare la tua specie.",
+  susTxt_media:"Indizi sufficienti per aprire la causa. Andiamo avanti.",
+  susTxt_baja:"Pochi indizi di nerditudine… ma le apparenze ingannano. Vuoi continuare?",
+  continue:"CONTINUA", acceptMuggle:"Accetto la mia condizione di babbano",
+  specTitle:"Specie probabile", allAreas:"Tutte le precedenti", noArea:"Specie sconosciuta",
+  area_HUM:"Umanista", area_CYT:"Scientifico-tecnologica", area_POP:"Cultura pop e videogiochi",
+  specTxt:"Ora viene la Probatio: metteremo alla prova ciò che hai dichiarato.",
+  impostor:"Hai risposto con sicurezza… e hai sbagliato parecchio: sospettiamo un nerd d’imitazione.",
+  honest:"Babbano onesto: riconosci ciò che non sai. Socrate sarebbe orgoglioso.",
+  honorific:"TITOLO ONORIFICO",
+  tit_doctor:"Doctor universalis: domini tutte le specie della nerditudine, come sant’Alberto Magno.",
+  tit_coincidentia:"Coincidentia oppositorum: unisci in te ciò che sembrava inconciliabile. Niccolò Cusano ti saluta.",
+  tit_unicornio:"Unicorno: nerd senza dubbio, ma di una specie che la scienza non ha ancora classificato.",
+  reinc:"Recidivo ({n}ª volta): indizio indiretto di nerditudine (+3 al livello).",
+  stampImp:["IMITATIO","NERD","imitazione"],
   sub:"Test di nerditudine per umanisti, filosofi e teologi.",
   padel:"Qui per essere nerd non serve aver visto Star Wars: basta aver discusso del Filioque mentre si giocava a padel.",
-  intro:"Sessanta domande. Nessun trabocchetto (be’, tre). Alla fine saprai se sei nerd, geek, dork, dweeb… o un semplice babbano con una bella biblioteca.",
+  intro:"Tre fasi, una cinquantina di domande. Nessun trabocchetto (be’, qualcuno). Alla fine saprai se sei nerd, geek, dork, dweeb… o un semplice babbano con una bella biblioteca.",
   start:"INCIPIT EXAMEN",
   foot:"* Le tue risposte non escono dal telefono. Nessun altro vedrà il tuo risultato (cordialmente, The Matrix).",
   lang:"Lingua",
@@ -582,10 +798,10 @@ const UI = {
   thRacesTxt:"Geek puro (tutti e tre gli insiemi), Nerd puro (erudizione e ossessione, senza adattamento sociale) e Babbano (né erudizione né ossessione). Nelle altre zone vivono l’Erudito, il Dweeb, il Fan e il Dork.",
   thSub:"Sottoclassi",
   thSubTxt:"La tua disciplina dominante dà la sottoclasse: metafisico, scolastico, patrologo, filologo, bibliofilo, antiquario, scientifico, tecnologico o cultura pop.",
-  thLevel:"Livello e alter ego",
-  thLevelTxt:"Il livello va da 0 a 100. Sotto il 50 sei ancora aspirante. Alla fine ti aspetta un alter ego di The Big Bang Theory.",
+  thLevel:"Fasi, livello e alter ego",
+  thLevelTxt:"L’esame ha tre fasi: Discriminatio (c’è sospetto di nerditudine?), Determinatio speciei (di quale specie?) e Probatio (è vero quello che dici?). Il livello va da 0 a 100. Sotto il 50 sei ancora aspirante. Alla fine ti aspetta un alter ego di The Big Bang Theory.",
   thGo:"INIZIA L’ESAME",
-  q:"QUAESTIO", art:"Articulus", yes:"SÌ", no:"NO", ns:"Non so di cosa parli – non mi interessa",
+  q:"QUAESTIO", art:"Articulus", yes:"SÌ", no:"NO", ns:"Non so / non mi interessa",
   res:"SENTENTIA DEFINITIVA",
   youAre:"Sei un", youAreAsp:"Sei un aspirante",
   traits:"con tratti di", alter:"Il tuo alter ego",
@@ -596,7 +812,7 @@ const UI = {
   verH:"Le domande di verifica, corrette",
   suspect:"Risultato sotto sospetto: un vero nerd non ha capito tutto Hegel.",
   dork:"Avvertenza: la scala non vale per i dork (il dork è nerd solo in apparenza).",
-  share:"CONDIVIDI LA MIA SENTENZA", save:"Salva l’immagine", again:"Ripeti l’esame (altre 60 domande)",
+  share:"CONDIVIDI LA MIA SENTENZA", save:"Salva l’immagine", again:"Ripeti l’esame con altre domande, per confermare il verdetto",
   shareTxt:"Secondo Nerditas sono", level:"livello",
   saveHint:"Tieni premuta l’immagine per salvarla o condividerla.", close:"Chiudi",
   stampOk:["NIHIL","OBSTAT","validità ok"], stampKo:["SUB","SUSPICIONE","risultato dubbio"],
@@ -607,9 +823,26 @@ const UI = {
   thanks:"Gratias tibi. Ad maiorem scientiae nerd gloriam.", queued:"Gratias tibi. Verrà inviato quando ci sarà connessione.", declined:"Capito: la tua sentenza resta con te."
  },
  en:{
+  tagDet:"SPECIES", oppNote:"Think analogically: the idea is what counts.", ns3:"I don’t know", hint:"Nerd hint (worth half a point)",
+  susTitle:"Suspicion of nerdiness", sus_alta:"High", sus_media:"Medium", sus_baja:"Low",
+  susTxt_alta:"Plenty of evidence. The court will now determine your species.",
+  susTxt_media:"Enough evidence to open a case. Let’s go on.",
+  susTxt_baja:"Little evidence of nerdiness… but appearances deceive. Carry on?",
+  continue:"CONTINUE", acceptMuggle:"I accept my Muggle condition",
+  specTitle:"Probable species", allAreas:"All of the above", noArea:"Unknown species",
+  area_HUM:"Humanities", area_CYT:"Science and technology", area_POP:"Pop culture and video games",
+  specTxt:"Now comes the Probatio: we’ll put what you declared to the test.",
+  impostor:"You answered confidently… and got quite a lot wrong: we suspect an imitation nerd.",
+  honest:"Honest Muggle: you admit what you don’t know. Socrates would be proud.",
+  honorific:"HONORARY TITLE",
+  tit_doctor:"Doctor universalis: you master every species of nerdiness, like St Albert the Great.",
+  tit_coincidentia:"Coincidentia oppositorum: you unite what seemed irreconcilable. Nicholas of Cusa salutes you.",
+  tit_unicornio:"Unicorn: a nerd beyond doubt, but of a species science has yet to classify.",
+  reinc:"Repeat offender (time no. {n}): indirect evidence of nerdiness (+3 to your level).",
+  stampImp:["IMITATIO","NERD","imitation"],
   sub:"A nerdiness test for humanists, philosophers and theologians.",
   padel:"You don’t need to have seen Star Wars to be a nerd here: arguing about the Filioque during a game of padel will do.",
-  intro:"Sixty questions. No tricks (well, three). At the end you’ll know whether you’re a nerd, geek, dork, dweeb… or just a Muggle with a good library.",
+  intro:"Three phases, about fifty questions. No tricks (well, a few). At the end you’ll know whether you’re a nerd, geek, dork, dweeb… or just a Muggle with a good library.",
   start:"INCIPIT EXAMEN",
   foot:"* Your answers never leave your phone. Nobody else will see your result (sincerely, The Matrix).",
   lang:"Language",
@@ -623,10 +856,10 @@ const UI = {
   thRacesTxt:"Pure Geek (all three sets), Pure Nerd (erudition and obsession, without social adaptation) and Muggle (neither erudition nor obsession). The Scholar, the Dweeb, the Fan and the Dork live in the other zones.",
   thSub:"Subclasses",
   thSubTxt:"Your leading discipline gives your subclass: metaphysician, schoolman, patrologist, philologist, bibliophile, antiquarian, scientist, technologist or pop-culture buff.",
-  thLevel:"Level and alter ego",
-  thLevelTxt:"Your level runs from 0 to 100. Below 50 you are still aspiring. At the end, an alter ego from The Big Bang Theory awaits you.",
+  thLevel:"Phases, level and alter ego",
+  thLevelTxt:"The exam has three phases: Discriminatio (is there suspicion of nerdiness?), Determinatio speciei (which species?) and Probatio (is what you say true?). Your level runs from 0 to 100. Below 50 you are still aspiring. At the end, an alter ego from The Big Bang Theory awaits you.",
   thGo:"START THE EXAM",
-  q:"QUAESTIO", art:"Articulus", yes:"YES", no:"NO", ns:"No idea what you mean – don’t care",
+  q:"QUAESTIO", art:"Articulus", yes:"YES", no:"NO", ns:"Don’t know / not interested",
   res:"SENTENTIA DEFINITIVA",
   youAre:"You are a", youAreAsp:"You are an aspiring",
   traits:"with traits of a", alter:"Your alter ego",
@@ -637,7 +870,7 @@ const UI = {
   verH:"The check questions, corrected",
   suspect:"Result under suspicion: no true nerd has understood all of Hegel.",
   dork:"Warning: the scale does not apply to dorks (a dork only looks like a nerd).",
-  share:"SHARE MY SENTENCE", save:"Save the image", again:"Retake the exam (another 60 questions)",
+  share:"SHARE MY SENTENCE", save:"Save the image", again:"Retake the exam with new questions, to confirm the verdict",
   shareTxt:"According to Nerditas I am", level:"level",
   saveHint:"Press and hold the image to save or share it.", close:"Close",
   stampOk:["NIHIL","OBSTAT","valid"], stampKo:["SUB","SUSPICIONE","doubtful result"],
@@ -741,7 +974,7 @@ const VIDETUR = [
  {es:"Sapere aude: atrévete a responder sin Google.",it:"Sapere aude: abbi il coraggio di rispondere senza Google.",en:"Sapere aude: dare to answer without Google."},
  {es:"El cielo estrellado sobre mí y el wifi apagado dentro de mí.",it:"Il cielo stellato sopra di me e il wi-fi spento dentro di me.",en:"The starry heavens above me and the Wi-Fi switched off within me."},
  {es:"Obra de tal modo que tu respuesta pueda valer como ley universal del test.",it:"Agisci in modo che la tua risposta possa valere come legge universale del test.",en:"Act so that your answer could become a universal law of the test."},
- {es:"De lo que no se puede hablar, mejor pulsar «No sé de qué me hablas».",it:"Su ciò di cui non si può parlare, meglio premere «Non so di cosa parli».",en:"Whereof one cannot speak, thereof one should press «No idea what you mean»."},
+ {es:"De lo que no se puede hablar, mejor pulsar «No sé».",it:"Su ciò di cui non si può parlare, meglio premere «Non so».",en:"Whereof one cannot speak, thereof one should press «I don’t know»."},
  {es:"Los límites de mi lenguaje son los límites de mi nerdidad.",it:"I limiti del mio linguaggio sono i limiti della mia nerditudine.",en:"The limits of my language are the limits of my nerdiness."},
  {es:"Lo verdadero es lo entero: responde las sesenta.",it:"Il vero è l’intero: rispondi a tutte e sessanta.",en:"The true is the whole: answer all sixty."},
  {es:"Todo lo racional es nerd, y todo lo nerd es racional.",it:"Tutto ciò che è razionale è nerd, e tutto ciò che è nerd è razionale.",en:"What is rational is nerdy, and what is nerdy is rational."},
@@ -820,73 +1053,127 @@ function roman(n){ const m=[[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"
 function axes(it){ const a=it.ax||""; return {I:a.includes("I"), O:a.includes("O"), A:a.includes("G")||a.includes("g"), arev:a.includes("g"), P:a.includes("P"), E:a.includes("E"), C:a.includes("C")}; }
 function qtext(q){ return LANG === "es" ? q.t.es : q.t[LANG]; }
 
-/* ---------- Sorteo de 60 ---------- */
-function sortear(){
-  const ver = shuffle(VER).slice(0,5);
-  const val = shuffle(VAL).slice(0,3);
-  const popMax = 5 - ver.filter(v=>v.d==="POP").length;
-  const pool = shuffle(BANK);
-  const used = new Set(); const out = [];
-  const take = it => { used.add(it.id); out.push(it); };
-  DOM_KEYS.filter(d=>d!=="POP").forEach(d => pool.filter(it=>it.d===d).slice(0,3).forEach(take));
-  pool.filter(it=>it.d==="POP").slice(0,popMax).forEach(take);
-  const count = () => { const c={I:0,O:0,A:0,P:0,E:0,C:0}; out.forEach(it=>{const a=axes(it); ["I","O","A","P","E","C"].forEach(k=>{ if(a[k]) c[k]++; });}); return c; };
-  const TARGET = {A:14, P:4, E:4, C:2};
-  while(out.length < 52){
-    const c = count();
-    let need = ["A","P","E","C"].find(k => c[k] < TARGET[k]);
-    if(!need) need = ["I","O"].sort((x,y)=>c[x]-c[y])[0];
-    let next = pool.find(it => !used.has(it.id) && (it.d!=="POP" || need==="C") && axes(it)[need]);
-    if(!next) next = pool.find(it => !used.has(it.id) && it.d!=="POP");
-    if(!next) break;
-    take(next);
-  }
-  return shuffle(out.concat(ver, val));
-}
+/* ---------- Nerditas 2.1: examen en tres fases ---------- */
+const BYID = {}; BANK.concat(DISCRIM_NEW, DETERM, OPUESTOS, MCQ, VAL).forEach(q => BYID[q.id] = q);
+const AREAS = ["HUM","CYT","POP"];
+let QS = [], idx = 0, ANS = {}, HINT = {}, VORDER = [], LAST = null, FASE = 1, AREA_SC = null, SOSP = 0, CONFESO = false;
 
-/* ---------- Flujo ---------- */
-let QS = [], idx = 0, ANS = {}, VORDER = [], LAST = null;
+function fase1(){ return shuffle(DISCRIM_NEW.concat(DISCRIM_IDS.map(id => BYID[id]))).map(q => Object.assign({}, q, {fase:1})); }
+function fase2(){ return shuffle(DETERM.concat(shuffle(OPUESTOS).slice(0,2))); }
+function fase3(fuertes){
+  const areas = fuertes.length ? fuertes : AREAS.slice();
+  const used = new Set(QS.map(q => q.id)); const out = [];
+  const take = it => { used.add(it.id); out.push(it); };
+  // 8 de opción múltiple, repartidas entre las áreas fuertes
+  const porArea = Math.floor(8 / areas.length); let extra = 8 - porArea * areas.length;
+  areas.forEach(a => { const n = porArea + (extra-- > 0 ? 1 : 0); shuffle(MCQ.filter(m => m.area === a)).slice(0, n).forEach(take); });
+  // 8 de sí o no sobre las áreas fuertes (saber y obsesión)
+  const pool = shuffle(BANK.filter(q => !used.has(q.id)));
+  const enArea = q => areas.includes(AREA_OF[q.d]) && (axes(q).I || axes(q).O);
+  for(let i=0; out.filter(q=>q.tipo==="si_no").length < 8 && i < 8*areas.length; i++){
+    const a = areas[i % areas.length];
+    const it = pool.find(q => !used.has(q.id) && AREA_OF[q.d] === a && enArea(q)); if(it) take(it);
+  }
+  // adaptación social, pedantería, estética y coleccionismo
+  const need = {A:7, P:3, E:1, C:1};
+  Object.entries(need).forEach(([k,n]) => { pool.filter(q => !used.has(q.id) && axes(q)[k]).slice(0,n).forEach(take); });
+  shuffle(VAL).slice(0,2).forEach(take);
+  return shuffle(out).map(q => Object.assign({}, q, {fase:3}));
+}
 function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on")); $(id).classList.add("on"); window.scrollTo(0,0); }
-function start(){ QS = sortear(); idx = 0; ANS = {}; VORDER = shuffle(VIDETUR); show("s-pregunta"); renderQ(); }
+function start(){
+  ANS = {}; HINT = {}; VORDER = shuffle(VIDETUR); FASE = 1; AREA_SC = null; CONFESO = false;
+  QS = fase1(); idx = 0; show("s-pregunta"); renderQ();
+}
+const FASE_TOT = () => 10 + 14 + 30;
+function faseNombre(){ return ["", "I · DISCRIMINATIO", "II · DETERMINATIO", "III · PROBATIO"][FASE]; }
 
 function renderQ(){
   const q = QS[idx], n = idx+1;
-  $("q-num").textContent = T("q") + " " + n + " / " + QS.length;
-  $("q-tag").textContent = DOMS[q.d][LANG][1];
-  $("q-prog").style.width = (idx / QS.length * 100) + "%";
+  const enFase = QS.filter(x => x.fase === FASE).length;
+  const posFase = QS.slice(0, idx+1).filter(x => x.fase === FASE).length;
+  $("q-num").textContent = faseNombre() + " · " + posFase + "/" + enFase;
+  $("q-tag").textContent = q.d === "DET" ? T("tagDet") : DOMS[q.d] ? DOMS[q.d][LANG][1] : "VARIA";
+  $("q-prog").style.width = Math.min(100, idx / FASE_TOT() * 100) + "%";
   $("q-art").textContent = T("art") + " " + roman(n);
   $("q-text").textContent = qtext(q);
-  $("q-videtur").textContent = tx(VORDER[idx % VORDER.length]);
+  $("q-videtur").textContent = q.opp ? T("oppNote") : tx(VORDER[idx % VORDER.length]);
+  $("q-videtur").classList.toggle("note", !!q.opp);
   if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
   const box = $("q-answers"); box.textContent = "";
   if(q.tipo === "ver"){
-    q.o[LANG].forEach((o,i) => {
+    q.o[LANG].concat([T("ns3")]).forEach((o,i) => {
       const b = document.createElement("button"); b.type="button"; b.className="btn opt";
       const k = document.createElement("b"); k.textContent = "ABCD"[i];
       const s = document.createElement("span"); s.textContent = o;
       b.append(k, s); b.addEventListener("click", () => answer(i)); box.append(b);
     });
+    const h = document.createElement("button"); h.type="button"; h.className="btn link hint"; h.textContent = T("hint");
+    h.addEventListener("click", () => { HINT[q.id] = true; $("q-videtur").textContent = q.h[LANG]; $("q-videtur").classList.add("note"); h.remove(); });
+    box.append(h);
   } else {
-    [[T("yes"),"si","btn solid"],[T("no"),"no","btn outline"],[T("ns"),"ns","btn link"]].forEach(([lab,val,cls]) => {
-      const b = document.createElement("button"); b.type="button"; b.className=cls; b.textContent=lab;
+    [[T("yes"),"si"],[T("no"),"no"],[T("ns"),"ns"]].forEach(([lab,val]) => {
+      const b = document.createElement("button"); b.type="button"; b.className="btn outline"; b.textContent=lab;
       b.addEventListener("click", () => answer(val)); box.append(b);
     });
   }
 }
-function answer(v){ ANS[QS[idx].id] = v; idx++; if(idx < QS.length) renderQ(); else finish(); }
+function answer(v){
+  ANS[QS[idx].id] = v; idx++;
+  if(idx < QS.length) return renderQ();
+  if(FASE === 1) return finFase1();
+  if(FASE === 2) return finFase2();
+  finish();
+}
+/* Pantalla intermedia tras la Discriminatio */
+function finFase1(){
+  const ids = QS.filter(q => q.fase === 1).map(q => q.id);
+  SOSP = Math.round(ids.filter(id => ANS[id] === "si").length / ids.length * 100);
+  const nivel = SOSP >= 60 ? "alta" : SOSP >= 35 ? "media" : "baja";
+  $("f-meta").textContent = "I · DISCRIMINATIO";
+  $("f-title").textContent = T("susTitle");
+  $("f-big").textContent = T("sus_" + nivel);
+  $("f-txt").textContent = T("susTxt_" + nivel);
+  $("f-go").querySelector("span").textContent = T("continue");
+  $("f-alt").style.display = nivel === "baja" ? "" : "none";
+  $("f-alt").textContent = T("acceptMuggle");
+  $("f-go").onclick = () => { FASE = 2; QS = QS.concat(fase2()); show("s-pregunta"); renderQ(); };
+  $("f-alt").onclick = () => { CONFESO = true; finish(); };
+  show("s-fase");
+}
+/* Pantalla intermedia tras la Determinatio speciei */
+function finFase2(){
+  AREA_SC = {};
+  AREAS.forEach(a => { const qs = DETERM.filter(q => q.area === a); AREA_SC[a] = Math.round(qs.filter(q => ANS[q.id] === "si").length / qs.length * 100); });
+  const fuertes = AREAS.filter(a => AREA_SC[a] >= 50).sort((x,y) => AREA_SC[y]-AREA_SC[x]);
+  let especie;
+  if(fuertes.length === 3) especie = T("allAreas");
+  else if(!fuertes.length) especie = T("noArea");
+  else especie = fuertes.map(a => T("area_" + a)).join(" + ");
+  $("f-meta").textContent = "II · DETERMINATIO SPECIEI";
+  $("f-title").textContent = T("specTitle");
+  $("f-big").textContent = especie;
+  $("f-txt").textContent = T("specTxt");
+  $("f-go").querySelector("span").textContent = T("continue");
+  $("f-alt").style.display = "none";
+  $("f-go").onclick = () => { FASE = 3; QS = QS.concat(fase3(fuertes)); show("s-pregunta"); renderQ(); };
+  show("s-fase");
+}
 
 /* ---------- Cálculo ---------- */
 function calcular(){
   const sc={I:0,O:0,A:0,P:0,E:0,C:0}, mx={I:0,O:0,A:0,P:0,E:0,C:0};
   const dom={}; DOM_KEYS.forEach(k=>dom[k]={y:0,n:0});
-  let pts=0, tot=0, valYes=0, afN=0, afY=0;
+  let pts=0, tot=0, valYes=0, afN=0, afY=0, mcWrong=0, mcNs=0, oppYes=0;
   QS.forEach(q => {
     const a = ANS[q.id];
     if(q.tipo === "val"){ if(a==="si") valYes++; return; }
+    if(q.opp){ if(a==="si") oppYes++; return; }
     if(q.tipo === "ver"){
-      const ok = a === q.c;
-      mx.I += 2; if(ok) sc.I += 2;
-      tot++; if(ok) pts++;
+      const ok = a === q.c, conPista = !!HINT[q.id];
+      if(a === 3) mcNs++; else if(!ok) mcWrong++;
+      mx.I += 2; if(ok) sc.I += conPista ? 1 : 2;
+      tot++; if(ok) pts += conPista ? 0.5 : 1;
       if(dom[q.d]){ dom[q.d].n++; if(ok) dom[q.d].y++; }
       return;
     }
@@ -901,8 +1188,11 @@ function calcular(){
   const ejes = {E:pct("I"), O:pct("O"), A:pct("A")};
   const P = pct("P"), Est = pct("E"), Col = mx.C ? pct("C") : 0;
   const afic = afN ? Math.round(afY/afN*100) : 0;
-  const nivel = tot ? Math.round(pts/tot*100) : 0;
-  const key = ["E","O","A"].map(k => ejes[k]>=50?"H":"L").join("");
+  let veces = 1; try { veces = parseInt(localStorage.getItem("nerditas-veces") || "1", 10) || 1; } catch(e){}
+  const reincidente = veces >= 2;
+  const nivel = Math.min(100, (tot ? Math.round(pts/tot*100) : 0) + (reincidente ? 3 : 0));
+  let key = ["E","O","A"].map(k => ejes[k]>=50?"H":"L").join("");
+  if(CONFESO) key = "LLL";
   const muggle = key.startsWith("LL");
   const aspirante = !muggle && nivel < 50;
   // con rasgos de… (el conjunto más cercano al 50 %)
@@ -911,10 +1201,11 @@ function calcular(){
   if(near){ const i = ["E","O","A"].indexOf(near); const alt = key.split(""); alt[i] = alt[i]==="H"?"L":"H"; const k2 = alt.join(""); if(k2 !== key) rasgos = k2; }
   // subclase: disciplina dominante (híbrida si las dos primeras están a menos de 10 puntos)
   const domPct = DOM_KEYS.map(k => ({k, v: dom[k].n ? Math.round(dom[k].y/dom[k].n*100) : 0, n: dom[k].n})).filter(x=>x.n>0).sort((a,b)=>b.v-a.v);
-  const sub = [domPct[0].k]; if(domPct[1] && domPct[0].v - domPct[1].v < 10) sub.push(domPct[1].k);
+  const sub = (domPct.length && domPct[0].v >= 25) ? [domPct[0].k] : []; if(domPct[1] && domPct[0].v - domPct[1].v < 10) sub.push(domPct[1].k);
   // alter ego
   let alter;
-  if(muggle) alter = ejes.A >= 50 ? "georgie" : "kurt";
+  if(CONFESO) alter = "georgie";
+  else if(muggle) alter = ejes.A >= 50 ? "georgie" : "kurt";
   else if(aspirante){
     if(sub[0]==="TEO" || sub[0]==="PAT") alter = "mary";
     else if(ejes.E < 30) alter = "zack";
@@ -930,8 +1221,18 @@ function calcular(){
   // ¿nerd más científico que humanista?
   const dv = k => (dom[k] && dom[k].n) ? dom[k].y/dom[k].n*100 : null;
   const avg = ks => { const v = ks.map(dv).filter(x=>x!==null); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : 0; };
-  const cientifico = (["CIEN","TEC"].includes(sub[0]) && domPct[0].v >= 50) || (avg(["CIEN","TEC"]) >= 40 && avg(["CIEN","TEC"]) - avg(["FIL","TEO","PAT","LEN","LIT","HIS"]) >= 20);
-  return {cientifico, ejes, P, Est, afic, nivel, key, muggle, aspirante, rasgos, domPct, sub, alter, frase, sospecha: valYes>=2};
+  const cientifico = !CONFESO && ((["CIEN","TEC"].includes(sub[0]) && domPct[0].v >= 50) || (avg(["CIEN","TEC"]) >= 40 && avg(["CIEN","TEC"]) - avg(["FIL","TEO","PAT","LEN","LIT","HIS"]) >= 20));
+  // títulos honoríficos
+  let titulo = "";
+  if(AREA_SC && !CONFESO){
+    const altos = AREAS.filter(a => AREA_SC[a] >= 50).length;
+    if(AREAS.every(a => AREA_SC[a] >= 75)) titulo = "doctor";
+    else if(oppYes >= 1 && AREA_SC.HUM >= 50 && (AREA_SC.POP >= 50 || AREA_SC.CYT >= 50)) titulo = "coincidentia";
+    else if(SOSP >= 60 && altos === 0) titulo = "unicornio";
+  }
+  const impostor = mcWrong >= 3;
+  const honesto = !impostor && mcNs >= 3;
+  return {titulo, impostor, honesto, veces, reincidente, cientifico, ejes, P, Est, afic, nivel, key, muggle, aspirante, rasgos, domPct, sub, alter, frase, sospecha: valYes>=2};
 }
 
 /* ---------- Resultado ---------- */
@@ -940,6 +1241,7 @@ function razaTxt(r){ return RAZAS[r.key][LANG][0]; }
 function eresTxt(r){ return r.aspirante ? T("youAreAsp") : T("youAre"); }
 
 function finish(){
+  try { const v = parseInt(localStorage.getItem("nerditas-hechos") || "0", 10) + 1; localStorage.setItem("nerditas-hechos", String(v)); localStorage.setItem("nerditas-veces", String(v)); } catch(e){}
   LAST = calcular(); renderResult();
   $("donate-msg").textContent = "";
   $("donate").classList.toggle("on", STATS_ON);
@@ -947,12 +1249,12 @@ function finish(){
 }
 function payload(){
   const r = LAST, resp = {};
-  QS.forEach(q => { const a = ANS[q.id]; resp[q.id] = q.tipo==="ver" ? (a===q.c?1:0) : (a==="si"?1:(a==="ns"?-1:0)); });
+  QS.forEach(q => { const a = ANS[q.id]; resp[q.id] = q.tipo==="ver" ? (a===q.c?1:(a===3?-1:0)) : (a==="si"?1:(a==="ns"?-1:0)); });
   const dom = {}; r.domPct.forEach(x => dom[x.k] = x.v);
   return {
     lang: LANG, raza: (r.aspirante ? "aspirante " : "") + RAZAS[r.key].es[0], sub: r.sub.join("-"),
     alter: ALTER[r.alter].n, nivel: String(r.nivel),
-    datos: JSON.stringify({v:"2.1", E:r.ejes.E, O:r.ejes.O, A:r.ejes.A, P:r.P, Est:r.Est, afic:r.afic, sospecha:r.sospecha, dom, resp})
+    datos: JSON.stringify({v:"2.1", E:r.ejes.E, O:r.ejes.O, A:r.ejes.A, P:r.P, Est:r.Est, afic:r.afic, sospecha:r.sospecha, sosp:SOSP, areas:AREA_SC, titulo:r.titulo, impostor:r.impostor, honesto:r.honesto, veces:r.veces, confeso:CONFESO, pistas:Object.keys(HINT), dom, resp})
   };
 }
 async function donar(){
@@ -979,10 +1281,14 @@ function renderResult(){
   $("r-dork").textContent = r.key==="LHL" ? T("dork") : "";
   $("r-desc").textContent = RAZAS[r.key][LANG][1];
   const st = $("r-stamp"); st.textContent = "";
-  const sl = r.sospecha ? T("stampKo") : T("stampOk");
+  const sl = r.impostor ? T("stampImp") : r.sospecha ? T("stampKo") : T("stampOk");
   [sl[0], sl[1]].forEach(l => { const s=document.createElement("span"); s.textContent=l; st.append(s); });
   const sm = document.createElement("small"); sm.textContent = sl[2]; st.append(sm);
-  $("r-validez").textContent = r.sospecha ? T("suspect") : "";
+  $("r-validez").textContent = [r.sospecha ? T("suspect") : "", r.impostor ? T("impostor") : "", r.honesto ? T("honest") : ""].filter(Boolean).join(" ");
+  $("r-titulo").textContent = "";
+  if(r.titulo){ const tb = document.createElement("b"); tb.textContent = T("honorific"); $("r-titulo").append(tb, document.createTextNode(T("tit_" + r.titulo))); }
+  $("r-titulo").style.display = r.titulo ? "" : "none";
+  $("r-reinc").textContent = r.reincidente ? T("reinc").replace("{n}", r.veces) : "";
   $("r-ciencia").textContent = r.cientifico ? T("sciNote") : "";
   $("r-ciencia").style.display = r.cientifico ? "" : "none";
 
@@ -1013,8 +1319,8 @@ function renderResult(){
   const vr = $("r-ver"); vr.textContent = "";
   QS.filter(q=>q.tipo==="ver").forEach(q => {
     const p = document.createElement("p"); p.className="ver";
-    const ok = ANS[q.id] === q.c;
-    const mark = document.createElement("span"); mark.className = ok?"ok":"ko"; mark.textContent = ok ? "BENE  " : "MALE  ";
+    const ok = ANS[q.id] === q.c, ns = ANS[q.id] === 3;
+    const mark = document.createElement("span"); mark.className = ok?"ok":"ko"; mark.textContent = ok ? (HINT[q.id] ? "BENE (½)  " : "BENE  ") : ns ? "NESCIO  " : "MALE  ";
     p.append(mark, document.createTextNode((LANG==="es"?"¿":"") + q.t[LANG] + " → " + q.o[LANG][q.c]));
     vr.append(p);
   });
@@ -1039,7 +1345,7 @@ async function tarjeta(){
   x.save(); x.translate(W-M-110, 290); x.rotate(-14*Math.PI/180);
   x.strokeStyle="#E2553F"; x.lineWidth=5; x.beginPath(); x.arc(0,0,105,0,Math.PI*2); x.stroke();
   x.fillStyle="#E2553F"; x.textAlign="center"; x.font="600 26px 'JetBrains Mono', monospace";
-  const sl = r.sospecha ? T("stampKo") : T("stampOk");
+  const sl = r.impostor ? T("stampImp") : r.sospecha ? T("stampKo") : T("stampOk");
   x.fillText(sl[0],0,-12); x.fillText(sl[1],0,22); x.font="400 15px 'JetBrains Mono', monospace"; x.fillText(sl[2],0,50);
   x.restore(); x.textAlign="left";
   // raza
@@ -1052,6 +1358,7 @@ async function tarjeta(){
   // alter ego
   y += 30; x.fillStyle="#9AA3B8"; x.font="400 24px 'JetBrains Mono', monospace"; x.fillText(T("alter").toUpperCase(), M, y);
   x.fillStyle="#EDE6D6"; x.font="400 44px 'IM Fell English', Georgia, serif"; y = wrap(x, ALTER[r.alter].n, M, y+52, W-2*M, 50);
+  if(r.titulo){ x.fillStyle="#E2553F"; x.font="italic 36px 'IM Fell English', Georgia, serif"; y = wrap(x, T("tit_" + r.titulo).split(":")[0], M, y+6, W-2*M, 42); }
   // nivel
   y += 20; x.fillStyle="#2E3854"; x.fillRect(M,y,W-2*M,2);
   x.fillStyle="#EDE6D6"; x.font="600 120px 'JetBrains Mono', monospace"; x.fillText(String(r.nivel), M, y+140);
@@ -1074,7 +1381,7 @@ async function tarjeta(){
   x.font="400 66px 'IM Fell English SC', Georgia, serif"; x.textAlign="center"; x.fillText("N", M+32, H-92); x.textAlign="left";
   x.fillStyle="#EDE6D6"; x.font="400 44px 'IM Fell English SC', Georgia, serif"; x.fillText("erditas", M+70, H-98);
   x.fillStyle="#9AA3B8"; x.font="400 22px 'JetBrains Mono', monospace";
-  const where = (location.protocol.startsWith("http") ? location.host + location.pathname.replace(/index\.html$/,"") : "Index nerditatis v2.0");
+  const where = (location.protocol.startsWith("http") ? location.host + location.pathname.replace(/index\.html$/,"") : "Index nerditatis v2.1");
   x.fillText(where, M, H-56);
   return new Promise(res => c.toBlob(b => res(b), "image/png"));
 }
